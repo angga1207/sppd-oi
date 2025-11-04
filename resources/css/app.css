@@ -1,0 +1,266 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ========================================
+   GLOBAL FORM INPUT STYLES - Modern & Responsive
+   ======================================== */
+
+@layer components {
+    /* Base Input Style */
+    .form-input {
+        @apply block w-full px-4 py-3 border border-gray-300 rounded-lg text-sm;
+        @apply focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none;
+        @apply transition duration-200 ease-in-out;
+        @apply placeholder:text-gray-400;
+        @apply disabled:bg-gray-100 disabled:cursor-not-allowed;
+    }
+
+    /* Input with error state */
+    .form-input-error {
+        @apply form-input border-red-500 focus:ring-red-500/20 focus:border-red-500;
+    }
+
+    /* Input with success state */
+    .form-input-success {
+        @apply form-input border-green-500 focus:ring-green-500/20 focus:border-green-500;
+    }
+
+    /* Textarea */
+    .form-textarea {
+        @apply form-input min-h-[120px] resize-y;
+    }
+
+    /* Label */
+    .form-label {
+        @apply block text-sm font-medium text-gray-700 mb-2;
+    }
+
+    .form-label-required::after {
+        content: " *";
+        @apply text-red-500;
+    }
+
+    /* Select (for native select, not Select2) */
+    .form-select {
+        @apply form-input cursor-pointer;
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+        background-position: right 0.5rem center;
+        background-repeat: no-repeat;
+        background-size: 1.5em 1.5em;
+        padding-right: 2.5rem;
+    }
+
+    /* Error Message */
+    .form-error-message {
+        @apply mt-2 text-sm text-red-600 flex items-start gap-1;
+    }
+
+    /* Helper Text */
+    .form-helper-text {
+        @apply mt-2 text-sm text-muted;
+    }
+
+    /* Button Primary */
+    .btn-primary {
+        @apply inline-flex items-center justify-center px-6 py-3;
+        @apply border border-transparent rounded-lg;
+        @apply text-sm font-semibold text-white;
+        @apply bg-gradient-to-r from-primary to-secondary;
+        @apply hover:from-primary/90 hover:to-secondary/90;
+        @apply focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary;
+        @apply disabled:opacity-50 disabled:cursor-not-allowed;
+        @apply transition-all duration-200 ease-in-out;
+        @apply shadow-lg hover:shadow-xl;
+    }
+
+    /* Button Secondary */
+    .btn-secondary {
+        @apply inline-flex items-center justify-center px-6 py-3;
+        @apply border border-gray-300 rounded-lg;
+        @apply text-sm font-semibold text-gray-700;
+        @apply bg-white hover:bg-gray-50;
+        @apply focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500;
+        @apply disabled:opacity-50 disabled:cursor-not-allowed;
+        @apply transition-all duration-200 ease-in-out;
+    }
+
+    /* Button Accent */
+    .btn-accent {
+        @apply inline-flex items-center justify-center px-6 py-3;
+        @apply border border-transparent rounded-lg;
+        @apply text-sm font-semibold text-white;
+        @apply bg-gradient-to-r from-accent to-accent/80;
+        @apply hover:from-accent/90 hover:to-accent/70;
+        @apply focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent;
+        @apply disabled:opacity-50 disabled:cursor-not-allowed;
+        @apply transition-all duration-200 ease-in-out;
+        @apply shadow-lg hover:shadow-xl;
+    }
+
+    /* Card */
+    .card {
+        @apply bg-white rounded-xl shadow-lg overflow-hidden;
+    }
+
+    .card-header {
+        @apply bg-gradient-to-r from-primary/5 to-secondary/10 p-6 border-b-2 border-primary/20;
+    }
+
+    .card-body {
+        @apply p-6;
+    }
+
+    .card-footer {
+        @apply px-6 py-4 bg-light border-t border-gray-200;
+    }
+
+    /* Tab Navigation */
+    .tab-nav {
+        @apply flex gap-2 border-b border-gray-200 overflow-x-auto pb-0;
+    }
+
+    .tab-button {
+        @apply flex items-center gap-2 px-6 py-4 border-b-2 border-transparent;
+        @apply text-sm font-medium text-muted whitespace-nowrap;
+        @apply hover:text-primary hover:border-primary/30;
+        @apply transition-all duration-200 ease-in-out cursor-pointer;
+    }
+
+    .tab-button-active {
+        @apply tab-button border-primary text-primary bg-primary/5;
+    }
+
+    /* Badge */
+    .badge {
+        @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium;
+    }
+
+    .badge-primary {
+        @apply badge bg-primary/10 text-primary;
+    }
+
+    .badge-success {
+        @apply badge bg-green-100 text-green-800;
+    }
+
+    .badge-warning {
+        @apply badge bg-yellow-100 text-yellow-800;
+    }
+
+    .badge-danger {
+        @apply badge bg-red-100 text-red-800;
+    }
+
+    /* Alert */
+    .alert {
+        @apply p-4 rounded-lg border-l-4;
+    }
+
+    .alert-success {
+        @apply alert bg-green-50 border-green-400 text-green-800;
+    }
+
+    .alert-info {
+        @apply alert bg-blue-50 border-blue-400 text-blue-800;
+    }
+
+    .alert-warning {
+        @apply alert bg-yellow-50 border-yellow-400 text-yellow-800;
+    }
+
+    .alert-danger {
+        @apply alert bg-red-50 border-red-400 text-red-800;
+    }
+}
+
+/* ========================================
+   SELECT2 CUSTOM STYLING - New Color Palette
+   ======================================== */
+
+.select2-container--default .select2-selection--single {
+    height: 48px !important;
+    padding: 12px 16px !important;
+    border: 1px solid #D1D5DB !important;
+    border-radius: 0.5rem !important;
+    font-size: 0.875rem !important;
+    line-height: 1.5rem !important;
+    transition: all 0.2s ease-in-out !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 24px !important;
+    padding-left: 0 !important;
+    color: #374151 !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 46px !important;
+    top: 1px !important;
+    right: 8px !important;
+}
+
+.select2-container--default.select2-container--focus .select2-selection--single,
+.select2-container--default.select2-container--open .select2-selection--single {
+    border-color: #0C2B4E !important;
+    box-shadow: 0 0 0 2px rgba(12, 43, 78, 0.1) !important;
+    outline: none !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__placeholder {
+    color: #9CA3AF !important;
+}
+
+.select2-dropdown {
+    border: 1px solid #D1D5DB !important;
+    border-radius: 0.5rem !important;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+}
+
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background-color: #0C2B4E !important;
+    color: white !important;
+}
+
+.select2-container--default .select2-results__option[aria-selected=true] {
+    background-color: #1A3D64 !important;
+    color: white !important;
+}
+
+.select2-container--default .select2-results__option {
+    padding: 8px 12px !important;
+    font-size: 0.875rem !important;
+    transition: background-color 0.15s ease-in-out !important;
+}
+
+.select2-container--default .select2-search--dropdown .select2-search__field {
+    border: 1px solid #D1D5DB !important;
+    border-radius: 0.375rem !important;
+    padding: 8px 12px !important;
+    font-size: 0.875rem !important;
+}
+
+.select2-container--default .select2-search--dropdown .select2-search__field:focus {
+    border-color: #0C2B4E !important;
+    outline: none !important;
+    box-shadow: 0 0 0 2px rgba(12, 43, 78, 0.1) !important;
+}
+
+/* ========================================
+   RESPONSIVE UTILITIES
+   ======================================== */
+
+@layer utilities {
+    .text-balance {
+        text-wrap: balance;
+    }
+
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+    }
+
+    .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+}
