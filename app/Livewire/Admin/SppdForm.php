@@ -327,9 +327,6 @@ class SppdForm extends Component
             $this->arrKodeRekening = collect($this->subKegiatanData['kode_rekening'] ?? []);
             $this->kodeRekening = null;
             $this->kodeRekeningData = null;
-
-            // Dispatch event to reinitialize kodeRekening Select2 with new options
-            $this->dispatch('kodeRekening:fetched');
         }
 
         if ($field == 'kodeRekening') {
@@ -563,10 +560,6 @@ class SppdForm extends Component
                     ->success()
                     ->toast()
                     ->show();
-
-                // Dispatch event to reinitialize Select2 for sub kegiatan
-                $this->dispatch('select2:refresh');
-
                 return;
             } else {
                 $this->arrKodeRekening = [];
