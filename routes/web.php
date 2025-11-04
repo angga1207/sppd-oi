@@ -21,12 +21,14 @@ Route::middleware(['web', App\Http\Middleware\RedirectIfAuthenticated::class])->
 // Logout route (available for authenticated users)
 Route::get('/logout', function () {
     session()->flush();
+    auth()->logout();
     return redirect()->route('home')->with('success', 'Berhasil logout');
 })->name('logout');
 
 // ========================================
 // ADMIN ROUTES (Protected)
 // ========================================
+// Route::middleware(['web'])
 Route::middleware(['web', 'auth'])
     ->prefix('admin')
     ->name('admin.')

@@ -16,15 +16,31 @@ class Dashboard extends Component
 {
     public function render()
     {
+        // dd(auth()->user());
         // Basic statistics
         $totalSppd = Sppd::count();
-        $pendingSppd = Sppd::where('status', 'pending')->count();
-        $approvedSppd = Sppd::where('status', 'approved')->count();
-        $rejectedSppd = Sppd::where('status', 'rejected')->count();
-        $completedSppd = Sppd::where('status', 'completed')->count();
+        $pendingSppd = Sppd::when(auth()->user()->instance_id, function ($query) {
+            $query->where('instance_id', auth()->user()->instance_id);
+        })
+            ->where('status', 'pending')->count();
+        $approvedSppd = Sppd::when(auth()->user()->instance_id, function ($query) {
+            $query->where('instance_id', auth()->user()->instance_id);
+        })
+            ->where('status', 'approved')->count();
+        $rejectedSppd = Sppd::when(auth()->user()->instance_id, function ($query) {
+            $query->where('instance_id', auth()->user()->instance_id);
+        })
+            ->where('status', 'rejected')->count();
+        $completedSppd = Sppd::when(auth()->user()->instance_id, function ($query) {
+            $query->where('instance_id', auth()->user()->instance_id);
+        })
+            ->where('status', 'completed')->count();
 
         // Monthly statistics (last 6 months)
-        $monthlySppd = Sppd::select(
+        $monthlySppd = Sppd::when(auth()->user()->instance_id, function ($query) {
+            $query->where('instance_id', auth()->user()->instance_id);
+        })
+            ->select(
                 DB::raw('DATE_TRUNC(\'month\', created_at) as month'),
                 DB::raw('COUNT(*) as total')
             )
@@ -34,11 +50,14 @@ class Dashboard extends Component
             ->get();
 
         // SPPD by instance
-        $sppdByInstance = Sppd::select('instance_id', DB::raw('COUNT(*) as total'))
+        $sppdByInstance = Sppd::when(auth()->user()->instance_id, function ($query) {
+            $query->where('instance_id', auth()->user()->instance_id);
+        })
+            ->select('instance_id', DB::raw('COUNT(*) as total'))
             ->groupBy('instance_id')
             ->with('instance')
             ->get()
-            ->map(function($item) {
+            ->map(function ($item) {
                 return [
                     'instance_name' => $item->instance ? $item->instance->name : 'Unknown',
                     'total' => $item->total
@@ -46,7 +65,10 @@ class Dashboard extends Component
             });
 
         // Recent SPPD with relationships
-        $recentSppd = Sppd::with(['employeeExecutor', 'instance'])
+        $recentSppd = Sppd::when(auth()->user()->instance_id, function ($query) {
+            $query->where('instance_id', auth()->user()->instance_id);
+        })
+            ->with(['employeeExecutor', 'instance'])
             ->latest()
             ->take(10)
             ->get();

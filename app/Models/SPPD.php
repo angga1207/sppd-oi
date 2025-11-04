@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\Searchable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class SPPD extends Model
 {
-    use HasFactory;
+    use HasFactory, Searchable;
     protected $table = 'sppd';
     protected $fillable = [
         'nomor_sppd',
@@ -23,6 +24,8 @@ class SPPD extends Model
         'tanggal_berangkat',
         'tanggal_pulang',
         'instance_pembebanan_id',
+        'kode_sub_kegiatan',
+        'uraian_sub_kegiatan',
         'kode_rekening',
         'uraian_rekening',
         'anggaran',
@@ -34,6 +37,14 @@ class SPPD extends Model
         'created_by',
         'approved_by',
         'approved_at',
+    ];
+    protected $searchable = [
+        'nomor_sppd',
+        'tempat_tujuan',
+        'employeeExecutor.nama_lengkap',
+        'employeeExecutor.nip',
+        'instance.name',
+        'instancePembebanan.name',
     ];
 
     public function employeeGiver()

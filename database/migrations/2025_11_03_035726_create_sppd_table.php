@@ -79,6 +79,8 @@ return new class extends Migration
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
 
+            $table->string('kode_sub_kegiatan')->nullable();
+            $table->string('uraian_sub_kegiatan')->nullable();
             $table->string('kode_rekening')->nullable();
             $table->string('uraian_rekening')->nullable();
             $table->double('anggaran')->nullable();

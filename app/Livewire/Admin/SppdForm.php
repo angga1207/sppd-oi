@@ -78,6 +78,11 @@ class SppdForm extends Component
         ],
     ];
 
+    public $availableYears;
+    public $availableMonths;
+    public $selectedYear;
+    public $selectedMonth;
+
     // API data
     public $semestaUsers = [];
     public $rawSemestaUsers = [];
@@ -90,6 +95,12 @@ class SppdForm extends Component
     public $instances = [];
     public $selectedInstanceGiver = null;
     public $selectedInstance = null;
+    public $arrSubKegiatan = [];
+    public $subKegiatan;
+    public $subKegiatanData;
+    public $arrKodeRekening = [];
+    public $kodeRekening;
+    public $kodeRekeningData;
 
     // Search properties
     public $searchOfficer = '';
@@ -126,13 +137,39 @@ class SppdForm extends Component
 
     public function mount($id = null)
     {
-        $this->instances = Instance::all()->toArray();
+        // $this->instances = Instance::all()->toArray();
+        $this->instances = Instance::when(auth()->user()->instance_id, function ($query) {
+            $query->where('id', auth()->user()->instance_id);
+        })
+            ->get()->toArray();
         // add new instaces with id 0 for BUPATI OGAN ILIR
         $this->instances[] = [
             'id' => 0,
             'name' => 'BUPATI OGAN ILIR',
             'id_eoffice' => '00000',
         ];
+
+        $this->availableYears = [];
+        for ($year = Carbon::now()->year; $year >= 2024; $year--) {
+            $this->availableYears[] = $year;
+        }
+        $this->availableMonths = [
+            '01' => 'Januari',
+            '02' => 'Februari',
+            '03' => 'Maret',
+            '04' => 'April',
+            '05' => 'Mei',
+            '06' => 'Juni',
+            '07' => 'Juli',
+            '08' => 'Agustus',
+            '09' => 'September',
+            '10' => 'Oktober',
+            '11' => 'November',
+            '12' => 'Desember',
+        ];
+
+        $this->selectedMonth = Carbon::now()->format('m');
+        $this->selectedYear = Carbon::now()->format('Y');
 
         if ($id) {
             $this->isEdit = true;
@@ -170,6 +207,13 @@ class SppdForm extends Component
                 $this->cost_level = $data['tingkat_biaya'];
                 $this->issued_date = $data['publication_date'];
 
+                $this->kodeRekening = $data['kode_rekening'];
+                $this->kodeRekeningData = [
+                    'fullcode' => $data['kode_rekening'],
+                    'name' => $data['uraian_rekening'],
+                    'pagu_induk' => $data['anggaran'],
+                ];
+
                 // Reset selected employees (kosongkan)
                 $this->selectedEmployee = null;
 
@@ -195,7 +239,7 @@ class SppdForm extends Component
             }
         }
         if (auth()->user()->instance_id) {
-            $this->isDisabledInstancesGiver = true;
+            // $this->isDisabledInstancesGiver = true;
             $this->isDisabledInstances = true;
         }
     }
@@ -231,6 +275,16 @@ class SppdForm extends Component
         $this->return_date = Carbon::parse($sppd->tanggal_kembali)->format('Y-m-d');
         $this->cost_level = $sppd->tingkat_biaya;
 
+        if ($sppd->kode_rekening) {
+            // $this->fetchKodeRekening();
+        }
+        $this->kodeRekening = $sppd->kode_rekening;
+        $this->kodeRekeningData = [
+            'fullcode' => $sppd->kode_rekening,
+            'name' => $sppd->uraian_rekening,
+            'pagu_induk' => $sppd->anggaran,
+        ];
+
         if ($sppd->employee) {
             $this->employee_rank = $sppd->employee->rank;
             $this->employee_position = $sppd->employee->position;
@@ -249,6 +303,8 @@ class SppdForm extends Component
                     'golongan' => '',
                 ];
                 $this->commanding_officer = 'bupati';
+                $this->showOfficers = false;
+                $this->semestaOfficers = [];
             } else if ($this->selectedInstanceGiver != 0) {
                 $this->selectedInstance = $this->selectedInstanceGiver;
                 $this->isDisabledInstancesGiver = true;
@@ -257,7 +313,34 @@ class SppdForm extends Component
             }
         }
 
-        if ($field == 'selectedInstanceGiver') {
+        if ($field == 'subKegiatan') {
+            $arrSubKegiatan = $this->arrSubKegiatan;
+            if ($arrSubKegiatan) {
+                foreach ($arrSubKegiatan as $item) {
+                    if ($item['fullcode'] == $this->subKegiatan) {
+                        $this->subKegiatanData = $item;
+                        break;
+                    }
+                }
+            }
+            // dd($this->subKegiatanData);
+            $this->arrKodeRekening = collect($this->subKegiatanData['kode_rekening'] ?? []);
+            $this->kodeRekening = null;
+            $this->kodeRekeningData = null;
+
+            // Dispatch event to reinitialize kodeRekening Select2 with new options
+            $this->dispatch('kodeRekening:fetched');
+        }
+
+        if ($field == 'kodeRekening') {
+            if ($this->arrKodeRekening) {
+                foreach ($this->arrKodeRekening as $item) {
+                    if ($item['fullcode'] == $this->kodeRekening) {
+                        $this->kodeRekeningData = $item;
+                        break;
+                    }
+                }
+            }
         }
     }
 
@@ -433,6 +516,79 @@ class SppdForm extends Component
                 ->error()
                 ->toast()
                 ->show();
+        }
+    }
+
+    public function fetchKodeRekening()
+    {
+        if ($this->selectedInstance === null) {
+            LivewireAlert::title('Peringatan')
+                ->text('Silakan pilih instansi terlebih dahulu')
+                ->warning()
+                ->position('top-end')
+                ->timer(3000)
+                ->toast()
+                ->show();
+            return;
+        }
+        // $year = Carbon::now()->year;
+        $year = $this->selectedYear;
+        $month = $this->selectedMonth;
+
+        $this->kodeRekening = null;
+        $this->kodeRekeningData = null;
+        $this->subKegiatan = null;
+        $this->subKegiatanData = null;
+
+        // $uriKodeRekening = 'https://sicaramapis.oganilirkab.go.id/api/local/sppd/getRekeningPerjadin';
+        $uriKodeRekening = 'http://127.0.0.1:8000/api/local/sppd/getRekeningPerjadin';
+        try {
+            $response = Http::withHeaders([
+                'Accept' => 'application/json',
+                'User-Agent' => 'PostmanRuntime/7.44.1',
+            ])->timeout(30)->get($uriKodeRekening, [
+                'year' => $year,
+                'month' => $month,
+                'instance_id' => $this->selectedInstance,
+            ]);
+            if ($response->status() == 200) {
+                $responseData = $response->json()['data'] ?? [];
+                $responseData = collect($responseData)->values()->all();
+                $this->arrSubKegiatan = $responseData ?? [];
+
+                LivewireAlert::title('Berhasil')
+                    ->text('Data kode rekening berhasil dimuat')
+                    ->position('top-end')
+                    ->timer(3000)
+                    ->success()
+                    ->toast()
+                    ->show();
+
+                // Dispatch event to reinitialize Select2 for sub kegiatan
+                $this->dispatch('select2:refresh');
+
+                return;
+            } else {
+                $this->arrKodeRekening = [];
+                LivewireAlert::title('Gagal')
+                    ->text('Gagal mengambil data kode rekening dari server')
+                    ->position('top-end')
+                    ->timer(3000)
+                    ->warning()
+                    ->toast()
+                    ->show();
+                return;
+            }
+        } catch (\Exception $e) {
+            $this->arrKodeRekening = [];
+            LivewireAlert::title('Error')
+                ->text('Terjadi kesalahan saat mengambil kode rekening: ' . $e->getMessage())
+                ->position('top-end')
+                ->timer(5000)
+                ->error()
+                ->toast()
+                ->show();
+            return;
         }
     }
 
@@ -847,9 +1003,9 @@ class SppdForm extends Component
                 'tanggal_berangkat' => $this->departure_date,
                 'tanggal_pulang' => $this->return_date,
                 'instance_pembebanan_id' => $this->selectedInstance, // sementara samakan dengan instance pelaksana
-                'kode_rekening' => null, // Bisa ditambahkan nanti
-                'uraian_rekening' => null, // Bisa ditambahkan nanti
-                'anggaran' => null, // Bisa ditambahkan nanti
+                'kode_rekening' => $this->kodeRekeningData['fullcode'] ?? null,
+                'uraian_rekening' => $this->kodeRekeningData['name'] ?? null,
+                'anggaran' => $this->kodeRekeningData['pagu_induk'] ?? null,
                 'keterangan_lain' => null,
                 'publication_date' => $this->issued_date,
                 'publication_place' => $this->department_head,

@@ -16,7 +16,8 @@ use Jantinnerezo\LivewireAlert\Facades\LivewireAlert;
 #[Title('Login - SPPD')]
 class Login extends Component
 {
-    public $username = '197502251999031006';
+    public $username = '1000';
+    // public $username = '197502251999031006';
     // public $username = '';
     public $password = '#OganIlirBangkit!!';
     // public $password = '';
@@ -102,13 +103,22 @@ class Login extends Component
                     $instance = Instance::where('id_eoffice', $data['atribut_user']['id_skpd'])
                         ->first();
 
+                    $role = 3;
+                    if ($data['atribut_user']['jabatan'] == 'Bupati Ogan Ilir' || $data['atribut_user']['jabatan'] == 'Wakil Bupati Ogan Ilir') {
+                        $role = 2;
+                    } elseif ($data['atribut_user']['jabatan'] == 'Sekretaris Daerah') {
+                        $role = 2;
+                    } elseif (str_contains($data['atribut_user']['jabatan'], 'Kepala Dinas')) {
+                        $role = 2;
+                    }
+
                     $user = User::create([
                         'name' => $data['atribut_user']['fullname'],
                         'email' => $data['atribut_user']['email'] ?? $data['atribut_user']['username'] . '@oganilirkab.go.id',
                         'username' => $data['atribut_user']['username'],
                         // 'image' => '/storage/images/users/default.png',
                         'image' => $data['atribut_user']['foto_pegawai'] ?? '/storage/images/users/default.png',
-                        'role_id' => 3, // Default role as Staff
+                        'role_id' => $role, // Default role as Staff
                         'instance_id' => $instance->id ?? null,
                         'jabatan' => $data['atribut_user']['jabatan'] ?? null,
                         'no_hp' => $data['atribut_user']['no_hp'] ?? null,

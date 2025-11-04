@@ -202,21 +202,10 @@ class SppdList extends Component
 
     public function render()
     {
-        $sppds = Sppd::with(['employeeGiver', 'employeeExecutor', 'instance'])
-            ->when($this->search, function ($query) {
-                $query->where(function ($q) {
-                    $q->where('nomor_sppd', 'like', '%' . $this->search . '%')
-                        ->orWhere('tempat_tujuan', 'like', '%' . $this->search . '%')
-                        ->orWhere('maksud_perjalanan_dinas', 'like', '%' . $this->search . '%')
-                        ->orWhereHas('employeeExecutor', function ($q) {
-                            $q->where('nama_lengkap', 'like', '%' . $this->search . '%')
-                                ->orWhere('nip', 'like', '%' . $this->search . '%');
-                        })
-                        ->orWhereHas('employeeGiver', function ($q) {
-                            $q->where('nama_lengkap', 'like', '%' . $this->search . '%')
-                                ->orWhere('nip', 'like', '%' . $this->search . '%');
-                        });
-                });
+        $sppds = Sppd::search($this->search)
+            ->with(['employeeGiver', 'employeeExecutor', 'instance'])
+            ->when(auth()->user()->instance_id, function ($query) {
+                $query->where('instance_id', auth()->user()->instance_id);
             })
             ->when($this->statusFilter, function ($query) {
                 $query->where('status', $this->statusFilter);

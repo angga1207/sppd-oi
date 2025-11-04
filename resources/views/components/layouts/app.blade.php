@@ -54,7 +54,7 @@
                             <div class="ml-4">
                                 <h1
                                     class="text-2xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-                                    SPPD System
+                                    Si-SPPD
                                 </h1>
                                 <p class="text-xs text-muted font-medium">Surat Perjalanan Dinas</p>
                             </div>
@@ -121,7 +121,8 @@
                                     {{ auth()->user()->name }}
                                 </p>
                                 <p class="text-xs text-muted">
-                                    {{ auth()->user()->role->name ?? 'N/A' }}
+                                    {{-- {{ auth()->user()->role->name ?? 'N/A' }} --}}
+                                    Semesta
                                 </p>
                             </div>
                         </div>
@@ -187,7 +188,8 @@
                                 {{ auth()->user()->name }}
                             </p>
                             <p class="text-xs text-muted">
-                                {{ auth()->user()->role->name ?? 'N/A' }}
+                                {{-- {{ auth()->user()->role->name ?? 'N/A' }} --}}
+                                Semesta
                             </p>
                         </div>
                     </div>

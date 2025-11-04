@@ -62,8 +62,8 @@
                     </div>
                 </div>
             </div>
-            <div x-show="showFilters" class="card-body">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div x-show="showFilters" x-cloak class="card-body">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 mb-4">
                     <!-- Search -->
                     <div class="lg:col-span-3">
                         <label class="form-label">
@@ -78,6 +78,7 @@
                     </div>
 
                     <!-- Instance Filter -->
+                    @if(auth()->user()->instance_id == null)
                     <div wire:ignore>
                         <label class="form-label">Instansi</label>
                         <select id="instanceFilter" class="form-select select2-filter" style="width: 100%">
@@ -88,6 +89,7 @@
                             @endforeach
                         </select>
                     </div>
+                    @endif
 
                     <!-- Status Filter -->
                     <div wire:ignore>
@@ -103,7 +105,7 @@
                     </div>
 
                     <!-- Per Page -->
-                    <div wire:ignore>
+                    {{-- <div wire:ignore>
                         <label class="form-label">Tampilkan Per Halaman</label>
                         <select id="perPage" class="form-select select2-filter" style="width: 100%">
                             <option value="10" {{ $perPage==10 ? 'selected' : '' }}>10</option>
@@ -111,8 +113,9 @@
                             <option value="50" {{ $perPage==50 ? 'selected' : '' }}>50</option>
                             <option value="100" {{ $perPage==100 ? 'selected' : '' }}>100</option>
                         </select>
-                    </div>
-
+                    </div> --}}
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
                     <!-- Start Date Filter -->
                     <div>
                         <label class="form-label">Tanggal Berangkat (Dari)</label>
@@ -210,7 +213,7 @@
                                     </button>
 
                                     <!-- Status Actions -->
-                                    @if($sppd->status === 'draft')
+                                    @if(in_array(auth()->user()->role_id, [1,2]) &&  $sppd->status === 'draft')
                                     <button wire:click="updateStatus({{ $sppd->id }}, 'approved')"
                                         class="action-btn p-2 text-green-600 hover:bg-green-50 rounded-lg transition duration-150"
                                         data-tippy-content="Setujui SPPD">
