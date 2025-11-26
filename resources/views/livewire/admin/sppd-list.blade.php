@@ -181,24 +181,19 @@
                                 </div>
 
                                 <div class="flex items-center justify-end gap-2">
-                                    <!-- Duplicate Button -->
-                                    <button wire:click="duplicateSppd({{ $sppd->id }})"
-                                        class="action-btn p-2 text-purple-600 hover:bg-purple-50 rounded-lg transition duration-150"
-                                        data-tippy-content="Duplikat SPPD">
-                                        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                                        </svg>
-                                    </button>
+
+                                    <!-- Preview Button -->
+                                    <a href="{{ route('admin.sppd.preview', $sppd->id) }}"
+                                        class="action-btn p-2 text-green-600 hover:bg-green-50 rounded-lg transition duration-150"
+                                        data-tippy-content="Lihat SPPD">
+                                        <x-heroicon-o-eye class="w-5 h-5 text-green-500" />
+                                    </a>
 
                                     <!-- Edit Button -->
                                     <a href="{{ route('admin.sppd.edit', $sppd->id) }}"
-                                        class="action-btn p-2 text-green-600 hover:bg-green-50 rounded-lg transition duration-150"
+                                        class="action-btn p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition duration-150"
                                         data-tippy-content="Edit SPPD">
-                                        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                        </svg>
+                                        <x-heroicon-o-pencil-square class="w-5 h-5 text-blue-500" />
                                     </a>
 
                                     <!-- Delete Button -->
@@ -213,7 +208,7 @@
                                     </button>
 
                                     <!-- Status Actions -->
-                                    @if(in_array(auth()->user()->role_id, [1,2]) &&  $sppd->status === 'draft')
+                                    @if(in_array(auth()->user()->role_id, [1,2]) && $sppd->status === 'draft')
                                     <button wire:click="updateStatus({{ $sppd->id }}, 'approved')"
                                         class="action-btn p-2 text-green-600 hover:bg-green-50 rounded-lg transition duration-150"
                                         data-tippy-content="Setujui SPPD">
@@ -510,6 +505,36 @@
     </div>
 </div>
 
+@push('styles')
+<style>
+    /* Custom Tippy.js theme */
+    .tippy-box[data-theme~='custom'] {
+        background: linear-gradient(135deg, #0C2B4E 0%, #1A3D64 100%);
+        color: white;
+        font-size: 0.875rem;
+        font-weight: 500;
+        border-radius: 0.5rem;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+    }
+
+    .tippy-box[data-theme~='custom'][data-placement^='top']>.tippy-arrow::before {
+        border-top-color: #0C2B4E;
+    }
+
+    .tippy-box[data-theme~='custom'][data-placement^='bottom']>.tippy-arrow::before {
+        border-bottom-color: #0C2B4E;
+    }
+
+    .tippy-box[data-theme~='custom'][data-placement^='left']>.tippy-arrow::before {
+        border-left-color: #0C2B4E;
+    }
+
+    .tippy-box[data-theme~='custom'][data-placement^='right']>.tippy-arrow::before {
+        border-right-color: #0C2B4E;
+    }
+</style>
+@endpush
+
 @push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -580,32 +605,4 @@
         });
     });
 </script>
-
-<style>
-    /* Custom Tippy.js theme */
-    .tippy-box[data-theme~='custom'] {
-        background: linear-gradient(135deg, #0C2B4E 0%, #1A3D64 100%);
-        color: white;
-        font-size: 0.875rem;
-        font-weight: 500;
-        border-radius: 0.5rem;
-        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
-    }
-
-    .tippy-box[data-theme~='custom'][data-placement^='top']>.tippy-arrow::before {
-        border-top-color: #0C2B4E;
-    }
-
-    .tippy-box[data-theme~='custom'][data-placement^='bottom']>.tippy-arrow::before {
-        border-bottom-color: #0C2B4E;
-    }
-
-    .tippy-box[data-theme~='custom'][data-placement^='left']>.tippy-arrow::before {
-        border-left-color: #0C2B4E;
-    }
-
-    .tippy-box[data-theme~='custom'][data-placement^='right']>.tippy-arrow::before {
-        border-right-color: #0C2B4E;
-    }
-</style>
 @endpush

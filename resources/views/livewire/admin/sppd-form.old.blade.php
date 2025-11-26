@@ -620,9 +620,10 @@
                                     Sub Kegiatan & Kode Rekening
                                 </label>
                                 <div class="flex flex-col sm:flex-row gap-2">
-                                    <div class="flex-1">
-                                        <select wire:model.live="subKegiatan"
-                                            class="form-input @error('subKegiatan') border-red-500 @enderror">
+                                    <div class="flex-1" wire:ignore>
+                                        <select wire:model.live="subKegiatan" id="subKegiatan"
+                                            class="select2 form-input @error('subKegiatan') border-red-500 @enderror"
+                                            data-placeholder="-- Pilih Sub Kegiatan --">
                                             <option value="">-- Pilih Sub Kegiatan --</option>
                                             @foreach($arrSubKegiatan as $subKegiatan)
                                             <option value="{{ $subKegiatan['fullcode'] }}">
@@ -684,7 +685,7 @@
 
                                 @if($subKegiatanData)
                                 <div class="flex flex-col sm:flex-row gap-2 mt-4">
-                                    <div class="flex-1">
+                                    <div class="flex-1" wire:ignore>
                                         <select wire:model="kodeRekening" id="kodeRekening"
                                             class="select2 form-input @error('kodeRekening') border-red-500 @enderror"
                                             data-placeholder="-- Pilih Kode Rekening --">
@@ -817,6 +818,15 @@
         if ($('#cost_level').hasClass('select2-hidden-accessible')) {
             $('#cost_level').select2('destroy');
         }
+        if ($('#subKegiatan').hasClass('select2-hidden-accessible')) {
+            $('#subKegiatan').select2('destroy');
+        }
+        if ($('#selectedYear').hasClass('select2-hidden-accessible')) {
+            $('#selectedYear').select2('destroy');
+        }
+        if ($('#selectedMonth').hasClass('select2-hidden-accessible')) {
+            $('#selectedMonth').select2('destroy');
+        }
         if ($('#kodeRekening').hasClass('select2-hidden-accessible')) {
             $('#kodeRekening').select2('destroy');
         }
@@ -896,6 +906,59 @@
             console.error('Error initializing cost_level:', error);
         }
 
+        // Initialize Sub Kegiatan Select
+        try {
+            $('#subKegiatan').select2({
+                theme: 'default',
+                width: '100%',
+                placeholder: '-- Pilih Sub Kegiatan --',
+                allowClear: true
+            }).on('change', function(e) {
+                const value = $(this).val();
+                // console.log('Sub Kegiatan changed to:', value);
+                @this.set('subKegiatan', value);
+            });
+            // console.log('Sub Kegiatan Select2 initialized');
+        } catch (error) {
+            console.error('Error initializing subKegiatan:', error);
+        }
+
+        // Initialize Selected Year Select
+        try {
+            $('#selectedYear').select2({
+                theme: 'default',
+                width: '100%',
+                placeholder: '-- Pilih Tahun --',
+                allowClear: true,
+                minimumResultsForSearch: -1
+            }).on('change', function(e) {
+                const value = $(this).val();
+                // console.log('Selected Year changed to:', value);
+                @this.set('selectedYear', value);
+            });
+            // console.log('Selected Year Select2 initialized');
+        } catch (error) {
+            console.error('Error initializing selectedYear:', error);
+        }
+
+        // Initialize Selected Month Select
+        try {
+            $('#selectedMonth').select2({
+                theme: 'default',
+                width: '100%',
+                placeholder: '-- Pilih Bulan --',
+                allowClear: true,
+                minimumResultsForSearch: -1
+            }).on('change', function(e) {
+                const value = $(this).val();
+                // console.log('Selected Month changed to:', value);
+                @this.set('selectedMonth', value);
+            });
+            // console.log('Selected Month Select2 initialized');
+        } catch (error) {
+            console.error('Error initializing selectedMonth:', error);
+        }
+
         // Initialize Kode Rekening Select
         try {
             $('#kodeRekening').select2({
@@ -922,7 +985,10 @@
                 $('#instanceSelect').val('{{ $selectedInstance ?? "" }}').trigger('change.select2');
                 $('#transportation').val('{{ $transportation ?? "" }}').trigger('change.select2');
                 $('#cost_level').val('{{ $cost_level ?? "" }}').trigger('change.select2');
-                $('#kodeRekening').val('{{ $kodeRekening ?? "" }}').trigger('change.select2');
+                $('#subKegiatan').val('{{ is_string($subKegiatan) ? $subKegiatan : "" }}').trigger('change.select2');
+                $('#selectedYear').val('{{ $selectedYear ?? "" }}').trigger('change.select2');
+                $('#selectedMonth').val('{{ $selectedMonth ?? "" }}').trigger('change.select2');
+                $('#kodeRekening').val('{{ is_string($kodeRekening) ? $kodeRekening : "" }}').trigger('change.select2');
                 console.log('Initial values set for edit mode');
             }, 200);
         @endif
@@ -933,6 +999,50 @@
         setTimeout(() => {
             initializeSelect2();
             console.log('Select2 refresh event received');
+        }, 100);
+    });
+
+    // Listen for subKegiatan loaded event to reinitialize Select2
+    window.addEventListener('subKegiatanLoaded', () => {
+        setTimeout(() => {
+            // Destroy and reinitialize subKegiatan Select2
+            if ($('#subKegiatan').hasClass('select2-hidden-accessible')) {
+                $('#subKegiatan').select2('destroy');
+            }
+
+            $('#subKegiatan').select2({
+                theme: 'default',
+                width: '100%',
+                placeholder: '-- Pilih Sub Kegiatan --',
+                allowClear: true
+            }).on('change', function(e) {
+                const value = $(this).val();
+                @this.set('subKegiatan', value);
+            });
+
+            console.log('Sub Kegiatan Select2 reinitialized after data loaded');
+        }, 100);
+    });
+
+    // Listen for kodeRekening loaded event to reinitialize Select2
+    window.addEventListener('kodeRekeningLoaded', () => {
+        setTimeout(() => {
+            // Destroy and reinitialize kodeRekening Select2
+            if ($('#kodeRekening').hasClass('select2-hidden-accessible')) {
+                $('#kodeRekening').select2('destroy');
+            }
+
+            $('#kodeRekening').select2({
+                theme: 'default',
+                width: '100%',
+                placeholder: '-- Pilih Kode Rekening --',
+                allowClear: true
+            }).on('change', function(e) {
+                const value = $(this).val();
+                @this.set('kodeRekening', value);
+            });
+
+            console.log('Kode Rekening Select2 reinitialized after data loaded');
         }, 100);
     });
 </script>

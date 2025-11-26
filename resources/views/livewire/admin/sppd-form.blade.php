@@ -8,12 +8,12 @@
                 </h2>
                 <p class="mt-2 text-sm text-muted">Formulir Surat Perintah Perjalanan Dinas</p>
             </div>
-            <a href="{{ route('admin.sppd.index') }}" class="btn-secondary">
+            <a href="{{ route('admin.surat-perintah.sppd', ['id' => $suratPerintahId]) }}" class="btn-secondary">
                 <svg class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                 </svg>
-                Kembali
+                Daftar SPPD
             </a>
         </div>
 
@@ -24,47 +24,59 @@
                 <div class="overflow-x-auto scrollbar-hide">
                     <nav class="tab-nav px-4" aria-label="Tabs">
                         <!-- Tab 1: Pejabat -->
-                        <button type="button" wire:click="$set('currentTab', 'pejabat')"
-                            class="{{ $currentTab == 'pejabat' ? 'tab-button-active' : 'tab-button' }} min-w-fit">
+                        {{-- <button type="button" wire:click="$set('currentTab', 'pejabat')"
+                            class="{{ $currentTab == 'pejabat' ? 'tab-button-active' : 'tab-button' }} min-w-fit flex-grow justify-center">
                             <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                             </svg>
                             <span class="hidden sm:inline">Pejabat Pemberi Perintah</span>
                             <span class="sm:hidden">Pejabat</span>
-                        </button>
+                        </button> --}}
 
                         <!-- Tab 2: Pegawai -->
-                        <button type="button" wire:click="$set('currentTab', 'pegawai')"
-                            class="{{ $currentTab == 'pegawai' ? 'tab-button-active' : 'tab-button' }} min-w-fit">
+                        {{-- <button type="button" wire:click="$set('currentTab', 'pegawai')"
+                            class="{{ $currentTab == 'pegawai' ? 'tab-button-active' : 'tab-button' }} min-w-fit flex-grow justify-center">
                             <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                             </svg>
                             <span class="hidden sm:inline">Pegawai Pelaksana</span>
                             <span class="sm:hidden">Pegawai</span>
-                        </button>
+                        </button> --}}
 
                         <!-- Tab 3: Detail -->
-                        <button type="button" wire:click="$set('currentTab', 'detail')"
-                            class="{{ $currentTab == 'detail' ? 'tab-button-active' : 'tab-button' }} min-w-fit">
+                        {{-- <button type="button" wire:click="$set('currentTab', 'detail')"
+                            class="{{ $currentTab == 'detail' ? 'tab-button-active' : 'tab-button' }} min-w-fit flex-grow justify-center">
                             <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
                             <span class="hidden sm:inline">Detail Perjalanan</span>
                             <span class="sm:hidden">Detail</span>
-                        </button>
+                        </button> --}}
 
                         <!-- Tab 4: Biaya -->
                         <button type="button" wire:click="$set('currentTab', 'biaya')"
-                            class="{{ $currentTab == 'biaya' ? 'tab-button-active' : 'tab-button' }} min-w-fit">
+                            class="{{ $currentTab == 'biaya' ? 'tab-button-active' : 'tab-button' }} min-w-fit flex-grow justify-center">
                             <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                             <span>Biaya</span>
                         </button>
+
+                        <!-- Tab 5: Preview -->
+                        <a href="{{ route('admin.sppd.preview', $sppdId) }}"
+                            class="{{ $currentTab == 'preview' ? 'tab-button-active' : 'tab-button' }} min-w-fit flex-grow justify-center">
+                            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+                            <span>Preview</span>
+                        </a>
                     </nav>
                 </div>
             </div>
@@ -96,8 +108,7 @@
                                 </label>
                                 <div class="flex flex-col sm:flex-row gap-2">
                                     <div class="flex-1" wire:ignore>
-                                        <select wire:model="selectedInstanceGiver" class="select2 form-input" {{
-                                            $isDisabledInstancesGiver ? 'disabled' : '' }}
+                                        <select wire:model="selectedInstanceGiver" class="select2 form-input"
                                             data-placeholder="-- Pilih Instansi --" id="instanceGiverSelect">
                                             <option value="">-- Pilih Instansi --</option>
                                             @foreach($instances as $inst)
@@ -270,15 +281,14 @@
                             <!-- Pilih Instansi untuk API -->
                             <div class="mb-4">
                                 <label class="block text-sm font-medium text-gray-700 mb-2">
-                                    Pilih Instansi {{ $isDisabledInstancesGiver ? 'true' : 'false' }}
+                                    Pilih Instansi
                                 </label>
                                 <div class="flex flex-col sm:flex-row gap-2">
                                     <div class="flex-1" wire:ignore>
-                                        <select wire:model="selectedInstance" class="select2 form-input" {{
-                                            $isDisabledInstancesGiver ? 'disabled' : '' }}
+                                        <select wire:model="selectedInstance" class="select2 form-input"
                                             data-placeholder="-- Pilih Instansi --" id="instanceSelect">
                                             <option value="">-- Pilih Instansi --</option>
-                                            @foreach($instances as $inst)
+                                            @foreach(collect($instances)->where('id', '!=', 0) as $inst)
                                             <option value="{{ $inst['id'] }}">{{ $inst['name'] }}</option>
                                             @endforeach
                                         </select>
@@ -616,25 +626,20 @@
                                 @enderror
                             </div>
                             <div>
-                                <label for="kodeRekening" class="block text-sm font-medium text-gray-700 mb-2">
-                                    Sub Kegiatan & Kode Rekening
-                                </label>
-                                <div class="flex flex-col sm:flex-row gap-2">
-                                    <div class="flex-1">
-                                        <select wire:model.live="subKegiatan"
-                                            class="form-input @error('subKegiatan') border-red-500 @enderror">
-                                            <option value="">-- Pilih Sub Kegiatan --</option>
-                                            @foreach($arrSubKegiatan as $subKegiatan)
-                                            <option value="{{ $subKegiatan['fullcode'] }}">
-                                                {{ $subKegiatan['fullcode']. ' - ' . $subKegiatan['name'] }}
-                                            </option>
-                                            @endforeach
-                                        </select>
+                                <div class="flex flex-col sm:flex-row sm:flex-wrap sm:items-end sm:mb-4 gap-2">
+                                    <div class="flex-1 mb-2">
+                                        <label for="kodeRekening" class="block text-sm font-medium text-gray-700">
+                                            Sub Kegiatan & Kode Rekening
+                                        </label>
+                                        <div class="text-xs text-gray-500 mt-1">
+                                            {{ count($arrSubKegiatan) > 0 ? count($arrSubKegiatan) . ' Sub Kegiatan
+                                            Ditemukan' : '' }}
+                                        </div>
                                     </div>
-                                    <div class="flex items-center gap-2">
+                                    <div class="flex-none flex items-center gap-2">
                                         <div class="" wire:ignore>
                                             <select wire:model.live="selectedYear" id="selectedYear"
-                                                class="select2 form-input @error('selectedYear') border-red-500 @enderror"
+                                                class="select2 form-input w-[150px] @error('selectedYear') border-red-500 @enderror"
                                                 data-placeholder="-- Pilih Tahun --">
                                                 <option value="">-- Pilih Tahun --</option>
                                                 @foreach($availableYears as $year)
@@ -644,7 +649,7 @@
                                         </div>
                                         <div class="" wire:ignore>
                                             <select wire:model.live="selectedMonth" id="selectedMonth"
-                                                class="select2 form-input @error('selectedMonth') border-red-500 @enderror"
+                                                class="select2 form-input w-[150px] @error('selectedMonth') border-red-500 @enderror"
                                                 data-placeholder="-- Pilih Bulan --">
                                                 <option value="">-- Pilih Bulan --</option>
                                                 @foreach($availableMonths as $month => $monthName)
@@ -682,12 +687,87 @@
                                     </div>
                                 </div>
 
+                                <div class="flex flex-col sm:flex-row sm:flex-wrap gap-2">
+                                    <div class="flex-1" wire:ignore x-data="{
+                                            arrSubKegiatan: @entangle('arrSubKegiatan'),
+                                            subKegiatan: @entangle('subKegiatan')
+                                        }" x-init="
+                                            let select = $('#subKegiatan');
+                                            select.select2({
+                                                theme: 'default',
+                                                width: '100%',
+                                                placeholder: '-- Pilih Sub Kegiatan --',
+                                                allowClear: true
+                                            }).on('change', function() {
+                                                subKegiatan = $(this).val();
+                                                $wire.set('subKegiatan', subKegiatan);
+                                            });
+
+                                            $watch('arrSubKegiatan', value => {
+                                                select.empty();
+                                                select.append(new Option('-- Pilih Sub Kegiatan --', '', true, true));
+                                                value.forEach(item => {
+                                                    select.append(new Option(item.fullcode + ' - ' + item.name, item.fullcode));
+                                                });
+                                                select.trigger('change');
+                                            });
+
+                                            $watch('subKegiatan', value => {
+                                                if (select.val() !== value) {
+                                                    select.val(value).trigger('change.select2');
+                                                }
+                                            });
+                                        ">
+                                        <select id="subKegiatan"
+                                            class="form-input @error('subKegiatan') border-red-500 @enderror">
+                                            <option value="">-- Pilih Sub Kegiatan --</option>
+                                            @foreach($arrSubKegiatan as $subKegiatan)
+                                            <option value="{{ $subKegiatan['fullcode'] }}">
+                                                {{ $subKegiatan['fullcode']. ' - ' . $subKegiatan['name'] }}
+                                            </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+
+                                @if($isLoadedKodeRekening)
                                 @if($subKegiatanData)
                                 <div class="flex flex-col sm:flex-row gap-2 mt-4">
-                                    <div class="flex-1">
-                                        <select wire:model="kodeRekening" id="kodeRekening"
-                                            class="select2 form-input @error('kodeRekening') border-red-500 @enderror"
-                                            data-placeholder="-- Pilih Kode Rekening --">
+                                    <div class="flex-1" x-data="{
+                                            arrKodeRekening: @entangle('arrKodeRekening'),
+                                            kodeRekening: @entangle('kodeRekening')
+                                        }" x-init="
+                                            let select = $('#kodeRekening');
+                                            select.select2({
+                                                theme: 'default',
+                                                width: '100%',
+                                                placeholder: '-- Pilih Kode Rekening --',
+                                                allowClear: true
+                                            }).on('change', function() {
+                                                kodeRekening = $(this).val();
+                                                $wire.set('kodeRekening', kodeRekening);
+                                            });
+
+                                            $watch('arrKodeRekening', value => {
+                                                select.empty();
+                                                select.append(new Option('-- Pilih Kode Rekening --', '', true, true));
+                                                if (value && value.length > 0) {
+                                                    value.forEach(item => {
+                                                        let pagu = new Intl.NumberFormat('id-ID').format(item.pagu_induk);
+                                                        select.append(new Option(item.fullcode + ' - ' + item.name + ' (Rp. ' + pagu + ')', item.fullcode));
+                                                    });
+                                                }
+                                                select.trigger('change');
+                                            });
+
+                                            $watch('kodeRekening', value => {
+                                                if (select.val() !== value) {
+                                                    select.val(value).trigger('change.select2');
+                                                }
+                                            });
+                                        ">
+                                        <select id="kodeRekening"
+                                            class="form-input @error('kodeRekening') border-red-500 @enderror">
                                             <option value="">-- Pilih Kode Rekening --</option>
                                             @foreach($arrKodeRekening as $option)
                                             <option value="{{ $option['fullcode'] }}">
@@ -702,9 +782,40 @@
                                 <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                                 @enderror
                                 @endif
+                                @endif
 
                             </div>
                             <div>
+                                @if($subKegiatan && $subKegiatanData)
+                                <div class="mt-3 p-3 bg-indigo-50 border-l-4 border-indigo-400 rounded">
+                                    <div class="flex items-center">
+                                        <svg class="h-5 w-5 text-indigo-400 mr-2" fill="currentColor"
+                                            viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd"
+                                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                                clip-rule="evenodd" />
+                                        </svg>
+                                        <span class="text-sm text-indigo-700">
+                                            <strong>
+                                                {{ $isEdit ? 'Existing Sub Kegiatan' : 'Sub Kegiatan' }}
+                                            </strong>
+                                        </span>
+                                    </div>
+                                    <div class="mt-2 text-sm text-indigo-700">
+                                        <p>
+                                            <span class="font-medium">Kode:</span> {{ $subKegiatanData['fullcode'] }}
+                                        </p>
+                                        <p>
+                                            <span class="font-medium">Uraian:</span>
+                                            {{ $subKegiatanData['name'] }}
+                                        </p>
+                                        {{-- <p>
+                                            <span class="font-medium">Pagu Induk:</span>
+                                            Rp. {{ number_format($subKegiatanData['pagu_induk'] ?? 0, 0, ',', '.') }}
+                                        </p> --}}
+                                    </div>
+                                </div>
+                                @endif
                                 @if($kodeRekening && $kodeRekeningData)
                                 <div class="mt-3 p-3 bg-green-50 border-l-4 border-green-400 rounded">
                                     <div class="flex items-center">
@@ -728,25 +839,247 @@
                                             <span class="font-medium">Uraian:</span>
                                             {{ $kodeRekeningData['name'] }}
                                         </p>
-                                        {{-- <p>
+                                        <p>
                                             <span class="font-medium">Pagu Induk:</span>
                                             Rp. {{ number_format($kodeRekeningData['pagu_induk'] ?? 0, 0, ',', '.') }}
-                                        </p> --}}
+                                        </p>
                                     </div>
                                 </div>
                                 @endif
                             </div>
                         </div>
                     </div>
+
+                    <!-- Tab 5: Preview -->
+                    @if($isEdit)
+                    <div class="{{ $currentTab == 'preview' ? '' : 'hidden' }}">
+                        <div class="">
+                            <h3 class="text-xl font-bold text-navy flex items-center gap-2 p-4">
+                                Preview Data SPPD
+                            </h3>
+
+                            <div class="mt-4 border border-navy rounded-xl p-4 pb-10 bg-white shadow-lg relative">
+                                <div
+                                    class="w-full h-full absolute top-0 left-0 bg-slate-400/20 flex items-center justify-center text-navy/50 text-4xl font-bold z-10 select-none">
+                                    <span class="transform -rotate-45">PREVIEW SURAT PERINTAH PERJALANAN DINAS</span>
+                                </div>
+                                <h3 class="text-center m-0 underline text-2xl font-semibold">
+                                    SURAT PERINTAH PERJALANAN DINAS (SPPD)
+                                </h3>
+                                <p class="uppercase text-center m-0 font-semibold text-xl">
+                                    NOMOR : {{ $previewData['nomor_sppd'] }}
+                                </p>
+
+                                <div class="mt-4 overflow-x-auto">
+                                    <table class="w-full">
+                                        <tbody>
+
+                                            <tr>
+                                                <td class="min-w-[10px] border border-navy p-3 text-center">
+                                                    1.
+                                                </td>
+                                                <td class="min-w-[200px] border border-navy p-3 text-left">
+                                                    Pejabat yang berwenang memberi perintah
+                                                </td>
+                                                <td class="min-w-[200px] border border-navy p-3 text-left">
+                                                    <p>
+                                                        {{ $previewData['pejabat_jabatan'] }}
+                                                    </p>
+                                                    <p>
+                                                        {{ $previewData['pejabat_name'] }}
+                                                    </p>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="min-w-[10px] border border-navy p-3 text-center">
+                                                    2.
+                                                </td>
+                                                <td class="min-w-[200px] border border-navy p-3 text-left">
+                                                    Nama / NIP Pegawai yang melaksanakan perjalanan dinas
+                                                </td>
+                                                <td class="min-w-[200px] border border-navy p-3 text-left">
+                                                    <p>
+                                                        {{ $previewData['pegawai_name'] }}
+                                                    </p>
+                                                    <p>
+                                                        {{ $previewData['pegawai_nip'] }}
+                                                    </p>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="min-w-[10px] border border-navy p-3 text-center">
+                                                    3.
+                                                </td>
+                                                <td class="min-w-[200px] border border-navy p-3 text-left">
+                                                    <p>a. Pangkat dan Golongan</p>
+                                                    <p>b. Jabatan / Instansi</p>
+                                                    <p>c. Tingkat Biaya Perjalanan Dinas</p>
+                                                </td>
+                                                <td class="min-w-[200px] border border-navy p-3 text-left">
+                                                    <p>a. {{ $previewData['pegawai_pangkat'] }}</p>
+                                                    <p>b. {{ $previewData['pegawai_jabatan'] }}</p>
+                                                    <p>c. {{ $previewData['tingkat_biaya'] }}</p>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="min-w-[10px] border border-navy p-3 text-center">
+                                                    4.
+                                                </td>
+                                                <td class="min-w-[200px] border border-navy p-3 text-left">
+                                                    Maksud Perjalanan Dinas
+                                                </td>
+                                                <td class="min-w-[200px] border border-navy p-3 text-left">
+                                                    <p class="whitespace-preline">{{ $previewData['maksud_perjalanan']
+                                                        }}</p>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="min-w-[10px] border border-navy p-3 text-center">
+                                                    5.
+                                                </td>
+                                                <td class="min-w-[200px] border border-navy p-3 text-left">
+                                                    Alat Angkut yang dipergunakan
+                                                </td>
+                                                <td class="min-w-[200px] border border-navy p-3 text-left">
+                                                    <p>{{ $previewData['alat_angkutan'] }}</p>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="min-w-[10px] border border-navy p-3 text-center">
+                                                    6.
+                                                </td>
+                                                <td class="min-w-[200px] border border-navy p-3 text-left">
+                                                    <p>a. Tempat Berangkat</p>
+                                                    <p>b. Tempat Tujuan</p>
+                                                </td>
+                                                <td class="min-w-[200px] border border-navy p-3 text-left">
+                                                    <p>a. {{ $previewData['tempat_berangkat'] }}</p>
+                                                    <p>b. {{ $previewData['tempat_tujuan'] }}</p>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="min-w-[10px] border border-navy p-3 text-center">
+                                                    7.
+                                                </td>
+                                                <td class="min-w-[200px] border border-navy p-3 text-left">
+                                                    <p>a. Lamanya Perjalanan Dinas</p>
+                                                    <p>b. Tanggal Berangkat</p>
+                                                    <p>c. Tanggal Harus Kembali</p>
+                                                </td>
+                                                <td class="min-w-[200px] border border-navy p-3 text-left">
+                                                    <p>a. {{ $previewData['lama_perjalanan'] }} Hari</p>
+                                                    <p>b. {{ $previewData['tanggal_berangkat'] }}</p>
+                                                    <p>c. {{ $previewData['tanggal_kembali'] }}</p>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="min-w-[10px] border border-navy p-3 text-center">
+                                                    8.
+                                                </td>
+                                                <td class="min-w-[200px] border border-navy p-3 text-left">
+                                                    <p>Pembebanan Anggaran :</p>
+                                                    <p>a. Instansi</p>
+                                                    <p>b. Mata Anggaran</p>
+                                                </td>
+                                                <td class="min-w-[200px] border border-navy p-3 text-left">
+                                                    <p>a. {{ $previewData['pembebanan_instansi'] }}</p>
+                                                    <p>b. {{ $previewData['kode_rekening'] }} - {{
+                                                        $previewData['uraian_rekening'] }}</p>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="min-w-[10px] border border-navy p-3 text-center">
+                                                    9.
+                                                </td>
+                                                <td class="min-w-[200px] border border-navy p-3 text-left">
+                                                    <p>Keterangan lain-lain</p>
+                                                </td>
+                                                <td class="min-w-[200px] border border-navy p-3 text-left">
+                                                    <p>{{ $previewData['keterangan_lain'] }}</p>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="mt-8 flex items-center justify-center sm:justify-end">
+                                    <div class="flex flex-col items-center">
+                                        <table>
+                                            <tbody>
+                                                <tr class="whitespace-nowrap">
+                                                    <td>
+                                                        Dikeluarkan di
+                                                    </td>
+                                                    <td class="px-3">: </td>
+                                                    <td>
+                                                        {{ $previewData['publication_place'] ?? 'N/A' }}
+                                                    </td>
+                                                </tr>
+                                                <tr class="whitespace-nowrap">
+                                                    <td>
+                                                        Pada tanggal
+                                                    </td>
+                                                    <td class="px-3">: </td>
+                                                    <td>
+                                                        {{ $previewData['publication_date'] ?? 'N/A' }}
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                        <div class="text-center">
+                                            <div class="text-lg font-bold mt-4 whitespace-nowrap">
+                                                @if($previewData['issued_nip'] != '1000')
+                                                {{ $previewData['issued_jabatan_title'] }}
+                                                @elseif($previewData['issued_nip'] == '1000')
+                                                {{ $previewData['issued_jabatan'] }}
+                                                @endif
+                                            </div>
+                                            <div class="h-[75px]">
+
+                                            </div>
+                                            <div class="whitespace-nowrap font-bold">
+                                                {{ $previewData['issued_name'] }}
+                                            </div>
+                                            @if($previewData['issued_pangkat'] && $previewData['issued_golongan'])
+                                            <div class="whitespace-nowrap">
+                                                {{ $previewData['issued_pangkat'] }}
+                                                ({{ $previewData['issued_golongan'] }})
+                                            </div>
+                                            @endif
+                                            <div class="whitespace-nowrap">
+                                                @if($previewData['issued_nip'] != '1000')
+                                                NIP : {{ $previewData['issued_nip'] }}
+                                                {{-- @else
+                                                BUPATI KABUPATEN OGAN ILIR --}}
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
                 </div>
 
                 <!-- Form Actions -->
                 <div
                     class="px-6 py-4 bg-gray-50 border-t border-gray-200 flex flex-col sm:flex-row items-center justify-end gap-3">
-                    <a href="{{ route('admin.sppd.index') }}"
+                    <a href="{{ route('admin.surat-perintah.sppd', ['id' => $suratPerintahId]) }}"
                         class="inline-flex items-center px-6 py-3 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition duration-150">
-                        Batal
+                        Kembali
                     </a>
+                    @if($isEdit)
                     <button type="submit" wire:loading.attr="disabled"
                         class="inline-flex items-center px-6 py-3 border border-transparent rounded-lg text-sm font-medium text-white bg-navy hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-navy disabled:opacity-50 transition duration-150">
                         <span wire:loading.remove class="flex items-center">
@@ -767,6 +1100,66 @@
                             </svg>
                         </span>
                     </button>
+                    @else
+                    @if($currentTab != 'biaya')
+                    @if($currentTab != 'pejabat')
+                    <button type="button" wire:click="goToPrevTab"
+                        class="inline-flex items-center px-6 py-3 border border-transparent rounded-lg text-sm font-medium text-white bg-navy hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-navy disabled:opacity-50 transition duration-150">
+                        <div class="flex items-center gap-x-2">
+                            <div>
+                                ←
+                            </div>
+                            <div>
+                                Kembali
+                            </div>
+                        </div>
+                    </button>
+                    @endif
+                    <button type="button" wire:click="goToNextTab"
+                        class="inline-flex items-center px-6 py-3 border border-transparent rounded-lg text-sm font-medium text-white bg-navy hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-navy disabled:opacity-50 transition duration-150">
+                        <div class="flex items-center gap-x-2">
+                            <div>
+                                →
+                            </div>
+                            <div>
+                                Selanjutnya
+                            </div>
+                        </div>
+                    </button>
+                    @else
+                    <button type="button" wire:click="goToPrevTab"
+                        class="inline-flex items-center px-6 py-3 border border-transparent rounded-lg text-sm font-medium text-white bg-navy hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-navy disabled:opacity-50 transition duration-150">
+                        <div class="flex items-center gap-x-2">
+                            <div>
+                                ←
+                            </div>
+                            <div>
+                                Kembali
+                            </div>
+                        </div>
+                    </button>
+                    <button type="submit" wire:loading.attr="disabled"
+                        class="inline-flex items-center px-6 py-3 border border-transparent rounded-lg text-sm font-medium text-white bg-navy hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-navy disabled:opacity-50 transition duration-150">
+                        <span wire:loading.remove class="flex items-center">
+                            <svg class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 13l4 4L19 7" />
+                            </svg>
+                            {{ $isEdit ? 'Update SPPD' : 'Simpan SPPD' }}
+                        </span>
+                        <span wire:loading>
+                            <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                    stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor"
+                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                </path>
+                            </svg>
+                        </span>
+                    </button>
+                    @endif
+                    @endif
                 </div>
             </form>
         </div>
@@ -817,8 +1210,11 @@
         if ($('#cost_level').hasClass('select2-hidden-accessible')) {
             $('#cost_level').select2('destroy');
         }
-        if ($('#kodeRekening').hasClass('select2-hidden-accessible')) {
-            $('#kodeRekening').select2('destroy');
+        if ($('#selectedYear').hasClass('select2-hidden-accessible')) {
+            $('#selectedYear').select2('destroy');
+        }
+        if ($('#selectedMonth').hasClass('select2-hidden-accessible')) {
+            $('#selectedMonth').select2('destroy');
         }
 
         // Initialize Instance Giver Select (for commanding officer)
@@ -832,7 +1228,9 @@
                 const value = $(this).val();
                 console.log('Instance Giver changed to:', value);
                 @this.set('selectedInstanceGiver', value);
-                $('#instanceSelect').prop('disabled', true);
+                // if(value != '0' || value != 0){
+                //     $('#instanceSelect').prop('disabled', true);
+                // }
             });
             // console.log('Instance Giver Select2 initialized');
         } catch (error) {
@@ -855,9 +1253,9 @@
         } catch (error) {
             console.error('Error initializing instanceSelect:', error);
         }
-        @if($isDisabledInstances == true)
+        @if($isDisabledInstances == true && $selectedInstanceGiver != '0')
 
-            $('#instanceSelect').prop('disabled', true);
+            // $('#instanceSelect').prop('disabled', true);
         @endif
 
         // Initialize Transportation Select
@@ -896,35 +1294,54 @@
             console.error('Error initializing cost_level:', error);
         }
 
-        // Initialize Kode Rekening Select
+        // Initialize Selected Year Select
         try {
-            $('#kodeRekening').select2({
+            $('#selectedYear').select2({
                 theme: 'default',
                 width: '100%',
-                placeholder: '-- Pilih Kode Rekening --',
+                placeholder: '-- Pilih Tahun --',
                 allowClear: true,
                 minimumResultsForSearch: -1
             }).on('change', function(e) {
                 const value = $(this).val();
-                // console.log('Kode Rekening changed to:', value);
-                @this.set('kodeRekening', value);
+                // console.log('Selected Year changed to:', value);
+                @this.set('selectedYear', value);
             });
-            // console.log('Kode Rekening Select2 initialized');
+            // console.log('Selected Year Select2 initialized');
         } catch (error) {
-            console.error('Error initializing kodeRekening:', error);
+            console.error('Error initializing selectedYear:', error);
+        }
+
+        // Initialize Selected Month Select
+        try {
+            $('#selectedMonth').select2({
+                theme: 'default',
+                width: '100%',
+                placeholder: '-- Pilih Bulan --',
+                allowClear: true,
+                minimumResultsForSearch: -1
+            }).on('change', function(e) {
+                const value = $(this).val();
+                // console.log('Selected Month changed to:', value);
+                @this.set('selectedMonth', value);
+            });
+            // console.log('Selected Month Select2 initialized');
+        } catch (error) {
+            console.error('Error initializing selectedMonth:', error);
         }
 
         // Set initial values if editing
         @if($isEdit)
 
-            setTimeout(() => {
-                $('#instanceGiverSelect').val('{{ $selectedInstanceGiver ?? "" }}').trigger('change.select2');
-                $('#instanceSelect').val('{{ $selectedInstance ?? "" }}').trigger('change.select2');
-                $('#transportation').val('{{ $transportation ?? "" }}').trigger('change.select2');
-                $('#cost_level').val('{{ $cost_level ?? "" }}').trigger('change.select2');
-                $('#kodeRekening').val('{{ $kodeRekening ?? "" }}').trigger('change.select2');
-                console.log('Initial values set for edit mode');
-            }, 200);
+            // setTimeout(() => {
+            //     $('#instanceGiverSelect').val('{{ $selectedInstanceGiver ?? "" }}').trigger('change.select2');
+            //     $('#instanceSelect').val('{{ $selectedInstance ?? "" }}').trigger('change.select2');
+            //     $('#transportation').val('{{ $transportation ?? "" }}').trigger('change.select2');
+            //     $('#cost_level').val('{{ $cost_level ?? "" }}').trigger('change.select2');
+            //     $('#selectedYear').val('{{ $selectedYear ?? "" }}').trigger('change.select2');
+            //     $('#selectedMonth').val('{{ $selectedMonth ?? "" }}').trigger('change.select2');
+            //     // console.log('Initial values set for edit mode');
+            // }, 500);
         @endif
     }
 

@@ -36,11 +36,26 @@ Route::middleware(['web', 'auth'])
         // Dashboard
         Route::get('/dashboard', Dashboard::class)->name('dashboard');
 
+        // Surat Perintah Management
+        Route::prefix('surat-perintah')->name('surat-perintah.')->group(function () {
+            Route::get('/', \App\Livewire\Admin\SuratPerintah\Index::class)->name('index');
+            Route::get('/create', \App\Livewire\Admin\SuratPerintah\Form::class)->name('create');
+            Route::get('/{id}/edit', \App\Livewire\Admin\SuratPerintah\Form::class)->name('edit');
+            Route::get('/{id}/sppd', \App\Livewire\Admin\SuratPerintah\Sppd::class)->name('sppd');
+            Route::get('/{id}/preview', \App\Livewire\Admin\SuratPerintah\Preview::class)->name('preview');
+        });
+
         // SPPD Management
         Route::prefix('sppd')->name('sppd.')->group(function () {
             Route::get('/', SppdList::class)->name('index');
             Route::get('/create', SppdForm::class)->name('create');
             Route::get('/{id}/edit', SppdForm::class)->name('edit');
+            Route::get('/{id}/preview', \App\Livewire\Admin\SPPD\Preview::class)->name('preview');
+        });
+
+        // Reports
+        Route::prefix('reports')->name('reports.')->group(function () {
+            Route::get('/', \App\Livewire\Admin\Reports\SppdReports::class)->name('sppd');
         });
 
         // Laravel Impersonate routes

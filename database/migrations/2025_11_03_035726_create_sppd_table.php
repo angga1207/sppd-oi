@@ -11,44 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('employees', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->bigInteger('semesta_id');
-            $table->string('nama_lengkap');
-            $table->string('nip');
-            $table->string('jenis_pegawai');
-            $table->foreignId('instance_id')
-                ->nullable()
-                ->constrained('instances')
-                ->cascadeOnDelete()
-                ->cascadeOnUpdate();
-            $table->integer('id_skpd')->nullable();
-            $table->integer('id_jabatan')->nullable();
-            $table->string('jabatan')->nullable();
-            $table->string('kepala_skpd')->nullable();
-            $table->text('foto_pegawai')->nullable();
-            $table->string('email')->nullable();
-            $table->string('no_hp')->nullable();
-            $table->string('golongan')->nullable();
-            $table->string('pangkat')->nullable();
-            $table->json('ref_jabatan_baru')->nullable();
-
-            $table->timestamps();
-            $table->softDeletes();
-
-            $table->index([
-                'semesta_id',
-                'nip',
-                'instance_id',
-                'id_skpd',
-                'id_jabatan',
-                'jabatan',
-            ]);
-        });
-
         Schema::create('sppd', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('nomor_sppd')->unique();
+            $table->string('uuid')->unique();
+            $table->string('nomor_sppd')->unique()->nullable();
+            $table->foreignId('surat_perintah_id')
+                ->nullable()
+                ->constrained('surat_perintah')
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
             $table->foreignId('instance_id')
                 ->nullable()
                 ->constrained('instances')
@@ -59,9 +30,19 @@ return new class extends Migration
                 ->constrained('employees')
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
+            $table->foreignId('employee_giver_instance_id')
+                ->nullable()
+                ->constrained('instances')
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
             $table->foreignId('employee_executor_id')
                 ->nullable()
                 ->constrained('employees')
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
+            $table->foreignId('employee_executor_instance_id')
+                ->nullable()
+                ->constrained('instances')
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
             $table->string('tingkat_biaya')->nullable();
@@ -69,6 +50,16 @@ return new class extends Migration
             $table->string('alat_angkutan')->nullable();
             $table->string('tempat_berangkat')->nullable();
             $table->string('tempat_tujuan')->nullable();
+            $table->foreignId('province_id')
+                ->nullable();
+                // ->constrained('reg_provinces')
+                // ->cascadeOnDelete()
+                // ->cascadeOnUpdate();
+            $table->foreignId('regency_id')
+                ->nullable();
+                // ->constrained('reg_regencies')
+                // ->cascadeOnDelete()
+                // ->cascadeOnUpdate();
             $table->integer('lama_perjalanan')->nullable();
             $table->date('tanggal_berangkat')->nullable();
             $table->date('tanggal_pulang')->nullable();
@@ -81,9 +72,10 @@ return new class extends Migration
 
             $table->string('kode_sub_kegiatan')->nullable();
             $table->string('uraian_sub_kegiatan')->nullable();
+            $table->double('anggaran_sub_kegiatan')->nullable();
             $table->string('kode_rekening')->nullable();
             $table->string('uraian_rekening')->nullable();
-            $table->double('anggaran')->nullable();
+            $table->double('anggaran_rekening')->nullable();
 
             $table->text('keterangan_lain')->nullable();
 
@@ -93,7 +85,7 @@ return new class extends Migration
                 ->nullable()
                 ->constrained('employees')
                 ->cascadeOnDelete()
-                ->cascadeOnUpdate();
+                ->comment('Pegawai yang menandatangani sppd');
 
             $table->enum('status', ['draft', 'approved', 'rejected', 'completed'])->default('draft');
             $table->foreignId('created_by')
@@ -113,9 +105,12 @@ return new class extends Migration
 
             $table->index([
                 'nomor_sppd',
+                'surat_perintah_id',
                 'instance_id',
                 'employee_giver_id',
+                'employee_giver_instance_id',
                 'employee_executor_id',
+                'employee_executor_instance_id',
                 'instance_pembebanan_id',
                 'status',
             ]);

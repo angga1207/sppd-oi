@@ -116,6 +116,7 @@ class Login extends Component
                         'name' => $data['atribut_user']['fullname'],
                         'email' => $data['atribut_user']['email'] ?? $data['atribut_user']['username'] . '@oganilirkab.go.id',
                         'username' => $data['atribut_user']['username'],
+                        'nik' => $data['atribut_user']['nik'],
                         // 'image' => '/storage/images/users/default.png',
                         'image' => $data['atribut_user']['foto_pegawai'] ?? '/storage/images/users/default.png',
                         'role_id' => $role, // Default role as Staff

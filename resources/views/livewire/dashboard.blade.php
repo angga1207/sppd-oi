@@ -8,9 +8,27 @@
 
         <!-- Statistics Cards -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <!-- Total SPPD Card -->
+            <!-- Total Surat Perintah Card -->
             <div
                 class="bg-gradient-to-br from-navy to-blue-light rounded-xl shadow-lg p-6 text-white transform hover:scale-105 transition-transform duration-200">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium opacity-90">Total Surat Perintah</p>
+                        <p class="text-3xl font-bold mt-2">{{ $stats['total_surat_perintah'] }}</p>
+                        <p class="text-xs opacity-75 mt-2">Semua periode</p>
+                    </div>
+                    <div class="bg-white bg-opacity-20 rounded-full p-4">
+                        <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Total SPPD Card -->
+            <div
+                class="bg-gradient-to-br from-accent to-light rounded-xl shadow-lg p-6 text-white transform hover:scale-105 transition-transform duration-200">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm font-medium opacity-90">Total SPPD</p>
@@ -31,8 +49,8 @@
                 class="bg-gradient-to-br from-yellow-400 to-orange-500 rounded-xl shadow-lg p-6 text-white transform hover:scale-105 transition-transform duration-200">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-sm font-medium opacity-90">Menunggu Persetujuan</p>
-                        <p class="text-3xl font-bold mt-2">{{ $stats['pending_sppd'] }}</p>
+                        <p class="text-sm font-medium opacity-90">Belum Ditandatangani</p>
+                        <p class="text-3xl font-bold mt-2">{{ $stats['pending_surat_perintah'] }}</p>
                         <p class="text-xs opacity-75 mt-2">Perlu ditindaklanjuti</p>
                     </div>
                     <div class="bg-white bg-opacity-20 rounded-full p-4">
@@ -49,8 +67,8 @@
                 class="bg-gradient-to-br from-green-400 to-emerald-600 rounded-xl shadow-lg p-6 text-white transform hover:scale-105 transition-transform duration-200">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-sm font-medium opacity-90">Disetujui</p>
-                        <p class="text-3xl font-bold mt-2">{{ $stats['approved_sppd'] }}</p>
+                        <p class="text-sm font-medium opacity-90">Ditandatangani</p>
+                        <p class="text-3xl font-bold mt-2">{{ $stats['approved_surat_perintah'] }}</p>
                         <p class="text-xs opacity-75 mt-2">{{ $stats['approval_rate'] }}% dari total</p>
                     </div>
                     <div class="bg-white bg-opacity-20 rounded-full p-4">
@@ -62,7 +80,7 @@
                 </div>
             </div>
 
-            <!-- Completed SPPD Card -->
+            {{-- <!-- Completed SPPD Card -->
             <div
                 class="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl shadow-lg p-6 text-white transform hover:scale-105 transition-transform duration-200">
                 <div class="flex items-center justify-between">
@@ -77,7 +95,7 @@
                         </svg>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
 
         @if(auth()->user()->instance_id == null)
@@ -94,7 +112,7 @@
                     </div>
                     <div class="ml-4">
                         <p class="text-sm font-medium text-gray-600">Ditolak</p>
-                        <p class="text-2xl font-bold text-gray-900">{{ $stats['rejected_sppd'] }}</p>
+                        <p class="text-2xl font-bold text-gray-900">{{ $stats['rejected_surat_perintah'] }}</p>
                     </div>
                 </div>
             </div>
@@ -125,7 +143,7 @@
                         </svg>
                     </div>
                     <div class="ml-4">
-                        <p class="text-sm font-medium text-gray-600">Total Instansi</p>
+                        <p class="text-sm font-medium text-gray-600">Total Perangkat Daerah</p>
                         <p class="text-2xl font-bold text-gray-900">{{ $stats['total_instances'] }}</p>
                     </div>
                 </div>
@@ -137,13 +155,13 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
             <!-- Monthly Trend Chart -->
             <div class="bg-white rounded-xl shadow-lg p-6">
-                <h3 class="text-lg font-semibold text-gray-900 mb-4">Trend SPPD 6 Bulan Terakhir</h3>
-                @if($monthlySppd->count() > 0)
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Trend Surat Perintah 6 Bulan Terakhir</h3>
+                @if($monthlySuratPerintah->count() > 0)
                 <div class="space-y-3">
                     @php
-                    $maxValue = $monthlySppd->max('total') ?: 1;
+                    $maxValue = $monthlySuratPerintah->max('total') ?: 1;
                     @endphp
-                    @foreach($monthlySppd as $data)
+                    @foreach($monthlySuratPerintah as $data)
                     @php
                     $percentage = ($data->total / $maxValue) * 100;
                     $monthName = \Carbon\Carbon::parse($data->month)->format('M Y');
@@ -171,15 +189,15 @@
                 @endif
             </div>
 
-            <!-- SPPD by Instance -->
+            <!-- Surat Perintah by Instance -->
             <div class="bg-white rounded-xl shadow-lg p-6">
-                <h3 class="text-lg font-semibold text-gray-900 mb-4">SPPD per Instansi</h3>
-                @if($sppdByInstance->count() > 0)
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Surat Perintah per Perangkat Daerah</h3>
+                @if($suratPerintahByInstance->count() > 0)
                 <div class="space-y-3 max-h-80 overflow-y-auto">
                     @php
-                    $maxInstanceValue = $sppdByInstance->max('total') ?: 1;
+                    $maxInstanceValue = $suratPerintahByInstance->max('total') ?: 1;
                     @endphp
-                    @foreach($sppdByInstance as $data)
+                    @foreach($suratPerintahByInstance as $data)
                     @php
                     $percentage = ($data['total'] / $maxInstanceValue) * 100;
                     @endphp
@@ -233,7 +251,8 @@
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
                                 Pegawai</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                                Instansi</th>
+                                Perangkat Daerah
+                            </th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
                                 Tgl Berangkat</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
@@ -252,7 +271,7 @@
                                 {{ $sppd->employeeExecutor->nama_lengkap ?? 'N/A' }}
                             </td>
                             <td class="px-6 py-4 text-sm text-gray-900">
-                                <span class="truncate block max-w-xs">{{ $sppd->instance->name ?? 'N/A' }}</span>
+                                <span class="truncate block max-w-xs">{{ $sppd->instance->name ?? 'BUPATI' }}</span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                 {{ $sppd->tanggal_berangkat ? \Carbon\Carbon::parse($sppd->tanggal_berangkat)->format('d

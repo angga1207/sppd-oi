@@ -21,6 +21,7 @@ class Employee extends Model
         'foto_pegawai',
         'email',
         'no_hp',
+        'eselon',
         'golongan',
         'pangkat',
         'ref_jabatan_baru',

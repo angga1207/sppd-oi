@@ -8,6 +8,7 @@ use Livewire\Attributes\Title;
 use App\Models\Sppd;
 use App\Models\Employee;
 use App\Models\Instance;
+use App\Models\SuratPerintah;
 use Illuminate\Support\Facades\DB;
 
 #[Layout('components.layouts.app')]
@@ -16,28 +17,41 @@ class Dashboard extends Component
 {
     public function render()
     {
-        // dd(auth()->user());
         // Basic statistics
-        $totalSppd = Sppd::count();
-        $pendingSppd = Sppd::when(auth()->user()->instance_id, function ($query) {
+        $totalSuratPerintah = SuratPerintah::count();
+        $pendingSuratPerintah = SuratPerintah::when(auth()->user()->instance_id, function ($query) {
             $query->where('instance_id', auth()->user()->instance_id);
         })
             ->where('status', 'pending')->count();
-        $approvedSppd = Sppd::when(auth()->user()->instance_id, function ($query) {
+        $approvedSuratPerintah = SuratPerintah::when(auth()->user()->instance_id, function ($query) {
             $query->where('instance_id', auth()->user()->instance_id);
         })
             ->where('status', 'approved')->count();
-        $rejectedSppd = Sppd::when(auth()->user()->instance_id, function ($query) {
+        $rejectedSuratPerintah = SuratPerintah::when(auth()->user()->instance_id, function ($query) {
             $query->where('instance_id', auth()->user()->instance_id);
         })
             ->where('status', 'rejected')->count();
-        $completedSppd = Sppd::when(auth()->user()->instance_id, function ($query) {
-            $query->where('instance_id', auth()->user()->instance_id);
-        })
-            ->where('status', 'completed')->count();
+
+        $totalSppd = Sppd::count();
+        // $pendingSppd = Sppd::when(auth()->user()->instance_id, function ($query) {
+        //     $query->where('instance_id', auth()->user()->instance_id);
+        // })
+        //     ->where('status', 'pending')->count();
+        // $approvedSppd = Sppd::when(auth()->user()->instance_id, function ($query) {
+        //     $query->where('instance_id', auth()->user()->instance_id);
+        // })
+        //     ->where('status', 'approved')->count();
+        // $rejectedSppd = Sppd::when(auth()->user()->instance_id, function ($query) {
+        //     $query->where('instance_id', auth()->user()->instance_id);
+        // })
+        //     ->where('status', 'rejected')->count();
+        // $completedSppd = Sppd::when(auth()->user()->instance_id, function ($query) {
+        //     $query->where('instance_id', auth()->user()->instance_id);
+        // })
+        //     ->where('status', 'completed')->count();
 
         // Monthly statistics (last 6 months)
-        $monthlySppd = Sppd::when(auth()->user()->instance_id, function ($query) {
+        $monthlySuratPerintah = SuratPerintah::when(auth()->user()->instance_id, function ($query) {
             $query->where('instance_id', auth()->user()->instance_id);
         })
             ->select(
@@ -50,7 +64,7 @@ class Dashboard extends Component
             ->get();
 
         // SPPD by instance
-        $sppdByInstance = Sppd::when(auth()->user()->instance_id, function ($query) {
+        $suratPerintahByInstance = SuratPerintah::when(auth()->user()->instance_id, function ($query) {
             $query->where('instance_id', auth()->user()->instance_id);
         })
             ->select('instance_id', DB::raw('COUNT(*) as total'))
@@ -59,23 +73,33 @@ class Dashboard extends Component
             ->get()
             ->map(function ($item) {
                 return [
-                    'instance_name' => $item->instance ? $item->instance->name : 'Unknown',
+                    'instance_name' => $item->instance ? $item->instance->name : 'BUPATI',
                     'total' => $item->total
                 ];
             });
+
+        $suratPerintahByInstance = $suratPerintahByInstance->sortByDesc('total')->values();
 
         // Recent SPPD with relationships
         $recentSppd = Sppd::when(auth()->user()->instance_id, function ($query) {
             $query->where('instance_id', auth()->user()->instance_id);
         })
-            ->with(['employeeExecutor', 'instance'])
+            ->with(['employeeGiver', 'employeeExecutor', 'instance'])
+            ->latest()
+            ->take(10)
+            ->get();
+
+        $recentSuratPerintah = SuratPerintah::when(auth()->user()->instance_id, function ($query) {
+            $query->where('instance_id', auth()->user()->instance_id);
+        })
+            ->with(['employeeGiver', 'instance'])
             ->latest()
             ->take(10)
             ->get();
 
         // Calculate completion rate
-        $completionRate = $totalSppd > 0 ? round(($completedSppd / $totalSppd) * 100, 1) : 0;
-        $approvalRate = $totalSppd > 0 ? round(($approvedSppd / $totalSppd) * 100, 1) : 0;
+        // $completionRate = $totalSuratPerintah > 0 ? round(($completedSppd / $totalSuratPerintah) * 100, 1) : 0;
+        $approvalRate = $totalSuratPerintah > 0 ? round(($approvedSuratPerintah / $totalSuratPerintah) * 100, 1) : 0;
 
         // Active employees and instances count
         $totalEmployees = Employee::count();
@@ -84,17 +108,22 @@ class Dashboard extends Component
         return view('livewire.dashboard', [
             'stats' => [
                 'total_sppd' => $totalSppd,
-                'pending_sppd' => $pendingSppd,
-                'approved_sppd' => $approvedSppd,
-                'rejected_sppd' => $rejectedSppd,
-                'completed_sppd' => $completedSppd,
+                'total_surat_perintah' => $totalSuratPerintah,
+                'pending_surat_perintah' => $pendingSuratPerintah,
+                'approved_surat_perintah' => $approvedSuratPerintah,
+                'rejected_surat_perintah' => $rejectedSuratPerintah,
+                // 'pending_sppd' => $pendingSppd,
+                // 'approved_sppd' => $approvedSppd,
+                // 'rejected_sppd' => $rejectedSppd,
+                // 'completed_sppd' => $completedSppd,
                 'total_employees' => $totalEmployees,
                 'total_instances' => $totalInstances,
-                'completion_rate' => $completionRate,
+                // 'completion_rate' => $completionRate,
                 'approval_rate' => $approvalRate,
             ],
-            'monthlySppd' => $monthlySppd,
-            'sppdByInstance' => $sppdByInstance,
+            'monthlySuratPerintah' => $monthlySuratPerintah,
+            'suratPerintahByInstance' => $suratPerintahByInstance,
+            'recentSuratPerintah' => $recentSuratPerintah,
             'recentSppd' => $recentSppd,
         ]);
     }

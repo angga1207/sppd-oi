@@ -18,6 +18,7 @@
     <!-- Select2 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
+
     <!-- Select2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
@@ -78,7 +79,7 @@
                                     class="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary to-secondary"></span>
                                 @endif
                             </a>
-                            <a href="{{ route('admin.sppd.index') }}"
+                            {{-- <a href="{{ route('admin.sppd.index') }}"
                                 class="group relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 {{ request()->routeIs('admin.sppd.*') ? 'text-primary' : 'text-gray-600 hover:text-primary' }}">
                                 <span class="relative z-10 flex items-center gap-2">
                                     <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -88,6 +89,38 @@
                                     SPPD
                                 </span>
                                 @if(request()->routeIs('admin.sppd.*'))
+                                <span
+                                    class="absolute inset-0 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-lg"></span>
+                                <span
+                                    class="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary to-secondary"></span>
+                                @endif
+                            </a> --}}
+                            <a href="{{ route('admin.surat-perintah.index') }}"
+                                class="group relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 {{ request()->routeIs('admin.sppd.*') ? 'text-primary' : 'text-gray-600 hover:text-primary' }}">
+                                <span class="relative z-10 flex items-center gap-2">
+                                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                    </svg>
+                                    Surat Perintah
+                                </span>
+                                @if(request()->routeIs('admin.surat-perintah.*'))
+                                <span
+                                    class="absolute inset-0 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-lg"></span>
+                                <span
+                                    class="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary to-secondary"></span>
+                                @endif
+                            </a>
+                            <a href="{{ route('admin.reports.sppd') }}"
+                                class="group relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 {{ request()->routeIs('admin.reports.*') ? 'text-primary' : 'text-gray-600 hover:text-primary' }}">
+                                <span class="relative z-10 flex items-center gap-2">
+                                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                                    </svg>
+                                    Laporan
+                                </span>
+                                @if(request()->routeIs('admin.reports.*'))
                                 <span
                                     class="absolute inset-0 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-lg"></span>
                                 <span
@@ -219,6 +252,22 @@
                         </svg>
                         <span>SPPD</span>
                         @if(request()->routeIs('admin.sppd.*'))
+                        <svg class="h-5 w-5 ml-auto text-primary" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        @endif
+                    </a>
+
+                    <a href="{{ route('admin.reports.sppd') }}"
+                        class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all duration-300 {{ request()->routeIs('admin.reports.*') ? 'bg-gradient-to-r from-primary/10 to-secondary/10 text-primary' : 'text-gray-600 hover:bg-gray-50' }}">
+                        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                        </svg>
+                        <span>Laporan</span>
+                        @if(request()->routeIs('admin.reports.*'))
                         <svg class="h-5 w-5 ml-auto text-primary" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd"
                                 d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"

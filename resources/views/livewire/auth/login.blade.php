@@ -12,9 +12,8 @@
                 Selamat Datang
             </h2>
             <p class="mt-2 text-sm text-gray-600">
-                Sistem Informasi SPPD
+                di Aplikasi Surat Tugas Perjalanan Dinas (SPPD)
             </p>
-            {{ auth()->user()->name ?? 'noname' }}
         </div>
 
         <!-- Login Form -->

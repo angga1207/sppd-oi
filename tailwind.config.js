@@ -11,6 +11,9 @@ export default {
       colors: {
         'primary': '#0C2B4E',      // Deep Navy - Primary color
         'secondary': '#1A3D64',    // Navy Blue - Secondary
+        'success': '#28A745',      // Green - Success
+        'warning': '#FFC107',      // Amber - Warning
+        'danger': '#DC3545',       // Red - Danger
         'accent': '#1D546C',       // Teal Blue - Accent
         'light': '#F4F4F4',        // Light Gray - Background
         'muted': '#5D688A',        // Slate - Muted text

@@ -44,6 +44,7 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('username')->nullable();
+            $table->string('nik')->nullable();
             $table->string('email')->nullable();
             $table->text('image')->nullable();
             $table->timestamp('email_verified_at')->nullable();
