@@ -21,6 +21,7 @@ class User extends Authenticatable
         'image',
         'role_id',
         'instance_id',
+        'employee_id',
         'jabatan',
         'no_hp',
         'password',
@@ -44,6 +45,36 @@ class User extends Authenticatable
         ];
     }
 
+    /**
+     * Boot the model.
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        // static::creating(function ($data) {
+
+        // });
+
+        static::created(function ($data) {
+            // connect to employee table nip = user.username
+            $employee = Employee::where('nip', $data->username)->first();
+            if ($employee) {
+                $data->employee_id = $employee->id;
+                $data->save();
+            }
+        });
+
+        // static::updated(function ($data) {
+        //     // connect to employee table nip = user.username
+        //     $employee = Employee::where('nip', $data->username)->first();
+        //     if ($employee) {
+        //         $data->employee_id = $employee->id;
+        //         $data->save();
+        //     }
+        // });
+    }
+
     public function createdSppds(): HasMany
     {
         return $this->hasMany(Sppd::class, 'created_by');
@@ -65,6 +96,16 @@ class User extends Authenticatable
     public function canBeImpersonated(): bool
     {
         return true;
+    }
+
+    public function instace()
+    {
+        return $this->belongsTo(Instance::class);
+    }
+
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class);
     }
 
     /**

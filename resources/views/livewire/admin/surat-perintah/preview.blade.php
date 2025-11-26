@@ -22,15 +22,25 @@
 
 
         <div class="card p-6">
-            <h3 class="text-xl font-bold text-navy flex items-center gap-2 p-4">
-                Preview Surat Perintah Tugas
-            </h3>
+            <div class="flex sm:items-center sm:justify-between flex-col sm:flex-row gap-2 p-4">
+                <h3 class="text-xl font-bold text-navy flex items-center gap-2">
+                    Preview Surat Perintah Tugas
+                </h3>
+
+                <div class="flex gap-2">
+                    <button type="button" class="btn-sm btn-success" wire:click="downloadSuratPerintah">
+                        <x-heroicon-o-cloud-arrow-down class="w-4 h-4 mr-1" />
+                        Unduh Surat Perintah Tugas
+                    </button>
+                </div>
+            </div>
 
             <div class="mt-4 border border-navy rounded-xl p-4 pb-10 bg-white shadow-lg relative select-none">
                 <div
                     class="w-full h-full absolute top-0 left-0 bg-slate-400/20 flex items-center justify-center text-navy/50 text-4xl font-bold z-10 select-none pointer-events-none">
                     <span class="transform -rotate-45 text-center">PREVIEW SURAT PERINTAH TUGAS</span>
                 </div>
+
                 <h3 class="text-center m-0 underline text-2xl font-semibold">
                     SURAT PERINTAH TUGAS
                 </h3>
@@ -190,17 +200,18 @@
 
                             </div>
                             <div class="whitespace-nowrap font-bold">
-                                {{ $previewData->employeeGiver->nama_lengkap ?? 'N/A' }}
+                                {{ $previewData->publicationEmployee->nama_lengkap ?? 'N/A' }}
                             </div>
-                            @if($previewData->employeeGiver->pangkat && $previewData->employeeGiver->golongan)
+                            @if($previewData->publicationEmployee->pangkat &&
+                            $previewData->publicationEmployee->golongan)
                             <div class="whitespace-nowrap">
-                                {{ $previewData->employeeGiver->pangkat }}
-                                ({{ $previewData->employeeGiver->golongan }})
+                                {{ $previewData->publicationEmployee->pangkat }}
+                                ({{ $previewData->publicationEmployee->golongan }})
                             </div>
                             @endif
                             <div class="whitespace-nowrap">
-                                @if($previewData->employeeGiver->nip != '1000')
-                                NIP : {{ $previewData->employeeGiver->nip }}
+                                @if($previewData->publicationEmployee->nip != '1000')
+                                NIP : {{ $previewData->publicationEmployee->nip }}
                                 @else
                                 BUPATI KABUPATEN OGAN ILIR
                                 @endif

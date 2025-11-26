@@ -87,6 +87,21 @@ class SuratPerintah extends Model
                 $data->lama_perjalanan = Carbon::parse($data->tanggal_berangkat)->diffInDays(Carbon::parse($data->tanggal_pulang)) + 1;
             }
             $data->created_by = auth()->id() ?? null;
+
+            // Set default status
+            if (empty($data->status)) {
+                $data->status = 'draft';
+            }
+        });
+
+        static::created(function ($data) {
+            // Create initial status log
+            StatusSuratLog::create([
+                'type' => 'surat_perintah',
+                'reference_id' => $data->id,
+                'new_status' => $data->status,
+                'keterangan' => 'Surat Perintah Perjalanan Dinas dibuat',
+            ]);
         });
 
         static::updating(function ($data) {
@@ -139,6 +154,11 @@ class SuratPerintah extends Model
     public function statusLogs()
     {
         return $this->hasMany(StatusSuratLog::class, 'reference_id')->where('type', 'surat_perintah')->orderBy('created_at', 'desc');
+    }
+
+    public function lastStatusLog()
+    {
+        return $this->hasOne(StatusSuratLog::class, 'reference_id')->where('type', 'surat_perintah')->latestOfMany();
     }
 
     public function tteRecord()

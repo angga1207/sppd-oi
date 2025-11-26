@@ -176,7 +176,7 @@
     }
 
     .badge-primary {
-        @apply badge bg-primary/10 text-primary;
+        @apply badge bg-primary text-white;
     }
 
     .badge-success {

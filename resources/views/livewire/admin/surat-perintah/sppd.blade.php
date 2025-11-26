@@ -343,6 +343,8 @@ use App\Models\SPPD;
                                                     <x-heroicon-o-pencil-square class="w-5 h-5 text-blue-500" />
                                                 </a>
 
+                                                @if($dataSuratPerintah->status == 'draft' && auth()->user()->id ==
+                                                $dataSuratPerintah->created_by)
                                                 <!-- Delete Button -->
                                                 <button wire:click="deleteSppd({{ $sppd->id }})"
                                                     wire:confirm="Apakah Anda yakin ingin menghapus SPPD ini?"
@@ -350,9 +352,10 @@ use App\Models\SPPD;
                                                     data-tippy-content="Hapus SPPD">
                                                     <x-heroicon-o-trash class="w-5 h-5 text-red-500" />
                                                 </button>
+                                                @endif
 
                                                 <!-- Status Actions -->
-                                                @if(in_array(auth()->user()->role_id, [1,2]) && $sppd->status ===
+                                                {{-- @if(in_array(auth()->user()->role_id, [1,2]) && $sppd->status ===
                                                 'draft')
                                                 <button wire:click="updateStatus({{ $sppd->id }}, 'approved')"
                                                     class="action-btn p-2 text-green-600 hover:bg-green-50 rounded-lg transition duration-150"
@@ -374,7 +377,7 @@ use App\Models\SPPD;
                                                             d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                                     </svg>
                                                 </button>
-                                                @endif
+                                                @endif --}}
                                             </div>
                                         </div>
                                     </div>
@@ -388,6 +391,9 @@ use App\Models\SPPD;
                                             </div>
                                             <div class="text-xs text-muted whitespace-nowrap">
                                                 NIP: {{ $sppd->employeeExecutor->nip ?? '-' }}
+                                            </div>
+                                            <div class="text-xs text-gray-700 max-w-xs">
+                                                {{ $sppd->employeeExecutor->instance->name ?? '-' }}
                                             </div>
                                         </div>
                                     </div>

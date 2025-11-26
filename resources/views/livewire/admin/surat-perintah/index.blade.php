@@ -208,7 +208,7 @@
                                                 <x-heroicon-o-users class="w-5 h-5 text-blue-500" />
                                             </a>
 
-                                            @if($data->status === 'draft')
+                                            @if($data->status == 'draft' && auth()->user()->id == $data->created_by)
                                             <!-- Delete Button -->
                                             <button wire:click="deleteSppd({{ $data->id }})"
                                                 wire:confirm="Apakah Anda yakin ingin menghapus Surat Perintah ini?"

@@ -40,6 +40,42 @@ return new class extends Migration
             $table->timestamps();
         });
 
+        Schema::create('employees', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->bigInteger('semesta_id');
+            $table->string('nama_lengkap');
+            $table->string('nip');
+            $table->string('jenis_pegawai');
+            $table->foreignId('instance_id')
+                ->nullable()
+                ->constrained('instances')
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
+            $table->integer('id_skpd')->nullable();
+            $table->integer('id_jabatan')->nullable();
+            $table->string('jabatan')->nullable();
+            $table->string('kepala_skpd')->nullable();
+            $table->text('foto_pegawai')->nullable();
+            $table->string('email')->nullable();
+            $table->string('no_hp')->nullable();
+            $table->string('eselon')->nullable();
+            $table->string('golongan')->nullable();
+            $table->string('pangkat')->nullable();
+            $table->json('ref_jabatan_baru')->nullable();
+
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index([
+                'semesta_id',
+                'nip',
+                'instance_id',
+                'id_skpd',
+                'id_jabatan',
+                'jabatan',
+            ]);
+        });
+
         Schema::create('users', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
@@ -55,6 +91,11 @@ return new class extends Migration
             $table->foreignId('instance_id')
                 ->nullable()
                 ->constrained('instances')
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
+            $table->foreignId('employee_id')
+                ->nullable()
+                ->constrained('employees')
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
             $table->string('jabatan')->nullable();
@@ -88,6 +129,7 @@ return new class extends Migration
         Schema::dropIfExists('sessions');
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('users');
+        Schema::dropIfExists('employees');
         Schema::dropIfExists('roles');
         Schema::dropIfExists('instances');
     }

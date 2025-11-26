@@ -65,13 +65,13 @@ class Preview extends Component
 
             'publication_place' => $sppd->publication_place,
             'publication_date' => Carbon::parse($sppd->publication_date)->isoFormat('D MMMM Y'),
-            'issued_name' => $sppd->employeeGiver ? $sppd->employeeGiver->nama_lengkap : '',
-            'issued_nip' => $sppd->employeeGiver ? $sppd->employeeGiver->nip : '',
-            'issued_pangkat' => $sppd->employeeGiver ? $sppd->employeeGiver->pangkat : '',
-            'issued_golongan' => $sppd->employeeGiver ? $sppd->employeeGiver->golongan : '',
-            'issued_jabatan' => $sppd->employeeGiver ? $sppd->employeeGiver->jabatan : '',
-            'issued_jabatan_title' => $sppd->employeeGiver ? (str_contains(strtolower($sppd->employeeGiver->jabatan), 'kepala dinas') ? 'KEPALA DINAS' : '') : '',
-            'issued_instance_name' => $sppd->employeeGiver && $sppd->employeeGiver->instance ? $sppd->employeeGiver->instance->name : '',
+            'issued_name' => $sppd->publicationEmployee ? $sppd->publicationEmployee->nama_lengkap : '',
+            'issued_nip' => $sppd->publicationEmployee ? $sppd->publicationEmployee->nip : '',
+            'issued_pangkat' => $sppd->publicationEmployee ? $sppd->publicationEmployee->pangkat : '',
+            'issued_golongan' => $sppd->publicationEmployee ? $sppd->publicationEmployee->golongan : '',
+            'issued_jabatan' => $sppd->publicationEmployee ? $sppd->publicationEmployee->jabatan : '',
+            'issued_jabatan_title' => $sppd->publicationEmployee ? (str_contains(strtolower($sppd->publicationEmployee->jabatan), 'kepala dinas') ? 'KEPALA DINAS' : '') : '',
+            'issued_instance_name' => $sppd->publicationEmployee && $sppd->publicationEmployee->instance ? $sppd->publicationEmployee->instance->name : '',
         ];
     }
 

@@ -245,13 +245,14 @@ class Sppd extends Component
         if ($this->selectedEmployee && $this->selectedEmployee['nip']) {
             // FOR ORIGINAL OFFICER DATA
             $employee = Employee::where('nip', $this->selectedEmployee['nip'])->first();
+            $instance = Instance::where('id_eoffice',$this->selectedEmployee['id_skpd'] ?? null)->first();
             if (!$employee) {
                 $employee = Employee::create([
                     'semesta_id' => $this->selectedEmployee['id'],
                     'nama_lengkap' => $this->selectedEmployee['nama_lengkap'] ?? '',
                     'nip' => $this->selectedEmployee['nip'] ?? '',
                     'jenis_pegawai' => $this->selectedEmployee['jenis_pegawai'] ?? '',
-                    'instance_id' => $this->dataSuratPerintah->instance_id,
+                    'instance_id' => $instance ? $instance->id : $this->dataSuratPerintah->instance_id,
                     'id_skpd' => $this->selectedEmployee['id_skpd'] ?? null,
                     'id_jabatan' => $this->selectedEmployee['id_jabatan'] ?? null,
                     'jabatan' => $this->selectedEmployee['jabatan'] ?? '',
@@ -313,10 +314,10 @@ class Sppd extends Component
             'uraian_rekening' => '',
             'anggaran_rekening' => 0,
             'keterangan_lain' => '',
-            'publication_date' => null,
-            'publication_place' => '',
-            'publication_employee_id' => null,
-            'status' => 'approved', // approved, rejected, draft
+            'publication_date' => $this->dataSuratPerintah->publication_date,
+            'publication_place' => $this->dataSuratPerintah->publication_place,
+            'publication_employee_id' => $this->dataSuratPerintah->publication_employee_id,
+            'status' => 'draft', // approved, rejected, draft
             'created_by' => auth()->user()->id,
         ];
 
@@ -351,6 +352,56 @@ class Sppd extends Component
             dd($e->getMessage());
             LivewireAlert::title('Gagal')
                 ->text('Gagal menambahkan pegawai ke SPPD: ' . $e->getMessage())
+                ->position('top-end')
+                ->timer(5000)
+                ->error()
+                ->toast()
+                ->show();
+        }
+    }
+
+    public function deleteSppd($sppdId)
+    {
+        if($this->dataSuratPerintah->status == 'approved') {
+            LivewireAlert::title('Gagal')
+                ->text('SPPD tidak dapat dihapus karena Surat Perintah sudah ditandatangani')
+                ->position('top-end')
+                ->timer(3000)
+                ->error()
+                ->toast()
+                ->show();
+            return;
+        }
+        $sppd = ModelsSPPD::find($sppdId);
+        if (!$sppd) {
+            LivewireAlert::title('Gagal')
+                ->text('SPPD tidak ditemukan')
+                ->position('top-end')
+                ->timer(3000)
+                ->error()
+                ->toast()
+                ->show();
+            return;
+        }
+
+        DB::beginTransaction();
+        try {
+            $sppd->delete();
+            DB::commit();
+            LivewireAlert::title('Berhasil')
+                ->text('SPPD berhasil dihapus')
+                ->position('top-end')
+                ->timer(3000)
+                ->success()
+                ->toast()
+                ->show();
+
+            // Reload SPPD list
+            $this->loadSppds();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            LivewireAlert::title('Gagal')
+                ->text('Gagal menghapus SPPD: ' . $e->getMessage())
                 ->position('top-end')
                 ->timer(5000)
                 ->error()

@@ -14,6 +14,10 @@ Route::middleware(['web', App\Http\Middleware\RedirectIfAuthenticated::class])->
     // Home page
     Route::get('/', Home::class)->name('home');
 
+    // Scan QR Code page
+    Route::get('/spt/{id}', \App\Livewire\Public\Scan\Detail::class)->name('scan.spt');
+    Route::get('/sppd/{id}', \App\Livewire\Public\Scan\Detail::class)->name('scan.sppd');
+
     // Login
     Route::get('/login', Login::class)->name('login');
 });

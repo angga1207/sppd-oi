@@ -37,6 +37,36 @@ class Employee extends Model
         'deleted_at',
     ];
 
+    /**
+     * Boot the model.
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        // static::creating(function ($data) {
+
+        // });
+
+        static::created(function ($data) {
+            // connect to user table nip = user.username
+            $user = User::where('username', $data->nip)->first();
+            if ($user) {
+                $user->employee_id = $data->id;
+                $user->save();
+            }
+        });
+
+        // static::updated(function ($data) {
+        //     // connect to user table nip = user.username
+        //     $user = User::where('username', $data->nip)->first();
+        //     if ($user) {
+        //         $user->employee_id = $data->id;
+        //         $user->save();
+        //     }
+        // });
+    }
+
     public static function getTingkatBiayaOptions()
     {
         return [

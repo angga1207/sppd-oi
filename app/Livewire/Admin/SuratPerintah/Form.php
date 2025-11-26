@@ -173,6 +173,10 @@ class Form extends Component
             $this->isViewOnly = true;
         }
 
+        if($this->isEdit == true && auth()->user()->id != $data->created_by){
+            $this->isViewOnly = true;
+        }
+
         // check if $data->alat_angkutan has no value at $this->alatAngkutOptions array, then push it to the array
         if ($data->alat_angkutan && !in_array($data->alat_angkutan, array_column($this->alatAngkutOptions, 'value'))) {
             $this->alatAngkutOptions[] = $data->alat_angkutan;
@@ -580,6 +584,7 @@ class Form extends Component
 
             $data = $this->dataSuratPerintah;
             $data['employee_giver_id'] = $employeeOfficer->id ?? null;
+            $data['publication_employee_id'] = $employeeOfficer->id ?? null;
             if ($this->isEdit) {
                 // update existing surat perintah
                 $suratPerintah = SuratPerintah::find($this->dataId);
@@ -635,6 +640,7 @@ class Form extends Component
 
                 'publication_place' => $this->dataSuratPerintah['publication_place'],
                 'publication_date' => $this->dataSuratPerintah['publication_date'],
+                'publication_employee_id' => $this->dataSuratPerintah['publication_employee_id'],
 
                 'province_id' => $this->dataSuratPerintah['province_id'],
                 'regency_id' => $this->dataSuratPerintah['regency_id'],

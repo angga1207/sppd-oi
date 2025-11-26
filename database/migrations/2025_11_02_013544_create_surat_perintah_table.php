@@ -11,42 +11,6 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('employees', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->bigInteger('semesta_id');
-            $table->string('nama_lengkap');
-            $table->string('nip');
-            $table->string('jenis_pegawai');
-            $table->foreignId('instance_id')
-                ->nullable()
-                ->constrained('instances')
-                ->cascadeOnDelete()
-                ->cascadeOnUpdate();
-            $table->integer('id_skpd')->nullable();
-            $table->integer('id_jabatan')->nullable();
-            $table->string('jabatan')->nullable();
-            $table->string('kepala_skpd')->nullable();
-            $table->text('foto_pegawai')->nullable();
-            $table->string('email')->nullable();
-            $table->string('no_hp')->nullable();
-            $table->string('eselon')->nullable();
-            $table->string('golongan')->nullable();
-            $table->string('pangkat')->nullable();
-            $table->json('ref_jabatan_baru')->nullable();
-
-            $table->timestamps();
-            $table->softDeletes();
-
-            $table->index([
-                'semesta_id',
-                'nip',
-                'instance_id',
-                'id_skpd',
-                'id_jabatan',
-                'jabatan',
-            ]);
-        });
-
         Schema::create('surat_perintah', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('uuid')->unique();
@@ -145,6 +109,5 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('surat_perintah');
-        Schema::dropIfExists('employees');
     }
 };
