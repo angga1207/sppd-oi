@@ -112,6 +112,9 @@ class MobileSPTResource extends JsonResource
             'dasar' => $this->dasar ? $this->convertHtmlListToText($this->dasar) : null,
             'tujuan' => $this->tujuan ? $this->convertHtmlListToText($this->tujuan) : null,
             'status' => $this->status,
+            'file_pdf' => $this->file_pdf ? asset('storage/surat_perintah_tugas/' . $this->file_pdf) : null,
+            'file_pdf_signed' => $this->file_pdf_signed ? asset('storage/surat_perintah_tugas_sign/' . $this->file_pdf_signed) : null,
+            'tanggal_tte' => $this->tanggal_tte,
 
             'Instansi' => [
                 'nama' => $this->instance ? $this->instance->name : null,

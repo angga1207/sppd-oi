@@ -129,6 +129,9 @@ class MobileSPPDResource extends JsonResource
 
             'keterangan_lain' => $this->keterangan_lain,
             'status' => $this->status,
+            'file_pdf' => $this->file_pdf ? asset('storage/sppd/' . $this->file_pdf) : null,
+            'file_pdf_signed' => $this->file_pdf_signed ? asset('storage/sppd_sign/' . $this->file_pdf_signed) : null,
+            'tanggal_tte' => $this->tanggal_tte,
 
             'PejabatPemberiPerintah' => [
                 'semesta_id' => $this->employeeGiver->semesta_id,
