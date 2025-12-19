@@ -48,7 +48,7 @@ Route::middleware(['web', 'auth'])
             Route::get('/', \App\Livewire\Admin\SuratPerintah\Index::class)->name('index');
             Route::get('/create', \App\Livewire\Admin\SuratPerintah\Form::class)->name('create');
             Route::get('/{id}/edit', \App\Livewire\Admin\SuratPerintah\Form::class)->name('edit');
-            Route::get('/{id}/sppd', \App\Livewire\Admin\SuratPerintah\SPPD::class)->name('sppd');
+            Route::get('/{id}/sppd', \App\Livewire\Admin\SuratPerintah\Sppd::class)->name('sppd');
             Route::get('/{id}/preview', \App\Livewire\Admin\SuratPerintah\Preview::class)->name('preview');
             Route::get('/{id}/logs', \App\Livewire\Admin\SuratPerintah\Logs::class)->name('logs');
         });
