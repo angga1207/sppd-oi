@@ -551,8 +551,39 @@ class Form extends Component
         // $this->dispatch('select2:refresh');
     }
 
-    public function submitForm($type = null)
+    public function confirmSubmitForm($type = null)
     {
+        if ($type == 'with_sppd') {
+            LivewireAlert::title('Lanjut Ke SPPD?')
+                ->text('Apakah Anda ingin menyimpan data Surat Perintah Tugas ini dengan menambahkan SPPD?')
+                ->warning()
+                ->withConfirmButton('Ya, Lanjutkan!')
+                ->withCancelButton('Batal')
+                ->onConfirm('submitForm', ['type' => 'with_sppd'])
+                ->timer(0)
+                ->show();
+        } else {
+            LivewireAlert::title('Konfirmasi Simpan?')
+                ->text('Apakah Anda yakin ingin menyimpan data Surat Perintah Tugas ini?')
+                ->warning()
+                ->withConfirmButton('Ya, Simpan!')
+                ->withCancelButton('Batal')
+                ->onConfirm('submitForm', ['type' => 'without_sppd'])
+                ->timer(0)
+                ->show();
+        }
+    }
+
+    public function submitForm($params = null)
+    {
+        if ($params['type'] == 'with_sppd') {
+            $this->isWithSppd = true;
+            $type = 'with_sppd';
+        } else {
+            $this->isWithSppd = false;
+            $type = null;
+        }
+
         if ($this->isViewOnly) {
             LivewireAlert::title('Peringatan')
                 ->text('Surat Perintah sudah ditandatangani dan tidak dapat diubah.')

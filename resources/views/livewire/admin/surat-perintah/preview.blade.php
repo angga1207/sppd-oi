@@ -107,188 +107,201 @@
                         @endif
                     </div>
 
-                    <div class="mt-4 border border-navy rounded-xl p-4 pb-10 bg-white shadow-lg relative select-none">
-                        <div
-                            class="w-full h-full absolute top-0 left-0 bg-slate-400/20 rounded-xl flex items-center justify-center text-navy/50 text-4xl font-bold z-10 select-none pointer-events-none">
-                            <span class="transform -rotate-45 text-center">PREVIEW SURAT PERINTAH TUGAS</span>
+                    @if ($previewData->status === 'approved')
+                        {{-- <div
+                            class="mb-4 p-4 bg-green-100 border border-green-300 rounded-lg text-green-800 flex items-center gap-2">
+                            <x-heroicon-o-check-circle class="w-6 h-6" />
+                            Surat Perintah Tugas ini telah ditandatangani secara digital dan dapat diunduh.
+                        </div> --}}
+                        <div class="mt-4 border border-navy rounded-xl p-4 pb-10 bg-white shadow-lg relative">
+                            <iframe src="{{ asset('storage/surat_perintah_tugas_sign/' . $previewData['file_pdf_signed']) }}"
+                                class="w-full h-[800px] rounded-xl border border-navy"></iframe>
                         </div>
+                    @else
+                        <div
+                            class="mt-4 border border-navy rounded-xl p-4 pb-10 bg-white shadow-lg relative select-none">
+                            <div
+                                class="w-full h-full absolute top-0 left-0 bg-slate-400/20 rounded-xl flex items-center justify-center text-navy/50 text-4xl font-bold z-10 select-none pointer-events-none">
+                                <span class="transform -rotate-45 text-center">PREVIEW SURAT PERINTAH TUGAS</span>
+                            </div>
 
-                        <h3 class="text-center m-0 underline text-2xl font-semibold">
-                            SURAT PERINTAH TUGAS
-                        </h3>
-                        <p class="uppercase text-center m-0 font-semibold text-xl">
-                            NOMOR : {{ $previewData['nomor_surat'] }}
-                        </p>
+                            <h3 class="text-center m-0 underline text-2xl font-semibold">
+                                SURAT PERINTAH TUGAS
+                            </h3>
+                            <p class="uppercase text-center m-0 font-semibold text-xl">
+                                NOMOR : {{ $previewData['nomor_surat'] }}
+                            </p>
 
 
-                        <table class="w-full">
-                            <tbody class="w-full !align-top">
+                            <table class="w-full">
+                                <tbody class="w-full !align-top">
 
-                                <tr>
-                                    <td class="w-[150px] p-4">
-                                        Dasar
-                                    </td>
-                                    <td class="!w-[1px] !max-w-[1px] px-1 py-4">
-                                        :
-                                    </td>
-                                    <td class="min-w-[300px] p-4">
-                                        {!! $previewData['dasar'] !!}
-                                    </td>
-                                </tr>
-
-                                @if ($previewData->sppds->count() > 0)
                                     <tr>
-                                        <td colspan="3" class="p-4 text-center">
-                                            MEMERINTAHKAN
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="p-4">
-                                            Kepada
+                                        <td class="w-[150px] p-4">
+                                            Dasar
                                         </td>
                                         <td class="!w-[1px] !max-w-[1px] px-1 py-4">
                                             :
                                         </td>
-                                        <td class="p-4">
-                                            <ul class="list-decimal list-inside">
-                                                @foreach ($previewData->sppds as $sppd)
-                                                    <li class="flex items-start gap-2 mb-8">
-                                                        <div>
-                                                            <table>
-                                                                <tbody>
-
-                                                                    <tr>
-                                                                        <td class="w-[100px]">
-                                                                            Nama
-                                                                        </td>
-                                                                        <td class="w-[0px] px-2">
-                                                                            :
-                                                                        </td>
-                                                                        <td>
-                                                                            {{ $sppd->employeeExecutor->nama_lengkap ?? 'N/A' }}
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>
-                                                                            NIP
-                                                                        </td>
-                                                                        <td class="px-2">
-                                                                            :
-                                                                        </td>
-                                                                        <td>
-                                                                            {{ $sppd->employeeExecutor->nip ?? 'N/A' }}
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>
-                                                                            Pangkat/Gol
-                                                                        </td>
-                                                                        <td class="px-2">
-                                                                            :
-                                                                        </td>
-                                                                        <td>
-                                                                            @if ($sppd->employeeExecutor->pangkat && $sppd->employeeExecutor->golongan)
-                                                                                {{ $sppd->employeeExecutor->pangkat }}
-                                                                                ({{ $sppd->employeeExecutor->golongan }})
-                                                                            @else
-                                                                                N/A
-                                                                            @endif
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>
-                                                                            Jabatan
-                                                                        </td>
-                                                                        <td class="px-2">
-                                                                            :
-                                                                        </td>
-                                                                        <td>
-                                                                            {{ $sppd->employeeExecutor->jabatan ?? 'N/A' }}
-                                                                        </td>
-                                                                    </tr>
-
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </li>
-                                                @endforeach
-                                            </ul>
+                                        <td class="min-w-[300px] p-4">
+                                            {!! $previewData['dasar'] !!}
                                         </td>
                                     </tr>
-                                @endif
 
-                                <tr>
-                                    <td class="w-[150px] p-4">
-                                        Untuk
-                                    </td>
-                                    <td class="!w-[1px] !max-w-[1px] px-1 py-4">
-                                        :
-                                    </td>
-                                    <td class="min-w-[300px] p-4">
-                                        {!! $previewData['tujuan'] !!}
-                                    </td>
-                                </tr>
-
-                            </tbody>
-                        </table>
-
-
-                        <div class="mt-8 flex items-center justify-center sm:justify-end">
-                            <div class="flex flex-col items-center">
-                                <table>
-                                    <tbody>
-                                        <tr class="whitespace-nowrap">
-                                            <td>
-                                                Ditetapkan di
-                                            </td>
-                                            <td class="px-3">: </td>
-                                            <td>
-                                                {{ $previewData['publication_place'] ?? 'N/A' }}
+                                    @if ($previewData->sppds->count() > 0)
+                                        <tr>
+                                            <td colspan="3" class="p-4 text-center">
+                                                MEMERINTAHKAN
                                             </td>
                                         </tr>
-                                        <tr class="whitespace-nowrap">
-                                            <td>
-                                                Pada tanggal
+                                        <tr>
+                                            <td class="p-4">
+                                                Kepada
                                             </td>
-                                            <td class="px-3">: </td>
-                                            <td>
-                                                {{ Carbon\Carbon::parse($previewData['publication_date'])->isoFormat('D MMMM Y') ?? 'N/A' }}
+                                            <td class="!w-[1px] !max-w-[1px] px-1 py-4">
+                                                :
+                                            </td>
+                                            <td class="p-4">
+                                                <ul class="list-decimal list-inside">
+                                                    @foreach ($previewData->sppds as $sppd)
+                                                        <li class="flex items-start gap-2 mb-8">
+                                                            <div>
+                                                                <table>
+                                                                    <tbody>
+
+                                                                        <tr>
+                                                                            <td class="w-[100px]">
+                                                                                Nama
+                                                                            </td>
+                                                                            <td class="w-[0px] px-2">
+                                                                                :
+                                                                            </td>
+                                                                            <td>
+                                                                                {{ $sppd->employeeExecutor->nama_lengkap ?? 'N/A' }}
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>
+                                                                                NIP
+                                                                            </td>
+                                                                            <td class="px-2">
+                                                                                :
+                                                                            </td>
+                                                                            <td>
+                                                                                {{ $sppd->employeeExecutor->nip ?? 'N/A' }}
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>
+                                                                                Pangkat/Gol
+                                                                            </td>
+                                                                            <td class="px-2">
+                                                                                :
+                                                                            </td>
+                                                                            <td>
+                                                                                @if ($sppd->employeeExecutor->pangkat && $sppd->employeeExecutor->golongan)
+                                                                                    {{ $sppd->employeeExecutor->pangkat }}
+                                                                                    ({{ $sppd->employeeExecutor->golongan }})
+                                                                                @else
+                                                                                    N/A
+                                                                                @endif
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>
+                                                                                Jabatan
+                                                                            </td>
+                                                                            <td class="px-2">
+                                                                                :
+                                                                            </td>
+                                                                            <td>
+                                                                                {{ $sppd->employeeExecutor->jabatan ?? 'N/A' }}
+                                                                            </td>
+                                                                        </tr>
+
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
                                             </td>
                                         </tr>
-                                    </tbody>
-                                </table>
-
-                                <div class="text-center">
-                                    <div class="text-lg font-bold mt-4 whitespace-nowrap">
-                                        @if ($previewData['issued_nip'] != '1000')
-                                            {{ $previewData['issued_jabatan_title'] }}
-                                        @elseif($previewData['issued_nip'] == '1000')
-                                            {{ $previewData['issued_jabatan'] }}
-                                        @endif
-                                    </div>
-                                    <div class="h-[75px]">
-
-                                    </div>
-                                    <div class="whitespace-nowrap font-bold">
-                                        {{ $previewData->publicationEmployee->nama_lengkap ?? 'N/A' }}
-                                    </div>
-                                    @if ($previewData->publicationEmployee->pangkat && $previewData->publicationEmployee->golongan)
-                                        <div class="whitespace-nowrap">
-                                            {{ $previewData->publicationEmployee->pangkat }}
-                                            ({{ $previewData->publicationEmployee->golongan }})
-                                        </div>
                                     @endif
-                                    <div class="whitespace-nowrap">
-                                        @if ($previewData->publicationEmployee->nip != '1000')
-                                            NIP : {{ $previewData->publicationEmployee->nip }}
-                                        @else
-                                            BUPATI KABUPATEN OGAN ILIR
+
+                                    <tr>
+                                        <td class="w-[150px] p-4">
+                                            Untuk
+                                        </td>
+                                        <td class="!w-[1px] !max-w-[1px] px-1 py-4">
+                                            :
+                                        </td>
+                                        <td class="min-w-[300px] p-4">
+                                            {!! $previewData['tujuan'] !!}
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+
+
+                            <div class="mt-8 flex items-center justify-center sm:justify-end">
+                                <div class="flex flex-col items-center">
+                                    <table>
+                                        <tbody>
+                                            <tr class="whitespace-nowrap">
+                                                <td>
+                                                    Ditetapkan di
+                                                </td>
+                                                <td class="px-3">: </td>
+                                                <td>
+                                                    {{ $previewData['publication_place'] ?? 'N/A' }}
+                                                </td>
+                                            </tr>
+                                            <tr class="whitespace-nowrap">
+                                                <td>
+                                                    Pada tanggal
+                                                </td>
+                                                <td class="px-3">: </td>
+                                                <td>
+                                                    {{ Carbon\Carbon::parse($previewData['publication_date'])->isoFormat('D MMMM Y') ?? 'N/A' }}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <div class="text-center">
+                                        <div class="text-lg font-bold mt-4 whitespace-nowrap">
+                                            @if ($previewData['issued_nip'] != '1000')
+                                                {{ $previewData['issued_jabatan_title'] }}
+                                            @elseif($previewData['issued_nip'] == '1000')
+                                                {{ $previewData['issued_jabatan'] }}
+                                            @endif
+                                        </div>
+                                        <div class="h-[75px]">
+
+                                        </div>
+                                        <div class="whitespace-nowrap font-bold">
+                                            {{ $previewData->publicationEmployee->nama_lengkap ?? 'N/A' }}
+                                        </div>
+                                        @if ($previewData->publicationEmployee->pangkat && $previewData->publicationEmployee->golongan)
+                                            <div class="whitespace-nowrap">
+                                                {{ $previewData->publicationEmployee->pangkat }}
+                                                ({{ $previewData->publicationEmployee->golongan }})
+                                            </div>
                                         @endif
+                                        <div class="whitespace-nowrap">
+                                            @if ($previewData->publicationEmployee->nip != '1000')
+                                                NIP : {{ $previewData->publicationEmployee->nip }}
+                                            @else
+                                                BUPATI KABUPATEN OGAN ILIR
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    @endif
                 </div>
             @elseif($prevType == 'sppd')
                 <div class="p-6 pt-0">

@@ -635,7 +635,7 @@
                                 class="flex items-center justify-center sm:justify-end flex-wrap gap-3 whitespace-nowrap">
                                 @if (!$isEdit)
                                     @if ($isWithSppd)
-                                        <button type="button" wire:click="submitForm('with_sppd')"
+                                        <button type="button" wire:click="confirmSubmitForm('with_sppd')"
                                             wire:loading.attr="disabled" class="btn-primary">
                                             <span wire:loading.remove wire:target="submitForm('with_sppd')">
                                                 Buat Surat Perintah Tugas Dengan SPPD
@@ -652,7 +652,7 @@
                                             </span>
                                         </button>
                                     @else
-                                        <button type="button" wire:click="submitForm()" wire:loading.attr="disabled"
+                                        <button type="button" wire:click="confirmSubmitForm()" wire:loading.attr="disabled"
                                             class="btn-primary">
                                             <span wire:loading.remove wire:target="submitForm()">
                                                 Buat Surat Perintah Tugas

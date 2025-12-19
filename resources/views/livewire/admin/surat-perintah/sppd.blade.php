@@ -483,16 +483,13 @@ use App\Models\SPPD;
                                     </p>
                                 @endif
                             </div>
-                            {{-- <div>
-                                <a href="{{ route('admin.surat-perintah.index') }}"
+                            <div>
+                                <a href="{{ route('admin.surat-perintah.preview', ['id' => $this->dataSuratPerintah->id]) }}"
                                     class="px-4 py-2 btn-primary whitespace-nowrap">
-                                    Kembali Ke Daftar Surat Perintah
-                                    <svg class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M9 5l7 7-7 7" />
-                                    </svg>
+                                    Lanjut ke Preview
+                                    <x-heroicon-o-arrow-right class="w-5 h-5 ml-2" />
                                 </a>
-                            </div> --}}
+                            </div>
                         </div>
                     </div>
                 @endif

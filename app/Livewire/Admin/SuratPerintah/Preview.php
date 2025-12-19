@@ -544,13 +544,7 @@ class Preview extends Component
         $templateProcessor->setValue('uraian_rekening', $DataSPPD['uraian_rekening'] ?? '-');
         $templateProcessor->setValue('keterangan_lain', $DataSPPD['keterangan_lain'] ?? '-');
 
-        // Convert HTML lists to Word-compatible format
-        // $dasar = $this->ConvertHtmlListToText($DataSPPD['dasar'] ?? '');
-
-        // $templateProcessor->setValue('dasar', $dasar);
-
-        // $templateProcessor->setValue('tanggal_surat', $DataSPPD['publication_date'] ? Carbon::parse($DataSPPD['publication_date'])->isoFormat('D MMMM Y') : '-');
-        $templateProcessor->setValue('tanggal_surat', $DataSPPD['publication_date'] ?? '-');
+        $templateProcessor->setValue('tanggal_surat', $DataSPPD['publication_date'] ? Carbon::parse($DataSPPD['publication_date'])->isoFormat('D MMMM Y') : '-');
 
         $templateProcessor->setValue('nama_penandatangan', $penandaTangan->nama_lengkap ?? '-');
         $templateProcessor->setValue('nip_penandatangan', $penandaTangan->nip ?? '-');
