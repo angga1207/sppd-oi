@@ -120,6 +120,10 @@ class Login extends Component
                             'no_hp' => $data['atribut_user']['no_hp'] ?? null,
                             'password' => bcrypt($this->password),
                         ]);
+                    } else {
+                        // Update existing user's password
+                        $user->password = bcrypt($this->password);
+                        $user->save();
                     }
                     // Login the user
                     Auth::loginUsingId($user->id, $this->remember);
