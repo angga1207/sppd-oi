@@ -284,7 +284,7 @@ class MobileController extends Controller
             foreach ($sppds as $sppd) {
                 if ($sppd->file_pdf_signed) {
                     $sppd->status = 'approved';
-                    $data->tanggal_tte = now();
+                    $sppd->tanggal_tte = now();
                     $sppd->save();
                     // Create initial status log for SPPD
                     StatusSuratLog::create([
