@@ -436,8 +436,8 @@ class Preview extends Component
         $templateProcessor->setValue('nomor_surat', $previewData['nomor_surat'] ?? '-');
 
         // Convert HTML lists to Word-compatible format
-        $dasar = $this->convertHtmlListToText($previewData['dasar'] ?? '');
-        $tujuan = $this->convertHtmlListToText($previewData['tujuan'] ?? '');
+        $dasar = $this->ConvertHtmlListToText($previewData['dasar'] ?? '');
+        $tujuan = $this->ConvertHtmlListToText($previewData['tujuan'] ?? '');
         $templateProcessor->setValue('dasar', $dasar);
         $templateProcessor->setValue('untuk', $tujuan);
         $templateProcessor->setValue('tanggal_surat', $previewData['publication_date'] ? Carbon::parse($previewData['publication_date'])->isoFormat('D MMMM Y') : '-');
@@ -518,7 +518,7 @@ class Preview extends Component
         $templateProcessor->setValue('pegawai_jabatan', $DataSPPD->employeeExecutor['jabatan'] ?? '-');
         $templateProcessor->setValue('tingkat_biaya', collect(SPPD::GetTingkatOptions())->firstWhere('value', $DataSPPD->tingkat_biaya)['label'] ?? '');
 
-        $maksudPerjalananDinas = $this->convertHtmlListToText($DataSPPD['maksud_perjalanan'] ?? '');
+        $maksudPerjalananDinas = $this->ConvertHtmlListToText($DataSPPD['maksud_perjalanan'] ?? '');
         $templateProcessor->setValue('maksud_perjalanan', $maksudPerjalananDinas);
 
         $templateProcessor->setValue('alat_angkutan', $DataSPPD['alat_angkutan'] ?? '-');
@@ -533,7 +533,7 @@ class Preview extends Component
         $templateProcessor->setValue('keterangan_lain', $DataSPPD['keterangan_lain'] ?? '-');
 
         // Convert HTML lists to Word-compatible format
-        // $dasar = $this->convertHtmlListToText($DataSPPD['dasar'] ?? '');
+        // $dasar = $this->ConvertHtmlListToText($DataSPPD['dasar'] ?? '');
 
         // $templateProcessor->setValue('dasar', $dasar);
 

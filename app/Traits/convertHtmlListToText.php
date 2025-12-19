@@ -7,7 +7,7 @@ trait ConvertHtmlListToText
     /**
      * Convert HTML ordered/unordered lists to Word-compatible format
      */
-    public function convertHtmlListToText($html)
+    public function ConvertHtmlListToText($html)
     {
         if (empty($html)) {
             return '';
