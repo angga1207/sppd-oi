@@ -387,6 +387,7 @@ class Preview extends Component
 
         // Linux LibreOffice shell command to convert doc to pdf
         $command = "libreoffice --headless --convert-to pdf {$path} --outdir {$savePath} 2>&1";
+        // $command = "/opt/libreoffice25.8/program/soffice --headless --convert-to pdf {$path} --outdir {$savePath} 2>&1";
 
         // COMMAND DARI THEDA
         // $command = "libreoffice7.6 --headless --convert-to pdf $path --outdir $savePath";
@@ -452,12 +453,20 @@ class Preview extends Component
         $templateProcessor->setValue('jabatan_penandatangan', $penandaTangan['jabatan'] ?? '-');
 
         // QR Code
-        $qrCodeUrl = $this->generateQrCodeSPT('spt', 'bupati', $previewData);
+        // if !$instance == bupati
+        if (!$instance) {
+            $qrCodeUrl = $this->generateQrCodeSPT('spt', 'bupati', $previewData);
+        } else {
+            $qrCodeUrl = $this->generateQrCodeSPT('spt', 'perangkat_daerah', $previewData);
+        }
+        // dd($qrCodeUrl);
         if ($qrCodeUrl) {
             $templateProcessor->setImageValue('qr_code', [
                 'path' => $qrCodeUrl,
-                'width' => 70,
-                'height' => 70,
+                // 'width' => 70,
+                // 'height' => 70,
+                'width' => 50,
+                'height' => 50,
             ]);
         } else {
             $templateProcessor->setValue('qr_code', ''); // Clear if QR code generation failed
@@ -550,12 +559,18 @@ class Preview extends Component
         $templateProcessor->setValue('jabatan_penandatangan', $penandaTangan->jabatan ?? '-');
 
         // QR Code
-        $qrCodeUrl = $this->generateQrCodeSPPD('sppd', 'perangkat_daerah', $DataSPPD);
+        if (!$instance) {
+            $qrCodeUrl = $this->generateQrCodeSPPD('sppd', 'bupati', $DataSPPD);
+        } else {
+            $qrCodeUrl = $this->generateQrCodeSPPD('sppd', 'perangkat_daerah', $DataSPPD);
+        }
         if ($qrCodeUrl) {
             $templateProcessor->setImageValue('qr_code', [
                 'path' => $qrCodeUrl,
-                'width' => 70,
-                'height' => 70,
+                // 'width' => 70,
+                // 'height' => 70,
+                'width' => 50,
+                'height' => 50,
             ]);
         } else {
             $templateProcessor->setValue('qr_code', ''); // Clear if QR code generation failed
@@ -625,7 +640,8 @@ class Preview extends Component
             // Store the QR code
             Storage::disk('public')->put($filePath, $qrCode);
 
-            $qrCodeUrl = asset('storage/' . $filePath);
+            // $qrCodeUrl = asset('storage/' . $filePath);
+            $qrCodeUrl = storage_path('app/public/' . $filePath);
 
             return $qrCodeUrl;
         } catch (\Exception $e) {
@@ -689,7 +705,8 @@ class Preview extends Component
             // Store the QR code
             Storage::disk('public')->put($filePath, $qrCode);
 
-            $qrCodeUrl = asset('storage/' . $filePath);
+            // $qrCodeUrl = asset('storage/' . $filePath);
+            $qrCodeUrl = storage_path('app/public/' . $filePath);
 
             return $qrCodeUrl;
         } catch (\Exception $e) {

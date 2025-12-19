@@ -133,7 +133,7 @@
                         </div>
 
                         <!-- Daftar Pejabat dari API -->
-                        @if (count($rawSemestaOfficers) > 0)
+                        {{-- @if (count($rawSemestaOfficers) > 0)
                             <div class="mb-4 p-4 bg-blue-light bg-opacity-20 rounded-lg">
                                 <label class="block text-sm font-medium text-gray-700 mb-2">
                                     Pilih Pejabat dari Semesta
@@ -154,7 +154,6 @@
                                             class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-navy focus:border-navy text-sm"
                                             placeholder="Cari nama, NIP, atau jabatan pejabat...">
                                     </div>
-                                    {{-- toggle button --}}
                                     <button type="button" wire:click="toggleShowOfficers"
                                         class="ml-2 px-3 py-1 bg-gray-200 rounded-lg text-sm">
                                         {{ $showOfficers ? 'Sembunyikan Pejabat' : 'Tampilkan Pejabat' }}
@@ -191,7 +190,7 @@
                                     </div>
                                 @endif
                             </div>
-                        @endif
+                        @endif --}}
 
                         <!-- Informasi Pejabat yang Dipilih -->
                         @if ($selectedOfficer)
@@ -537,7 +536,7 @@
 
                                 <!-- Daftar Pejabat dari API -->
                                 @if ($selectedSigner)
-                                    <div class="md:col-span-2">
+                                    <div class="md:col-span-2 hidden">
                                         <div class="p-4 bg-green-50 border border-green-200 rounded-lg">
                                             <div class="flex items-start justify-between">
                                                 <div class="flex-1">
@@ -594,7 +593,7 @@
                                             <div
                                                 class="relative w-14 h-6 bg-slate-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-brand-soft dark:peer-focus:ring-brand-soft rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-buffer after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-5 after:w-7 after:transition-all peer-checked:bg-primary">
                                             </div>
-                                            <span class="select-none ms-3 text-sm font-medium text-heading">
+                                            <span class="select-none ms-3 text-xl font-bold text-heading">
                                                 Sertakan SPPD
                                             </span>
                                         </label>
@@ -656,7 +655,7 @@
                                         <button type="button" wire:click="submitForm()" wire:loading.attr="disabled"
                                             class="btn-primary">
                                             <span wire:loading.remove wire:target="submitForm()">
-                                                Buat Surat Perintah Tugas Saja
+                                                Buat Surat Perintah Tugas
                                             </span>
                                             <span wire:loading wire:target="submitForm()">
                                                 <svg class="animate-spin h-5 w-5 text-white"
@@ -671,7 +670,7 @@
                                         </button>
                                     @endif
                                 @else
-                                    <button type="button" wire:click="confirmSent()" wire:loading.attr="disabled"
+                                    {{-- <button type="button" wire:click="confirmSent()" wire:loading.attr="disabled"
                                         @if ($isViewOnly) disabled @endif class="btn-success">
                                         <span wire:loading.remove wire:target="confirmSent()"
                                             class="flex items-center gap-1">
@@ -688,7 +687,7 @@
                                                     d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
                                             </svg>
                                         </span>
-                                    </button>
+                                    </button> --}}
 
                                     <button type="button" wire:click="submitForm('edit')"
                                         wire:loading.attr="disabled"
