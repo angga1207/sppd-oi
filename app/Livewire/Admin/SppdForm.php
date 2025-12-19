@@ -2,11 +2,11 @@
 
 namespace App\Livewire\Admin;
 
-use App\Models\Sppd;
+use Carbon\Carbon;
+use App\Models\SPPD;
 use Livewire\Component;
 use App\Models\Employee;
 use App\Models\Instance;
-use Carbon\Carbon;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Layout;
 use Illuminate\Support\Facades\DB;
