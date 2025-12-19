@@ -463,10 +463,8 @@ class Preview extends Component
         if ($qrCodeUrl) {
             $templateProcessor->setImageValue('qr_code', [
                 'path' => $qrCodeUrl,
-                // 'width' => 70,
-                // 'height' => 70,
-                'width' => 50,
-                'height' => 50,
+                'width' => 70,
+                'height' => 70,
             ]);
         } else {
             $templateProcessor->setValue('qr_code', ''); // Clear if QR code generation failed
@@ -567,10 +565,8 @@ class Preview extends Component
         if ($qrCodeUrl) {
             $templateProcessor->setImageValue('qr_code', [
                 'path' => $qrCodeUrl,
-                // 'width' => 70,
-                // 'height' => 70,
-                'width' => 50,
-                'height' => 50,
+                'width' => 70,
+                'height' => 70,
             ]);
         } else {
             $templateProcessor->setValue('qr_code', ''); // Clear if QR code generation failed
