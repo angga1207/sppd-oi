@@ -388,6 +388,11 @@ class Preview extends Component
         // Linux LibreOffice shell command to convert doc to pdf
         // $command = "libreoffice --headless --convert-to pdf {$path} --outdir {$savePath} 2>&1";
 
+        // COMMAND DARI THEDA
+        // $command = "libreoffice7.6 --headless --convert-to pdf $path --outdir $savePath";
+        // $command = "/Applications/LibreOffice.app/Contents/MacOS/soffice --headless --convert-to pdf $path --outdir $savePath";
+
+
         // Execute the command
         exec($command, $output, $returnVar);
 

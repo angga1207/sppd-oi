@@ -134,7 +134,7 @@ class SuratPerintah extends Model
 
     public function sppds()
     {
-        return $this->hasMany(Sppd::class, 'surat_perintah_id');
+        return $this->hasMany(SPPD::class, 'surat_perintah_id');
     }
 
     public function employeeGiver()
