@@ -16,11 +16,11 @@ use Jantinnerezo\LivewireAlert\Facades\LivewireAlert;
 #[Title('Login - SPPD')]
 class Login extends Component
 {
-    public $username = '1000';
+    // public $username = '1000';
     // public $username = '197502251999031006';
-    // public $username = '';
-    public $password = '#OganIlirBangkit!!';
-    // public $password = '';
+    public $username = '';
+    // public $password = '#OganIlirBangkit!!';
+    public $password = '';
     public $remember = false;
 
     protected $rules = [
