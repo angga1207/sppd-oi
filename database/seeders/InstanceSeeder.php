@@ -41,5 +41,24 @@ class InstanceSeeder extends Seeder
                 ]);
             }
         }
+
+        $uri = 'https://semesta.oganilirkab.go.id/api/referensi-skpd';
+        $response = Http::post($uri);
+        if ($response->successful()) {
+            $instances = $response->json()['data'] ?? [];
+            foreach ($instances as $instance) {
+                $data = Instance::where('id_eoffice', $instance['id'])->first();
+                if ($data) {
+                    $data->update([
+                        'description' => $instance['code'],
+                        'phone' => $instance['telepon_skpd'],
+                        'fax' => $instance['fax'],
+                        'kode_pos' => $instance['kode_pos'],
+                        'email' => $instance['email_skpd'],
+                        'website' => $instance['website'],
+                    ]);
+                }
+            }
+        }
     }
 }

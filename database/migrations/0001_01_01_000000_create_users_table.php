@@ -23,6 +23,7 @@ return new class extends Migration
             $table->text('address')->nullable();
             $table->string('phone')->nullable();
             $table->string('fax')->nullable();
+            $table->string('kode_pos')->nullable();
             $table->string('email')->nullable();
             $table->string('website')->nullable();
             $table->string('facebook')->nullable();

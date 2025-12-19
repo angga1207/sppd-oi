@@ -5,6 +5,11 @@ namespace App\Livewire\Admin\SPPD;
 use Carbon\Carbon;
 use App\Models\SPPD;
 use Livewire\Component;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use PhpOffice\PhpWord\TemplateProcessor;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Jantinnerezo\LivewireAlert\Facades\LivewireAlert;
 
 class Preview extends Component
 {
@@ -15,12 +20,14 @@ class Preview extends Component
     public function mount($id)
     {
         // Fetch SPPD data based on the provided ID
-        $sppd = \App\Models\Sppd::with(['employeeGiver', 'employeeExecutor', 'instance'])->findOrFail($id);
+        $sppd = \App\Models\Sppd::with(['employeeGiver', 'employeeExecutor', 'instance', 'publicationEmployee'])->findOrFail($id);
         $this->suratPerintahId = $sppd->surat_perintah_id;
 
+        // dd($sppd);
         // Prepare data for preview
         $this->previewData = [
             'id' => $sppd->id,
+            'uuid' => $sppd->uuid,
             'nomor_sppd' => $sppd->nomor_sppd,
             'nomor_surat_perintah' => $sppd->suratPerintah ? $sppd->suratPerintah->nomor_surat : '',
 
@@ -65,6 +72,11 @@ class Preview extends Component
 
             'publication_place' => $sppd->publication_place,
             'publication_date' => Carbon::parse($sppd->publication_date)->isoFormat('D MMMM Y'),
+            'publicationEmployee' => $sppd->publicationEmployee,
+            // 'publicationEmployee_id' => $sppd->publicationEmployee_id,
+
+            'status' => $sppd->status,
+
             'issued_name' => $sppd->publicationEmployee ? $sppd->publicationEmployee->nama_lengkap : '',
             'issued_nip' => $sppd->publicationEmployee ? $sppd->publicationEmployee->nip : '',
             'issued_pangkat' => $sppd->publicationEmployee ? $sppd->publicationEmployee->pangkat : '',
@@ -72,7 +84,48 @@ class Preview extends Component
             'issued_jabatan' => $sppd->publicationEmployee ? $sppd->publicationEmployee->jabatan : '',
             'issued_jabatan_title' => $sppd->publicationEmployee ? (str_contains(strtolower($sppd->publicationEmployee->jabatan), 'kepala dinas') ? 'KEPALA DINAS' : '') : '',
             'issued_instance_name' => $sppd->publicationEmployee && $sppd->publicationEmployee->instance ? $sppd->publicationEmployee->instance->name : '',
+
+            'file_word' => $sppd->file_word,
+            'file_pdf' => $sppd->file_pdf,
+            'file_pdf_signed' => $sppd->file_pdf_signed,
         ];
+
+        // dd($this->previewData);
+    }
+
+    public function downloadSuratPerintah()
+    {
+        if ($this->previewData['status'] !== 'approved') {
+            LivewireAlert::title('Peringatan!')
+                ->text('Surat Perintah Tugas hanya dapat diunduh jika berstatus Disetujui.')
+                ->warning()
+                ->toast()
+                ->position('top-end')
+                ->show();
+            return;
+        }
+        $penandaTangan = $this->previewData['publicationEmployee'];
+        if (!$penandaTangan) {
+            LivewireAlert::title('Peringatan!')
+                ->text('Penanda tangan surat perintah tidak ditemukan. Silakan atur penanda tangan pada data pegawai.')
+                ->warning()
+                ->toast()
+                ->position('top-end')
+                ->show();
+            return;
+        }
+
+        if ($this->previewData['file_pdf_signed'] && Storage::disk('public')->exists('sppd_sign/' . $this->previewData['file_pdf_signed'])) {
+            return Storage::disk('public')->download('sppd_sign/' . $this->previewData['file_pdf_signed'], $this->previewData['file_pdf_signed']);
+        } else {
+            LivewireAlert::title('Peringatan!')
+                ->text('File Surat Perintah Tugas yang sudah ditandatangani tidak ditemukan.')
+                ->warning()
+                ->toast()
+                ->position('top-end')
+                ->show();
+            return;
+        }
     }
 
     public function render()

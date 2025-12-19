@@ -118,6 +118,18 @@ class Index extends Component
         }
     }
 
+    public function exportExcel()
+    {
+        LivewireAlert::title('Info')
+            ->text('Fitur ekspor ke Excel sedang dalam pengembangan.')
+            ->position('top-end')
+            ->timer(3000)
+            ->toast()
+            ->info()
+            ->show();
+        return;
+    }
+
     public function render()
     {
         $datas = SuratPerintah::search($this->search)
@@ -129,9 +141,9 @@ class Index extends Component
                 // $query->whereRelation('sppds', 'employee_executor_id', auth()->user()->id);
                 $query->where(function ($q) {
                     $q->where('employee_giver_id', auth()->user()->id)
-                      ->orWhere('publication_employee_id', auth()->user()->id)
-                      ->orWhere('created_by', auth()->user()->id)
-                      ->orWhereRelation('sppds', 'employee_executor_id', auth()->user()->employee_id);
+                        ->orWhere('publication_employee_id', auth()->user()->id)
+                        ->orWhere('created_by', auth()->user()->id)
+                        ->orWhereRelation('sppds', 'employee_executor_id', auth()->user()->employee_id);
                     //   ->orWhereHas('sppds', function ($sppdQuery) {
                     //       $sppdQuery->where('employee_executor_id', auth()->user()->id);
                     //   });

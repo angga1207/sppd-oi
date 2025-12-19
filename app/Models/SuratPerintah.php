@@ -34,6 +34,12 @@ class SuratPerintah extends Model
         'publication_date',
         'publication_place',
         'publication_employee_id',
+
+        'file_word',
+        'file_pdf',
+        'file_pdf_signed',
+        'tanggal_tte',
+
         'status',
         'created_by',
         'approved_by',
@@ -139,6 +145,11 @@ class SuratPerintah extends Model
     public function employeeGiverInstance()
     {
         return $this->belongsTo(Instance::class, 'employee_giver_instance_id');
+    }
+
+    public function Creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
     }
 
     public function instance()

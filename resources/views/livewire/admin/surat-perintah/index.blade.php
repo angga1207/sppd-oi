@@ -18,7 +18,8 @@
                     </svg>
                     <svg wire:loading wire:target="exportExcel" class="animate-spin h-5 w-5 mr-2" fill="none"
                         viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                            stroke-width="4">
                         </circle>
                         <path class="opacity-75" fill="currentColor"
                             d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
@@ -49,11 +50,11 @@
                         Filter & Pencarian
                     </h3>
                     <div class="flex items-center justify-end gap-2">
-                        @if($search || $statusFilter || $instanceFilter || $dateFilter)
-                        <button wire:click="resetFilters"
-                            class="btn-accent inline-flex items-center justify-center text-sm px-3 py-1">
-                            Reset Filter
-                        </button>
+                        @if ($search || $statusFilter || $instanceFilter || $dateFilter)
+                            <button wire:click="resetFilters"
+                                class="btn-accent inline-flex items-center justify-center text-sm px-3 py-1">
+                                Reset Filter
+                            </button>
                         @endif
                         <button @click="showFilters = !showFilters"
                             class="btn-primary inline-flex items-center justify-center text-sm px-3 py-1">
@@ -79,17 +80,18 @@
                     </div>
 
                     <!-- Instance Filter -->
-                    @if(auth()->user()->instance_id == null)
-                    <div wire:ignore>
-                        <label class="form-label">Perangkat Daerah</label>
-                        <select id="instanceFilter" class="form-select select2-filter" style="width: 100%">
-                            <option value="">Semua Perangkat Daerah</option>
-                            @foreach($instances as $instance)
-                            <option value="{{ $instance->id }}" {{ $instanceFilter==$instance->id ? 'selected' : ''
-                                }}>{{ $instance->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+                    @if (auth()->user()->instance_id == null)
+                        <div wire:ignore>
+                            <label class="form-label">Perangkat Daerah</label>
+                            <select id="instanceFilter" class="form-select select2-filter" style="width: 100%">
+                                <option value="">Semua Perangkat Daerah</option>
+                                @foreach ($instances as $instance)
+                                    <option value="{{ $instance->id }}"
+                                        {{ $instanceFilter == $instance->id ? 'selected' : '' }}>{{ $instance->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
                     @endif
 
                     <!-- Status Filter -->
@@ -97,10 +99,12 @@
                         <label class="form-label">Status</label>
                         <select id="statusFilter" class="form-select select2-filter" style="width: 100%">
                             <option value="">Semua Status</option>
-                            <option value="draft" {{ $statusFilter=='draft' ? 'selected' : '' }}>Draft</option>
-                            <option value="approved" {{ $statusFilter=='approved' ? 'selected' : '' }}>Approved</option>
-                            <option value="rejected" {{ $statusFilter=='rejected' ? 'selected' : '' }}>Rejected</option>
-                            <option value="completed" {{ $statusFilter=='completed' ? 'selected' : '' }}>Completed
+                            <option value="draft" {{ $statusFilter == 'draft' ? 'selected' : '' }}>Draft</option>
+                            <option value="approved" {{ $statusFilter == 'approved' ? 'selected' : '' }}>Approved
+                            </option>
+                            <option value="rejected" {{ $statusFilter == 'rejected' ? 'selected' : '' }}>Rejected
+                            </option>
+                            <option value="completed" {{ $statusFilter == 'completed' ? 'selected' : '' }}>Completed
                             </option>
                         </select>
                     </div>
@@ -127,241 +131,299 @@
 
 
         <!-- Table / Card View -->
-        @if($datas->count() > 0)
-        <div class="card overflow-hidden">
-            <!-- Desktop Table View -->
-            <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gradient-to-r from-primary to-secondary">
-                        <tr>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
-                                No. Surat Perintah
-                            </th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
-                                Pejabat Pemberi Perintah
-                            </th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
-                                SPPD
-                            </th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
-                                Tanggal
-                            </th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
-                                Tujuan
-                            </th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
-                                Status
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                        @foreach($datas as $index => $data)
-                        <tr class="hover:bg-primary/5 transition duration-150">
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <div
-                                        class="flex-shrink-0 h-10 w-10 flex items-center justify-center rounded-full {{ $data->status == 'draft' ? 'bg-gradient-to-r from-primary to-secondary' : 'bg-gradient-to-r from-success to-success/75' }} text-white font-semibold">
-                                        {{ $datas->firstItem() + $index }}
-                                    </div>
-                                    <div class="ml-3">
+        @if ($datas->count() > 0)
+            <div class="card overflow-hidden">
+                <!-- Desktop Table View -->
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gradient-to-r from-primary to-secondary">
+                            <tr>
+                                <th
+                                    class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
+                                    No. Surat Perintah
+                                </th>
+                                <th
+                                    class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
+                                    Pejabat Pemberi Perintah
+                                </th>
+                                <th
+                                    class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
+                                    Waktu Perjalanan
+                                </th>
+                                <th
+                                    class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
+                                    Ditandatangani
+                                </th>
+                                <th
+                                    class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
+                                    Tujuan
+                                </th>
+                                <th
+                                    class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
+                                    Pembuatan Surat
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            @foreach ($datas as $index => $data)
+                                <tr class="hover:bg-primary/5 transition duration-150">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div
+                                                class="flex-shrink-0 h-10 w-10 flex items-center justify-center rounded-full {{ $data->status == 'draft' ? 'bg-gradient-to-r from-primary to-secondary' : 'bg-gradient-to-r from-success to-success/75' }} text-white font-semibold">
+                                                {{ $datas->firstItem() + $index }}
+                                            </div>
+                                            <div class="ml-3">
+                                                <div class="">
+                                                    <div class="text-sm font-medium text-gray-900">
+                                                        {{ $data->nomor_surat }}
+                                                    </div>
+                                                    @if ($data->instance)
+                                                        <div class="text-xs text-muted truncate max-w-[300px] action-btn cursor-pointer"
+                                                            data-tippy-content="{{ $data->instance->name ?? 'N/A' }}"
+                                                            data-tippy-placement="right">
+                                                            {{ $data->instance->name ?? 'N/A' }}
+                                                        </div>
+                                                    @else
+                                                        <div class="text-xs text-muted">
+                                                            Bupati Ogan Ilir
+                                                        </div>
+                                                    @endif
+                                                </div>
+
+                                                <div class="flex items-center justify-start gap-2 mt-2">
+                                                    <!-- View Button -->
+                                                    <a href="{{ route('admin.surat-perintah.preview', $data->id) }}"
+                                                        class="action-btn p-2 text-purple-600 hover:bg-purple-50 rounded-lg transition duration-150"
+                                                        data-tippy-content="Preview Surat Perintah"
+                                                        data-tippy-placement="top">
+                                                        <x-heroicon-o-eye class="w-5 h-5 text-purple-500" />
+                                                    </a>
+
+                                                    <!-- Edit Button -->
+                                                    <a href="{{ route('admin.surat-perintah.edit', $data->id) }}"
+                                                        class="action-btn p-2 text-green-600 hover:bg-green-50 rounded-lg transition duration-150"
+                                                        data-tippy-content="Edit Surat Perintah"
+                                                        data-tippy-placement="top">
+                                                        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                                            stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="2"
+                                                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                                        </svg>
+                                                    </a>
+
+                                                    @if ($data->sppds->count() > 0)
+                                                        <!-- SPPD Button -->
+                                                        <a href="{{ route('admin.surat-perintah.sppd', $data->id) }}"
+                                                            class="action-btn p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition duration-150 flex items-center justify-center"
+                                                            data-tippy-content="Lihat SPPD"
+                                                            data-tippy-placement="top">
+                                                            <span class="text-sm font-bold mr-1">
+                                                                {{ $data->sppds->count() > 0 ? $data->sppds->count() : '' }}
+                                                            </span>
+                                                            <x-heroicon-o-users class="w-5 h-5 text-blue-500" />
+                                                        </a>
+                                                    @endif
+
+                                                    @if ($data->status == 'draft' && auth()->user()->id == $data->created_by)
+                                                        <!-- Delete Button -->
+                                                        <button wire:click="deleteSppd({{ $data->id }})"
+                                                            wire:confirm="Apakah Anda yakin ingin menghapus Surat Perintah ini?"
+                                                            class="action-btn p-2 text-red-600 hover:bg-red-50 rounded-lg transition duration-150"
+                                                            data-tippy-content="Hapus Surat Perintah"
+                                                            data-tippy-placement="top">
+                                                            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                                                stroke="currentColor">
+                                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                                    stroke-width="2"
+                                                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                            </svg>
+                                                        </button>
+                                                    @endif
+
+                                                    @php
+                                                        $statusClasses = [
+                                                            'draft' => 'badge-primary',
+                                                            'approved' => 'badge-success',
+                                                            'rejected' => 'badge-danger',
+                                                            'sent' => 'badge-warning',
+                                                        ];
+                                                        $statusClass = $statusClasses[$data->status] ?? 'badge-primary';
+                                                    @endphp
+                                                    <span
+                                                        class="{{ $statusClass }} flex items-center justify-center gap-1">
+                                                        @if ($data->status == 'draft')
+                                                            <x-heroicon-o-hand-raised class="w-4 h-4" />
+                                                            <span>
+                                                                Draft
+                                                            </span>
+                                                        @elseif($data->status == 'approved')
+                                                            <x-heroicon-o-finger-print class="w-4 h-4" />
+                                                            <span>
+                                                                Ditandatangani
+                                                            </span>
+                                                        @elseif($data->status == 'rejected')
+                                                            <x-heroicon-o-no-symbol class="w-4 h-4" />
+                                                            <span>
+                                                                Ditolak
+                                                            </span>
+                                                        @elseif($data->status == 'sent')
+                                                            <x-heroicon-o-clock class="w-4 h-4" />
+                                                            <span>
+                                                                Menunggu Tanda Tangan
+                                                            </span>
+                                                        @endif
+                                                    </span>
+
+                                                    <!-- Status Actions -->
+                                                    {{-- @if (in_array(auth()->user()->role_id, [1, 2]) && $data->status === 'draft')
+                                                        <!-- Tanda Tangan Elektronik Button -->
+                                                        <button wire:click="openModalSign({{ $data->id }})"
+                                                            class="p-2 text-green-600 hover:bg-green-50 rounded-lg transition duration-150"
+                                                            title="Tanda Tangani Surat Perintah">
+                                                            <x-heroicon-o-shield-check class="w-5 h-5 text-blue-500" />
+                                                        </button>
+                                                    @endif --}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center">
+                                            <div>
+                                                <div class="text-sm font-medium text-gray-900">
+                                                    {{ $data->employeeGiver->nama_lengkap ?? 'N/A' }}
+                                                </div>
+                                                <div class="text-xs text-muted whitespace-nowrap">
+                                                    NIP: {{ $data->employeeGiver->nip ?? 'N/A' }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">
+                                            <div class="flex items-center gap-1">
+                                                <svg class="h-4 w-4 text-primary" fill="none" viewBox="0 0 24 24"
+                                                    stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                                </svg>
+                                                {{ \Carbon\Carbon::parse($data->tanggal_berangkat)->isoFormat('DD MMM Y') }}
+                                            </div>
+                                        </div>
+                                        <div class="text-xs text-muted mt-1">
+                                            s/d
+                                            {{ \Carbon\Carbon::parse($data->tanggal_pulang)->isoFormat('DD MMM Y') }}
+                                        </div>
                                         <div class="">
-                                            <div class="text-sm font-medium text-gray-900">
-                                                {{ $data->nomor_surat }}
-                                            </div>
-                                            @if($data->instance)
-                                            <div class="text-xs text-muted truncate max-w-[300px] action-btn cursor-pointer"
-                                                data-tippy-content="{{ $data->instance->name ?? 'N/A' }}"
-                                                data-tippy-placement="right">
-                                                {{ $data->instance->name ?? 'N/A' }}
-                                            </div>
-                                            @else
-                                            <div class="text-xs text-muted">
-                                                Bupati Ogan Ilir
-                                            </div>
-                                            @endif
+                                            {{-- duration --}}
+                                            <span class="text-xs text-muted">
+                                                ({{ $data->lama_perjalanan }} hari)
+                                            </span>
                                         </div>
-
-                                        <div class="flex items-center justify-start gap-2 mt-2">
-                                            <!-- View Button -->
-                                            <a href="{{ route('admin.surat-perintah.preview', $data->id) }}"
-                                                class="p-2 text-purple-600 hover:bg-purple-50 rounded-lg transition duration-150"
-                                                title="Preview Surat Perintah">
-                                                <x-heroicon-o-eye class="w-5 h-5 text-purple-500" />
-                                            </a>
-
-                                            <!-- Edit Button -->
-                                            <a href="{{ route('admin.surat-perintah.edit', $data->id) }}"
-                                                class="p-2 text-green-600 hover:bg-green-50 rounded-lg transition duration-150"
-                                                title="Edit Surat Perintah">
-                                                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                                                    stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                                </svg>
-                                            </a>
-
-                                            <!-- SPPD Button -->
-                                            <a href="{{ route('admin.surat-perintah.sppd', $data->id) }}"
-                                                class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition duration-150"
-                                                title="Lihat SPPD">
-                                                <x-heroicon-o-users class="w-5 h-5 text-blue-500" />
-                                            </a>
-
-                                            @if($data->status == 'draft' && auth()->user()->id == $data->created_by)
-                                            <!-- Delete Button -->
-                                            <button wire:click="deleteSppd({{ $data->id }})"
-                                                wire:confirm="Apakah Anda yakin ingin menghapus Surat Perintah ini?"
-                                                class="p-2 text-red-600 hover:bg-red-50 rounded-lg transition duration-150"
-                                                title="Hapus Surat Perintah">
-                                                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                                                    stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                </svg>
-                                            </button>
-                                            @endif
-
-                                            <!-- Status Actions -->
-                                            @if(in_array(auth()->user()->role_id, [1,2]) && $data->status === 'draft')
-                                            <!-- Tanda Tangan Elektronik Button -->
-                                            {{-- <button wire:click="openModalSign({{ $data->id }})"
-                                                class="p-2 text-green-600 hover:bg-green-50 rounded-lg transition duration-150"
-                                                title="Tanda Tangani Surat Perintah">
-                                                <x-heroicon-o-shield-check class="w-5 h-5 text-blue-500" />
-                                            </button> --}}
-                                            @endif
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4">
-                                <div class="flex items-center">
-                                    <div>
-                                        <div class="text-sm font-medium text-gray-900">
-                                            {{ $data->employeeGiver->nama_lengkap ?? 'N/A' }}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="text-sm font-medium text-gray-900 whitespace-nowrap">
+                                            {{ $data->publicationEmployee->nama_lengkap ?? '' }}
                                         </div>
                                         <div class="text-xs text-muted whitespace-nowrap">
-                                            NIP: {{ $data->employeeGiver->nip ?? 'N/A' }}
+                                            NIP: {{ $data->publicationEmployee->nip ?? '' }}
                                         </div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4">
-                                <div class="flex items-center">
-                                    <div class="text-sm font-medium text-gray-900 whitespace-nowrap">
-                                        {{ $data->sppds->count() ?? 'Tidak Ada' }} SPPD
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">
-                                    <div class="flex items-center gap-1">
-                                        <svg class="h-4 w-4 text-primary" fill="none" viewBox="0 0 24 24"
-                                            stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                        </svg>
-                                        {{ \Carbon\Carbon::parse($data->tanggal_berangkat)->format('d M Y') }}
-                                    </div>
-                                </div>
-                                <div class="text-xs text-muted mt-1">
-                                    s/d {{ \Carbon\Carbon::parse($data->tanggal_pulang)->format('d M Y') }}
-                                </div>
-                                <div class="">
-                                    {{-- duration --}}
-                                    <span class="text-xs text-muted">
-                                        ({{ $data->lama_perjalanan }} hari)
-                                    </span>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4">
-                                <div class="text-sm text-gray-900 max-w-xs">
-                                    <div class="font-medium line-clamp-2">
-                                        {{ Str::limit($data->tempat_tujuan) }}
-                                    </div>
-                                    <div class="text-xs text-muted flex items-center gap-1 mt-1">
-                                        <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M13 10V3L4 14h7v7l9-11h-7z" />
-                                        </svg>
-                                        <span class="whitespace-nowrap">
-                                            {{ $data->alat_angkutan }}
-                                        </span>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                @php
-                                $statusClasses = [
-                                'draft' => 'badge-primary',
-                                'approved' => 'badge-success',
-                                'rejected' => 'badge-danger',
-                                'completed' => 'badge-success',
-                                ];
-                                $statusClass = $statusClasses[$data->status] ?? 'badge-primary';
-                                @endphp
-                                <span class="{{ $statusClass }}">
-                                    {{ ucfirst($data->status) }}
-                                </span>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+                                        {{-- Date --}}
+                                        <div class="text-xs text-muted mt-1">
+                                            {{ \Carbon\Carbon::parse($data->publication_date)->isoFormat('DD MMMM Y') }}
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="text-sm text-gray-900 max-w-xs">
+                                            <div class="font-medium line-clamp-2">
+                                                {{ Str::limit($data->tempat_tujuan) }}
+                                            </div>
+                                            <div class="font-medium line-clamp-2">
+                                                {{ $data->regency->name ?? '' }}, {{ $data->province->name ?? '' }}
+                                            </div>
+                                            <div class="text-xs text-muted flex items-center gap-1 mt-1">
+                                                <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24"
+                                                    stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                                </svg>
+                                                <span class="whitespace-nowrap">
+                                                    {{ $data->alat_angkutan }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">
+                                            Dibuat oleh <br>
+                                            <span class="font-medium">
+                                                {{ $data->Creator->name ?? 'N/A' }}
+                                            </span>
+                                        </div>
+                                        <div class="text-xs text-muted mt-1">
+                                            {{ \Carbon\Carbon::parse($data->created_at)->isoFormat('DD MMMM Y HH:mm [WIB]') }}
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
 
-            <!-- Pagination -->
-            <div class="card-footer">
-                {{ $datas->links('vendor.livewire.custom-pagination') }}
-            </div>
-        </div>
-        @else
-        <!-- Empty State -->
-        <div class="card">
-            <div class="card-body">
-                <div class="text-center py-12">
-                    <div class="mx-auto h-24 w-24 text-muted mb-4">
-                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Tidak ada Surat Perintah</h3>
-                    <p class="text-sm text-muted mb-6">
-                        @if($search || $statusFilter || $instanceFilter || $dateFilter)
-                        Tidak ditemukan Surat Perintah dengan filter yang dipilih. Coba ubah atau reset filter.
-                        @else
-                        Belum ada Surat Perintah yang dibuat. Mulai dengan membuat Surat Perintah baru.
-                        @endif
-                    </p>
-                    @if($search || $statusFilter || $instanceFilter || $dateFilter)
-                    <button wire:click="resetFilters" class="btn-secondary">
-                        <svg class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                        </svg>
-                        Reset Filter
-                    </button>
-                    @else
-                    <a href="{{ route('admin.surat-perintah.create') }}" class="btn-primary">
-                        <svg class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                        </svg>
-                        Buat Surat Perintah Pertama
-                    </a>
-                    @endif
+                <!-- Pagination -->
+                <div class="card-footer">
+                    {{ $datas->links('vendor.livewire.custom-pagination') }}
                 </div>
             </div>
-        </div>
+        @else
+            <!-- Empty State -->
+            <div class="card">
+                <div class="card-body">
+                    <div class="text-center py-12">
+                        <div class="mx-auto h-24 w-24 text-muted mb-4">
+                            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2">Tidak ada Surat Perintah</h3>
+                        <p class="text-sm text-muted mb-6">
+                            @if ($search || $statusFilter || $instanceFilter || $dateFilter)
+                                Tidak ditemukan Surat Perintah dengan filter yang dipilih. Coba ubah atau reset filter.
+                            @else
+                                Belum ada Surat Perintah yang dibuat. Mulai dengan membuat Surat Perintah baru.
+                            @endif
+                        </p>
+                        @if ($search || $statusFilter || $instanceFilter || $dateFilter)
+                            <button wire:click="resetFilters" class="btn-secondary">
+                                <svg class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                </svg>
+                                Reset Filter
+                            </button>
+                        @else
+                            <a href="{{ route('admin.surat-perintah.create') }}" class="btn-primary">
+                                <svg class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 4v16m8-8H4" />
+                                </svg>
+                                Buat Surat Perintah Pertama
+                            </a>
+                        @endif
+                    </div>
+                </div>
+            </div>
         @endif
 
     </div>
 
     <!-- Modal Tanda Tangan Elektronik -->
-    <div x-data="{ showSignModal: @entangle('showSignModal') }" x-show="showSignModal" x-cloak
-        class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div x-data="{ showSignModal: @entangle('showSignModal') }" x-show="showSignModal" x-cloak class="fixed inset-0 z-50 overflow-y-auto"
+        aria-labelledby="modal-title" role="dialog" aria-modal="true">
 
         <!-- Background backdrop -->
         <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
@@ -410,38 +472,38 @@
                     <!-- Modal Body -->
                     <div class="px-6 py-6">
                         <!-- Informasi Surat Perintah -->
-                        @if($selectedSppdForSign)
-                        <div class="mb-6 p-4 bg-gray-50 rounded-lg border-l-4 border-blue-500">
-                            <h4 class="text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
-                                <svg class="w-4 h-4 text-blue-500" fill="none" viewBox="0 0 24 24"
-                                    stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                </svg>
-                                Informasi Surat Perintah
-                            </h4>
-                            <div class="space-y-2 text-sm">
-                                <div class="flex justify-between">
-                                    <span class="text-gray-600">Nomor Surat:</span>
-                                    <span class="font-medium text-gray-900">{{ $selectedSppdForSign['nomor_surat'] ??
-                                        'N/A' }}</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-gray-600">Pemberi Perintah:</span>
-                                    <span class="font-medium text-gray-900">{{
-                                        $selectedSppdForSign['employeeGiver']['nama_lengkap'] ?? 'N/A' }}</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-gray-600">Tanggal:</span>
-                                    <span class="font-medium text-gray-900">
-                                        {{ $selectedSppdForSign ?
-                                        \Carbon\Carbon::parse($selectedSppdForSign['tanggal_berangkat'])->format('d M
-                                        Y')
-                                        : 'N/A' }}
-                                    </span>
+                        @if ($selectedSppdForSign)
+                            <div class="mb-6 p-4 bg-gray-50 rounded-lg border-l-4 border-blue-500">
+                                <h4 class="text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                                    <svg class="w-4 h-4 text-blue-500" fill="none" viewBox="0 0 24 24"
+                                        stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                    </svg>
+                                    Informasi Surat Perintah
+                                </h4>
+                                <div class="space-y-2 text-sm">
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600">Nomor Surat:</span>
+                                        <span
+                                            class="font-medium text-gray-900">{{ $selectedSppdForSign['nomor_surat'] ?? 'N/A' }}</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600">Pemberi Perintah:</span>
+                                        <span
+                                            class="font-medium text-gray-900">{{ $selectedSppdForSign['employeeGiver']['nama_lengkap'] ?? 'N/A' }}</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600">Tanggal:</span>
+                                        <span class="font-medium text-gray-900">
+                                            {{ $selectedSppdForSign
+                                                ? \Carbon\Carbon::parse($selectedSppdForSign['tanggal_berangkat'])->format('d M
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    Y')
+                                                : 'N/A' }}
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         @endif
 
                         <!-- Input Passphrase -->
@@ -460,7 +522,8 @@
                                     <div class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
                                         :class="showPassphrase ? 'text-blue-600' : 'text-gray-400'"
                                         @click="showPassphrase = !showPassphrase">
-                                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24"
+                                            stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -469,7 +532,7 @@
                                     </div>
                                 </div>
                                 @error('signPassphrase')
-                                <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                                    <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                                 @enderror
                                 <p class="mt-1 text-xs text-gray-500 select-none">
                                     <svg class="w-3 h-3 inline mr-1 text-yellow-500" fill="currentColor"
@@ -517,8 +580,8 @@
                             </span>
                             <span wire:loading wire:target="processDigitalSignature" class="flex items-center">
                                 <svg class="animate-spin w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                                        stroke-width="4"></circle>
+                                    <circle class="opacity-25" cx="12" cy="12" r="10"
+                                        stroke="currentColor" stroke-width="4"></circle>
                                     <path class="opacity-75" fill="currentColor"
                                         d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
                                     </path>
@@ -537,102 +600,107 @@
     </div>
 </div>
 
-@push('scripts')
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Initialize Select2 for all filter selects
-        function initializeSelect2() {
-            // Instance Filter
-            $('#instanceFilter').select2({
-                placeholder: 'Semua Perangkat Daerah',
-                allowClear: true,
-                width: '100%',
-                theme: 'default'
-            }).on('change', function(e) {
-                @this.set('instanceFilter', $(this).val());
-            });
-
-            // Status Filter
-            $('#statusFilter').select2({
-                placeholder: 'Semua Status',
-                allowClear: true,
-                width: '100%',
-                theme: 'default',
-                minimumResultsForSearch: -1 // Disable search for status
-            }).on('change', function(e) {
-                @this.set('statusFilter', $(this).val());
-            });
-
-            // Per Page
-            $('#perPage').select2({
-                placeholder: 'Pilih jumlah',
-                width: '100%',
-                theme: 'default',
-                minimumResultsForSearch: -1 // Disable search for per page
-            }).on('change', function(e) {
-                @this.set('perPage', $(this).val());
-            });
+@push('styles')
+    <style>
+        /* Custom Tippy.js theme */
+        .tippy-box[data-theme~='custom'] {
+            background: linear-gradient(135deg, #0C2B4E 0%, #1A3D64 100%);
+            color: white;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
         }
 
-        // Initialize Tippy.js tooltips
-        function initializeTippy() {
-            if (typeof tippy !== 'undefined') {
-                tippy('.action-btn', {
-                    theme: 'custom',
-                    animation: 'scale',
-                    duration: [200, 150],
-                    arrow: true,
-                    placement: 'top',
+        .tippy-box[data-theme~='custom'][data-placement^='top']>.tippy-arrow::before {
+            border-top-color: #0C2B4E;
+        }
+
+        .tippy-box[data-theme~='custom'][data-placement^='bottom']>.tippy-arrow::before {
+            border-bottom-color: #0C2B4E;
+        }
+
+        .tippy-box[data-theme~='custom'][data-placement^='left']>.tippy-arrow::before {
+            border-left-color: #0C2B4E;
+        }
+
+        .tippy-box[data-theme~='custom'][data-placement^='right']>.tippy-arrow::before {
+            border-right-color: #0C2B4E;
+        }
+    </style>
+@endpush
+
+@script
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize Select2 for all filter selects
+            function initializeSelect2() {
+                // Instance Filter
+                $('#instanceFilter').select2({
+                    placeholder: 'Semua Perangkat Daerah',
+                    allowClear: true,
+                    width: '100%',
+                    theme: 'default'
+                }).on('change', function(e) {
+                    @this.set('instanceFilter', $(this).val());
+                });
+
+                // Status Filter
+                $('#statusFilter').select2({
+                    placeholder: 'Semua Status',
+                    allowClear: true,
+                    width: '100%',
+                    theme: 'default',
+                    minimumResultsForSearch: -1 // Disable search for status
+                }).on('change', function(e) {
+                    @this.set('statusFilter', $(this).val());
+                });
+
+                // Per Page
+                $('#perPage').select2({
+                    placeholder: 'Pilih jumlah',
+                    width: '100%',
+                    theme: 'default',
+                    minimumResultsForSearch: -1 // Disable search for per page
+                }).on('change', function(e) {
+                    @this.set('perPage', $(this).val());
                 });
             }
-        }
 
-        // Initialize on page load
-        initializeSelect2();
-        initializeTippy();
+            // Initialize Tippy.js tooltips
+            function initializeTippy() {
+                if (typeof tippy !== 'undefined') {
+                    tippy('.action-btn', {
+                        theme: 'custom',
+                        animation: 'scale',
+                        duration: [200, 150],
+                        arrow: true,
+                        placement: 'top',
+                    });
+                }
+            }
 
-        // Reinitialize after Livewire updates
-        Livewire.hook('morph.updated', ({ el, component }) => {
+            // Initialize on page load
             initializeSelect2();
             initializeTippy();
-        });
 
-        // Listen for reset filter event to clear Select2
-        window.addEventListener('livewire:init', () => {
-            Livewire.on('filtersReset', () => {
-                $('#instanceFilter').val('').trigger('change');
-                $('#statusFilter').val('').trigger('change');
-                $('#perPage').val('10').trigger('change');
+            // Reinitialize after Livewire updates
+            Livewire.hook('morph.updated', ({
+                el,
+                component
+            }) => {
+                initializeSelect2();
+                initializeTippy();
+            });
+
+            // Listen for reset filter event to clear Select2
+            window.addEventListener('livewire:init', () => {
+                Livewire.on('filtersReset', () => {
+                    $('#instanceFilter').val('').trigger('change');
+                    $('#statusFilter').val('').trigger('change');
+                    $('#perPage').val('10').trigger('change');
+                });
             });
         });
-    });
-</script>
-
-{{-- <style>
-    /* Custom Tippy.js theme */
-    .tippy-box[data-theme~='custom'] {
-        background: linear-gradient(135deg, #0C2B4E 0%, #1A3D64 100%);
-        color: white;
-        font-size: 0.875rem;
-        font-weight: 500;
-        border-radius: 0.5rem;
-        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
-    }
-
-    .tippy-box[data-theme~='custom'][data-placement^='top']>.tippy-arrow::before {
-        border-top-color: #0C2B4E;
-    }
-
-    .tippy-box[data-theme~='custom'][data-placement^='bottom']>.tippy-arrow::before {
-        border-bottom-color: #0C2B4E;
-    }
-
-    .tippy-box[data-theme~='custom'][data-placement^='left']>.tippy-arrow::before {
-        border-left-color: #0C2B4E;
-    }
-
-    .tippy-box[data-theme~='custom'][data-placement^='right']>.tippy-arrow::before {
-        border-right-color: #0C2B4E;
-    }
-</style> --}}
-@endpush
+    </script>
+@endscript

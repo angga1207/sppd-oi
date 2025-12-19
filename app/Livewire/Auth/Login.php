@@ -35,6 +35,13 @@ class Login extends Component
         'password.min' => 'Password minimal 6 karakter',
     ];
 
+    public function mount()
+    {
+        if (Auth::check()) {
+            return redirect()->route('admin.dashboard');
+        }
+    }
+
     public function login()
     {
         $userRole = User::where('username', $this->username)->first();

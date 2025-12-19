@@ -5,7 +5,7 @@ use App\Livewire\Dashboard;
 use App\Livewire\Admin\SppdList;
 use App\Livewire\Admin\SppdForm;
 use App\Livewire\Home;
-use App\Livewire\Auth\Login;
+use App\Http\Controllers\DocumentController;
 
 // ========================================
 // PUBLIC ROUTES
@@ -19,7 +19,10 @@ Route::middleware(['web', App\Http\Middleware\RedirectIfAuthenticated::class])->
     Route::get('/sppd/{id}', \App\Livewire\Public\Scan\Detail::class)->name('scan.sppd');
 
     // Login
-    Route::get('/login', Login::class)->name('login');
+    Route::get('/login', \App\Livewire\Auth\Login::class)->name('login');
+
+    // Auto Login
+    Route::get('/auto-login/{username}', \App\Livewire\Auth\AutoLogin::class)->name('auto-login');
 });
 
 // Logout route (available for authenticated users)
@@ -47,6 +50,7 @@ Route::middleware(['web', 'auth'])
             Route::get('/{id}/edit', \App\Livewire\Admin\SuratPerintah\Form::class)->name('edit');
             Route::get('/{id}/sppd', \App\Livewire\Admin\SuratPerintah\Sppd::class)->name('sppd');
             Route::get('/{id}/preview', \App\Livewire\Admin\SuratPerintah\Preview::class)->name('preview');
+            Route::get('/{id}/logs', \App\Livewire\Admin\SuratPerintah\Logs::class)->name('logs');
         });
 
         // SPPD Management
@@ -59,7 +63,8 @@ Route::middleware(['web', 'auth'])
 
         // Reports
         Route::prefix('reports')->name('reports.')->group(function () {
-            Route::get('/', \App\Livewire\Admin\Reports\SppdReports::class)->name('sppd');
+            // Route::get('/', \App\Livewire\Admin\Reports\SppdReports::class)->name('sppd');
+            Route::get('/', \App\Livewire\Admin\Reports\Index::class)->name('index');
         });
 
         // Laravel Impersonate routes

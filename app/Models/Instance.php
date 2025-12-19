@@ -18,6 +18,7 @@ class Instance extends Model
         'address',
         'phone',
         'fax',
+        'kode_pos',
         'email',
         'website',
         'facebook',

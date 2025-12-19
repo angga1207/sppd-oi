@@ -316,10 +316,11 @@ class Sppd extends Component
             'keterangan_lain' => '',
             'publication_date' => $this->dataSuratPerintah->publication_date,
             'publication_place' => $this->dataSuratPerintah->publication_place,
-            'publication_employee_id' => $this->dataSuratPerintah->publication_employee_id,
+            'publication_employee_id' => $this->dataSuratPerintah->publication_employee_id ?? $this->dataSuratPerintah->employee_giver_id,
             'status' => 'draft', // approved, rejected, draft
             'created_by' => auth()->user()->id,
         ];
+        // dd($sppd);
 
         // Create SPPD record in database
         DB::beginTransaction();

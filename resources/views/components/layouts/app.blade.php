@@ -111,7 +111,7 @@
                                     class="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary to-secondary"></span>
                                 @endif
                             </a>
-                            <a href="{{ route('admin.reports.sppd') }}"
+                            <a href="{{ route('admin.reports.index') }}"
                                 class="group relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 {{ request()->routeIs('admin.reports.*') ? 'text-primary' : 'text-gray-600 hover:text-primary' }}">
                                 <span class="relative z-10 flex items-center gap-2">
                                     <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -260,7 +260,7 @@
                         @endif
                     </a>
 
-                    <a href="{{ route('admin.reports.sppd') }}"
+                    <a href="{{ route('admin.reports.index') }}"
                         class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all duration-300 {{ request()->routeIs('admin.reports.*') ? 'bg-gradient-to-r from-primary/10 to-secondary/10 text-primary' : 'text-gray-600 hover:bg-gray-50' }}">
                         <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

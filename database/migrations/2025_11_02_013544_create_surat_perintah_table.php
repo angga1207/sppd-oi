@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('surat_perintah', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('uuid')->unique();
-            $table->string('nomor_surat')->unique();
+            $table->string('nomor_surat')
+                // ->unique()
+                ->nullable();
 
             $table->foreignId('klasifikasi_surat_id')
                 ->nullable()
@@ -45,14 +47,14 @@ return new class extends Migration
 
             $table->foreignId('province_id')
                 ->nullable();
-                // ->constrained('reg_provinces')
-                // ->cascadeOnDelete()
-                // ->cascadeOnUpdate();
+            // ->constrained('reg_provinces')
+            // ->cascadeOnDelete()
+            // ->cascadeOnUpdate();
             $table->foreignId('regency_id')
                 ->nullable();
-                // ->constrained('reg_regencies')
-                // ->cascadeOnDelete()
-                // ->cascadeOnUpdate();
+            // ->constrained('reg_regencies')
+            // ->cascadeOnDelete()
+            // ->cascadeOnUpdate();
 
             $table->string('alat_angkutan')->nullable();
             $table->string('tempat_berangkat')->nullable();
@@ -70,8 +72,12 @@ return new class extends Migration
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate()
                 ->comment('Pegawai yang menandatangani surat perintah');
+            $table->text('file_word')->nullable();
+            $table->text('file_pdf')->nullable();
+            $table->text('file_pdf_signed')->nullable();
+            $table->timestamp('tanggal_tte')->nullable();
 
-            $table->enum('status', ['draft', 'approved', 'rejected', 'completed'])->default('draft');
+            $table->enum('status', ['draft', 'sent', 'approved', 'rejected', 'completed'])->default('draft');
             $table->foreignId('created_by')
                 ->nullable()
                 ->constrained('users')

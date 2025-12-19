@@ -12,7 +12,7 @@
                 Selamat Datang
             </h2>
             <p class="mt-2 text-sm text-gray-600">
-                di Aplikasi Surat Tugas Perjalanan Dinas (SPPD)
+                di Aplikasi Surat Tugas & Perjalanan Dinas
             </p>
         </div>
 
@@ -91,15 +91,6 @@
                                 </svg>
                             </span>
                         </button>
-                    </div>
-
-                    <div class="bg-light p-4 rounded-xl">
-                        <p class="text-primary font-semibold text-sm">Dummy Akun</p>
-                        <div class="text-xs text-gray-700">
-                            <p><strong class="select-none">Bupati:</strong> 1000</p>
-                            <p><strong class="select-none">Kadin:</strong> 197502251999031006</p>
-                            <p><strong class="select-none">Jangan Diganti Passwordnya!</strong></p>
-                        </div>
                     </div>
 
                 </form>

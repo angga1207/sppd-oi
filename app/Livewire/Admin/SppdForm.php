@@ -42,6 +42,8 @@ class SppdForm extends Component
     public $department_head; // 8a. Dikeluarkan di
     public $issued_date; // 8b. Tanggal
     public $cost_level; // 9. Instansi
+    public $dataSuratPerintah = [];
+
     public $isLoadedKodeRekening = false;
     public $alatAngkutOptions = [
         'Pesawat Udara',
@@ -310,6 +312,8 @@ class SppdForm extends Component
         $sppd = Sppd::with(['employeeGiver', 'employeeExecutor', 'instance'])
             ->findOrFail($id);
         $this->suratPerintahId = $sppd->surat_perintah_id;
+
+        $this->dataSuratPerintah = $sppd->suratPerintah;
 
         if ($sppd->employeeGiver()) {
             $employeeGiver = $sppd->employeeGiver()->first();
@@ -1134,10 +1138,10 @@ class SppdForm extends Component
                 'kode_rekening' => $this->kodeRekeningData['fullcode'] ?? null,
                 'uraian_rekening' => $this->kodeRekeningData['name'] ?? null,
                 'anggaran_rekening' => $this->kodeRekeningData['pagu_induk'] ?? null,
-                'keterangan_lain' => null,
+                // 'keterangan_lain' => null,
                 'publication_date' => $this->issued_date,
                 'publication_place' => $this->department_head,
-                'publication_employee_id' => null,
+                // 'publication_employee_id' => null,
                 // 'status' => 'approved',
                 // 'created_by' => auth()->id(),
             ];

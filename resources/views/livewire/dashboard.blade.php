@@ -8,12 +8,12 @@
 
         <!-- Statistics Cards -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <!-- Total Surat Perintah Card -->
+            <!-- Total Surat Perintah Tugas Card -->
             <div
                 class="bg-gradient-to-br from-navy to-blue-light rounded-xl shadow-lg p-6 text-white transform hover:scale-105 transition-transform duration-200">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-sm font-medium opacity-90">Total Surat Perintah</p>
+                        <p class="text-sm font-medium opacity-90">Total SPT</p>
                         <p class="text-3xl font-bold mt-2">{{ $stats['total_surat_perintah'] }}</p>
                         <p class="text-xs opacity-75 mt-2">Semua periode</p>
                     </div>
@@ -44,32 +44,32 @@
                 </div>
             </div>
 
-            <!-- Pending SPPD Card -->
+            <!-- Draft SPT Card -->
             <div
                 class="bg-gradient-to-br from-yellow-400 to-orange-500 rounded-xl shadow-lg p-6 text-white transform hover:scale-105 transition-transform duration-200">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-sm font-medium opacity-90">Belum Ditandatangani</p>
-                        <p class="text-3xl font-bold mt-2">{{ $stats['pending_surat_perintah'] }}</p>
-                        <p class="text-xs opacity-75 mt-2">Perlu ditindaklanjuti</p>
+                        <p class="text-sm font-medium opacity-90">SPT Draft</p>
+                        <p class="text-3xl font-bold mt-2">{{ $stats['draft_surat_perintah'] }}</p>
+                        <p class="text-xs opacity-75 mt-2">Belum ditandatangani</p>
                     </div>
                     <div class="bg-white bg-opacity-20 rounded-full p-4">
                         <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                         </svg>
                     </div>
                 </div>
             </div>
 
-            <!-- Approved SPPD Card -->
+            <!-- Approved SPT Card -->
             <div
                 class="bg-gradient-to-br from-green-400 to-emerald-600 rounded-xl shadow-lg p-6 text-white transform hover:scale-105 transition-transform duration-200">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-sm font-medium opacity-90">Ditandatangani</p>
+                        <p class="text-sm font-medium opacity-90">SPT Diterbitkan</p>
                         <p class="text-3xl font-bold mt-2">{{ $stats['approved_surat_perintah'] }}</p>
-                        <p class="text-xs opacity-75 mt-2">{{ $stats['approval_rate'] }}% dari total</p>
+                        <p class="text-xs opacity-75 mt-2">{{ $stats['surat_perintah_completion_rate'] }}% terbit</p>
                     </div>
                     <div class="bg-white bg-opacity-20 rounded-full p-4">
                         <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -79,44 +79,65 @@
                     </div>
                 </div>
             </div>
-
-            {{-- <!-- Completed SPPD Card -->
-            <div
-                class="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl shadow-lg p-6 text-white transform hover:scale-105 transition-transform duration-200">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-sm font-medium opacity-90">Selesai</p>
-                        <p class="text-3xl font-bold mt-2">{{ $stats['completed_sppd'] }}</p>
-                        <p class="text-xs opacity-75 mt-2">{{ $stats['completion_rate'] }}% tingkat penyelesaian</p>
-                    </div>
-                    <div class="bg-white bg-opacity-20 rounded-full p-4">
-                        <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                        </svg>
-                    </div>
-                </div>
-            </div> --}}
         </div>
 
-        @if(auth()->user()->instance_id == null)
-        <!-- Secondary Stats -->
+        <!-- SPPD Statistics Cards -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <!-- Rejected SPPD -->
-            <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-red-500">
+            <!-- Draft SPPD Card -->
+            <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-yellow-500">
                 <div class="flex items-center">
-                    <div class="flex-shrink-0 bg-red-100 rounded-full p-3">
-                        <svg class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <div class="flex-shrink-0 bg-yellow-100 rounded-full p-3">
+                        <svg class="h-6 w-6 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M6 18L18 6M6 6l12 12" />
+                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                         </svg>
                     </div>
                     <div class="ml-4">
-                        <p class="text-sm font-medium text-gray-600">Ditolak</p>
-                        <p class="text-2xl font-bold text-gray-900">{{ $stats['rejected_surat_perintah'] }}</p>
+                        <p class="text-sm font-medium text-gray-600">SPPD Draft</p>
+                        <p class="text-2xl font-bold text-gray-900">{{ $stats['draft_sppd'] }}</p>
+                        <p class="text-xs text-gray-500 mt-1">&nbsp;</p>
                     </div>
                 </div>
             </div>
 
+            <!-- Published SPPD Card -->
+            <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-green-500">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 bg-green-100 rounded-full p-3">
+                        <svg class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600">SPPD Diterbitkan</p>
+                        <p class="text-2xl font-bold text-gray-900">{{ $stats['approved_sppd'] }}</p>
+                        <p class="text-xs text-gray-500 mt-1">{{ $stats['sppd_completion_rate'] }}% dari total</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rejected SPT Card -->
+            <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-red-500">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 bg-red-100 rounded-full p-3">
+                        {{-- rejected svg --}}
+                        <svg class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600">SPT Ditolak</p>
+                        <p class="text-2xl font-bold text-gray-900">{{ $stats['rejected_surat_perintah'] }}</p>
+                        <p class="text-xs text-gray-500 mt-1">&nbsp;</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @if(auth()->user()->instance_id == null)
+        <!-- Secondary Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <!-- Total Employees -->
             <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-navy">
                 <div class="flex items-center">
@@ -153,9 +174,9 @@
 
         <!-- Charts and Tables Row -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-            <!-- Monthly Trend Chart -->
+            <!-- Monthly SPT Trend Chart -->
             <div class="bg-white rounded-xl shadow-lg p-6">
-                <h3 class="text-lg font-semibold text-gray-900 mb-4">Trend Surat Perintah 6 Bulan Terakhir</h3>
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Trend Surat Perintah Tugas 6 Bulan Terakhir</h3>
                 @if($monthlySuratPerintah->count() > 0)
                 <div class="space-y-3">
                     @php
@@ -189,9 +210,48 @@
                 @endif
             </div>
 
-            <!-- Surat Perintah by Instance -->
+            <!-- Monthly SPPD Trend Chart -->
             <div class="bg-white rounded-xl shadow-lg p-6">
-                <h3 class="text-lg font-semibold text-gray-900 mb-4">Surat Perintah per Perangkat Daerah</h3>
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Trend SPPD 6 Bulan Terakhir</h3>
+                @if($monthlySppd->count() > 0)
+                <div class="space-y-3">
+                    @php
+                    $maxSppdValue = $monthlySppd->max('total') ?: 1;
+                    @endphp
+                    @foreach($monthlySppd as $data)
+                    @php
+                    $percentage = ($data->total / $maxSppdValue) * 100;
+                    $monthName = \Carbon\Carbon::parse($data->month)->format('M Y');
+                    @endphp
+                    <div>
+                        <div class="flex items-center justify-between mb-1">
+                            <span class="text-sm font-medium text-gray-700">{{ $monthName }}</span>
+                            <span class="text-sm font-bold text-accent">{{ $data->total }}</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                            <div class="bg-gradient-to-r from-accent to-light h-3 rounded-full transition-all duration-500"
+                                style="width: {{ $percentage }}%"></div>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+                @else
+                <div class="text-center py-8 text-gray-500">
+                    <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                    <p class="mt-2">Belum ada data</p>
+                </div>
+                @endif
+            </div>
+        </div>
+
+        <!-- Distribution by Instance -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <!-- Surat Perintah Tugas by Instance -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Surat Perintah Tugas per Perangkat Daerah</h3>
                 @if($suratPerintahByInstance->count() > 0)
                 <div class="space-y-3 max-h-80 overflow-y-auto">
                     @php
@@ -208,7 +268,7 @@
                             <span class="text-sm font-bold text-navy">{{ $data['total'] }}</span>
                         </div>
                         <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
-                            <div class="bg-gradient-to-r from-green-400 to-emerald-600 h-3 rounded-full transition-all duration-500"
+                            <div class="bg-gradient-to-r from-navy to-blue-light h-3 rounded-full transition-all duration-500"
                                 style="width: {{ $percentage }}%"></div>
                         </div>
                     </div>
@@ -224,98 +284,39 @@
                 </div>
                 @endif
             </div>
-        </div>
 
-        <!-- Recent SPPD Table -->
-        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-            <div class="p-6 border-b border-gray-200">
-                <div class="flex items-center justify-between">
+            <!-- SPPD by Instance -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">SPPD per Perangkat Daerah</h3>
+                @if($sppdByInstance->count() > 0)
+                <div class="space-y-3 max-h-80 overflow-y-auto">
+                    @php
+                    $maxSppdInstanceValue = $sppdByInstance->max('total') ?: 1;
+                    @endphp
+                    @foreach($sppdByInstance as $data)
+                    @php
+                    $percentage = ($data['total'] / $maxSppdInstanceValue) * 100;
+                    @endphp
                     <div>
-                        <h3 class="text-lg font-semibold text-gray-900">SPPD Terbaru</h3>
-                        <p class="text-sm text-gray-600 mt-1">10 SPPD terakhir yang dibuat</p>
+                        <div class="flex items-center justify-between mb-1">
+                            <span class="text-sm font-medium text-gray-700 truncate pr-2">{{ $data['instance_name']
+                                }}</span>
+                            <span class="text-sm font-bold text-accent">{{ $data['total'] }}</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                            <div class="bg-gradient-to-r from-accent to-light h-3 rounded-full transition-all duration-500"
+                                style="width: {{ $percentage }}%"></div>
+                        </div>
                     </div>
-                    <a href="{{ route('admin.sppd.index') }}"
-                        class="text-navy hover:text-blue-light font-medium text-sm transition-colors">
-                        Lihat Semua →
-                    </a>
+                    @endforeach
                 </div>
-            </div>
-
-            <div class="overflow-x-auto">
-                @if($recentSppd->count() > 0)
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-cream">
-                        <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                                No. SPPD</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                                Pegawai</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                                Perangkat Daerah
-                            </th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                                Tgl Berangkat</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                                Status</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                                Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                        @foreach($recentSppd as $sppd)
-                        <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                {{ $sppd->nomor_sppd ?? 'N/A' }}
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                {{ $sppd->employeeExecutor->nama_lengkap ?? 'N/A' }}
-                            </td>
-                            <td class="px-6 py-4 text-sm text-gray-900">
-                                <span class="truncate block max-w-xs">{{ $sppd->instance->name ?? 'BUPATI' }}</span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                {{ $sppd->tanggal_berangkat ? \Carbon\Carbon::parse($sppd->tanggal_berangkat)->format('d
-                                M Y') : 'N/A' }}
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                @php
-                                $statusConfig = [
-                                'pending' => ['bg' => 'bg-yellow-100', 'text' => 'text-yellow-800', 'label' =>
-                                'Pending'],
-                                'approved' => ['bg' => 'bg-green-100', 'text' => 'text-green-800', 'label' =>
-                                'Disetujui'],
-                                'rejected' => ['bg' => 'bg-red-100', 'text' => 'text-red-800', 'label' => 'Ditolak'],
-                                'completed' => ['bg' => 'bg-blue-100', 'text' => 'text-blue-800', 'label' => 'Selesai'],
-                                ];
-                                $status = $statusConfig[$sppd->status] ?? ['bg' => 'bg-gray-100', 'text' =>
-                                'text-gray-800', 'label' => ucfirst($sppd->status)];
-                                @endphp
-                                <span
-                                    class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full {{ $status['bg'] }} {{ $status['text'] }}">
-                                    {{ $status['label'] }}
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm">
-                                <a href="{{ route('admin.sppd.edit', $sppd->id) }}"
-                                    class="text-navy hover:text-blue-light font-medium transition-colors">
-                                    Detail →
-                                </a>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
                 @else
-                <div class="text-center py-12">
-                    <svg class="mx-auto h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div class="text-center py-8 text-gray-500">
+                    <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                     </svg>
-                    <p class="mt-4 text-gray-500">Belum ada SPPD yang dibuat</p>
-                    <a href="{{ route('admin.sppd.create') }}"
-                        class="mt-4 inline-flex items-center px-4 py-2 border border-transparent rounded-lg text-sm font-medium text-white bg-navy hover:bg-opacity-90 transition-colors">
-                        Buat SPPD Baru
-                    </a>
+                    <p class="mt-2">Belum ada data</p>
                 </div>
                 @endif
             </div>

@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('sppd', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('uuid')->unique();
-            $table->string('nomor_sppd')->unique()->nullable();
+            $table->string('nomor_sppd')
+                // ->unique()
+                ->nullable();
             $table->foreignId('surat_perintah_id')
                 ->nullable()
                 ->constrained('surat_perintah')
@@ -52,14 +54,14 @@ return new class extends Migration
             $table->string('tempat_tujuan')->nullable();
             $table->foreignId('province_id')
                 ->nullable();
-                // ->constrained('reg_provinces')
-                // ->cascadeOnDelete()
-                // ->cascadeOnUpdate();
+            // ->constrained('reg_provinces')
+            // ->cascadeOnDelete()
+            // ->cascadeOnUpdate();
             $table->foreignId('regency_id')
                 ->nullable();
-                // ->constrained('reg_regencies')
-                // ->cascadeOnDelete()
-                // ->cascadeOnUpdate();
+            // ->constrained('reg_regencies')
+            // ->cascadeOnDelete()
+            // ->cascadeOnUpdate();
             $table->integer('lama_perjalanan')->nullable();
             $table->date('tanggal_berangkat')->nullable();
             $table->date('tanggal_pulang')->nullable();
@@ -86,8 +88,12 @@ return new class extends Migration
                 ->constrained('employees')
                 ->cascadeOnDelete()
                 ->comment('Pegawai yang menandatangani sppd');
+            $table->text('file_word')->nullable();
+            $table->text('file_pdf')->nullable();
+            $table->text('file_pdf_signed')->nullable();
+            $table->timestamp('tanggal_tte')->nullable();
 
-            $table->enum('status', ['draft', 'approved', 'rejected', 'completed'])->default('draft');
+            $table->enum('status', ['draft', 'sent', 'approved', 'rejected', 'completed'])->default('draft');
             $table->foreignId('created_by')
                 ->nullable()
                 ->constrained('users')
