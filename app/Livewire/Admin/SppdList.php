@@ -101,7 +101,7 @@ class SppdList extends Component
     public function duplicateSppd($id)
     {
         try {
-            $sppd = Sppd::findOrFail($id);
+            $sppd = SPPD::findOrFail($id);
 
             // Store data di session untuk form create
             session([
@@ -158,7 +158,7 @@ class SppdList extends Component
     public function deleteSppd($id)
     {
         try {
-            $sppd = Sppd::findOrFail($id);
+            $sppd = SPPD::findOrFail($id);
             $sppd->delete();
 
             LivewireAlert::title('Berhasil')
@@ -182,7 +182,7 @@ class SppdList extends Component
     public function updateStatus($id, $status)
     {
         try {
-            $sppd = Sppd::findOrFail($id);
+            $sppd = SPPD::findOrFail($id);
             $sppd->update(['status' => $status]);
 
             LivewireAlert::title('Berhasil')
@@ -205,7 +205,7 @@ class SppdList extends Component
 
     public function render()
     {
-        $sppds = Sppd::search($this->search)
+        $sppds = SPPD::search($this->search)
             ->with(['employeeGiver', 'employeeExecutor', 'instance'])
             ->when(auth()->user()->instance_id, function ($query) {
                 $query->where('instance_id', auth()->user()->instance_id);

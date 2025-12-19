@@ -78,12 +78,12 @@ class User extends Authenticatable
 
     public function createdSppds(): HasMany
     {
-        return $this->hasMany(Sppd::class, 'created_by');
+        return $this->hasMany(SPPD::class, 'created_by');
     }
 
     public function approvedSppds(): HasMany
     {
-        return $this->hasMany(Sppd::class, 'approved_by');
+        return $this->hasMany(SPPD::class, 'approved_by');
     }
 
     public function role()

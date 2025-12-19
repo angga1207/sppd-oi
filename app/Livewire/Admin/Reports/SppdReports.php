@@ -104,7 +104,7 @@ class SppdReports extends Component
 
     public function loadReportData()
     {
-        $query = Sppd::query()
+        $query = SPPD::query()
             ->with(['employeeExecutor', 'instance'])
             ->whereBetween('tanggal_berangkat', [$this->dateFrom, $this->dateTo]);
 
@@ -127,7 +127,7 @@ class SppdReports extends Component
             }
             return $sppd->lama_perjalanan ?? 0;
         }) ?? 0;
-        $this->currentMonthSppd = Sppd::whereMonth('tanggal_berangkat', Carbon::now()->month)
+        $this->currentMonthSppd = SPPD::whereMonth('tanggal_berangkat', Carbon::now()->month)
             ->whereYear('tanggal_berangkat', Carbon::now()->year)
             ->count();
 
@@ -209,7 +209,7 @@ class SppdReports extends Component
 
     public function getPaginatedDataProperty()
     {
-        $query = Sppd::query()
+        $query = SPPD::query()
             ->with(['employeeExecutor', 'instance'])
             ->whereBetween('tanggal_berangkat', [$this->dateFrom, $this->dateTo]);
 

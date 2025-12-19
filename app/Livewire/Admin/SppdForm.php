@@ -309,7 +309,7 @@ class SppdForm extends Component
 
     public function loadSppd($id)
     {
-        $sppd = Sppd::with(['employeeGiver', 'employeeExecutor', 'instance'])
+        $sppd = SPPD::with(['employeeGiver', 'employeeExecutor', 'instance'])
             ->findOrFail($id);
         $this->suratPerintahId = $sppd->surat_perintah_id;
 
@@ -1147,13 +1147,13 @@ class SppdForm extends Component
             ];
 
             if ($this->isEdit) {
-                $sppd = Sppd::findOrFail($this->sppdId);
+                $sppd = SPPD::findOrFail($this->sppdId);
                 $sppd->update($data);
                 $message = 'SPPD berhasil diperbarui';
             } else {
                 $data['status'] = 'approved';
                 $data['created_by'] = auth()->id();
-                Sppd::create($data);
+                SPPD::create($data);
                 $message = 'SPPD berhasil dibuat';
             }
 

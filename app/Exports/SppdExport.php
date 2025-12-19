@@ -31,7 +31,7 @@ class SppdExport implements FromQuery, WithHeadings, WithMapping, WithStyles, Wi
      */
     public function query()
     {
-        $query = Sppd::query()->with(['employeeGiver', 'employeeExecutor', 'instance', 'instancePembebanan']);
+        $query = SPPD::query()->with(['employeeGiver', 'employeeExecutor', 'instance', 'instancePembebanan']);
 
         // Apply filters
         if (!empty($this->filters['search'])) {

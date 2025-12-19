@@ -20,7 +20,7 @@ class Preview extends Component
     public function mount($id)
     {
         // Fetch SPPD data based on the provided ID
-        $sppd = \App\Models\Sppd::with(['employeeGiver', 'employeeExecutor', 'instance', 'publicationEmployee'])->findOrFail($id);
+        $sppd = \App\Models\SPPD::with(['employeeGiver', 'employeeExecutor', 'instance', 'publicationEmployee'])->findOrFail($id);
         $this->suratPerintahId = $sppd->surat_perintah_id;
 
         // dd($sppd);

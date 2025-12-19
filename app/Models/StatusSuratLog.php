@@ -22,7 +22,7 @@ class StatusSuratLog extends Model
         if ($this->type === 'surat_perintah') {
             return $this->belongsTo(SuratPerintah::class, 'reference_id');
         } elseif ($this->type === 'sppd') {
-            return $this->belongsTo(Sppd::class, 'reference_id');
+            return $this->belongsTo(SPPD::class, 'reference_id');
         }
     }
 

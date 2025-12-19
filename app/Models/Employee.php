@@ -108,6 +108,6 @@ class Employee extends Model
 
     public function sppd()
     {
-        return $this->hasMany(Sppd::class, 'employee_executor_id');
+        return $this->hasMany(SPPD::class, 'employee_executor_id');
     }
 }

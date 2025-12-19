@@ -37,6 +37,6 @@ class Instance extends Model
 
     public function sppds(): HasMany
     {
-        return $this->hasMany(Sppd::class, 'budget_department_id');
+        return $this->hasMany(SPPD::class, 'budget_department_id');
     }
 }
