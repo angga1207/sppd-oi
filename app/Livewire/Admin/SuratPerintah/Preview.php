@@ -383,10 +383,10 @@ class Preview extends Component
         $savePath = escapeshellarg($output_dir);
 
         // LibreOffice shell command to convert doc to pdf
-        $command = "/Applications/LibreOffice.app/Contents/MacOS/soffice --headless --convert-to pdf {$path} --outdir {$savePath} 2>&1";
+        // $command = "/Applications/LibreOffice.app/Contents/MacOS/soffice --headless --convert-to pdf {$path} --outdir {$savePath} 2>&1";
 
         // Linux LibreOffice shell command to convert doc to pdf
-        // $command = "libreoffice --headless --convert-to pdf {$path} --outdir {$savePath} 2>&1";
+        $command = "libreoffice --headless --convert-to pdf {$path} --outdir {$savePath} 2>&1";
 
         // COMMAND DARI THEDA
         // $command = "libreoffice7.6 --headless --convert-to pdf $path --outdir $savePath";
