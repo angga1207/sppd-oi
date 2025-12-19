@@ -140,11 +140,7 @@
                             <tr>
                                 <th
                                     class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
-                                    No. Surat Perintah
-                                </th>
-                                <th
-                                    class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
-                                    Pejabat Pemberi Perintah
+                                    No. Surat Perintah Tugas
                                 </th>
                                 <th
                                     class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
@@ -152,16 +148,22 @@
                                 </th>
                                 <th
                                     class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
-                                    Ditandatangani
-                                </th>
-                                <th
-                                    class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
                                     Tujuan
                                 </th>
                                 <th
                                     class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
-                                    Pembuatan Surat
+                                    Pejabat Pemberi Perintah
                                 </th>
+                                <th
+                                    class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
+                                    Ditandatangani
+                                </th>
+                                @if (auth()->user()->role_id == 1)
+                                    <th
+                                        class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
+                                        Pembuatan Surat
+                                    </th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
@@ -289,18 +291,6 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex items-center">
-                                            <div>
-                                                <div class="text-sm font-medium text-gray-900">
-                                                    {{ $data->employeeGiver->nama_lengkap ?? 'N/A' }}
-                                                </div>
-                                                <div class="text-xs text-muted whitespace-nowrap">
-                                                    NIP: {{ $data->employeeGiver->nip ?? 'N/A' }}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-900">
                                             <div class="flex items-center gap-1">
@@ -318,22 +308,9 @@
                                             {{ \Carbon\Carbon::parse($data->tanggal_pulang)->isoFormat('DD MMM Y') }}
                                         </div>
                                         <div class="">
-                                            {{-- duration --}}
                                             <span class="text-xs text-muted">
                                                 ({{ $data->lama_perjalanan }} hari)
                                             </span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <div class="text-sm font-medium text-gray-900 whitespace-nowrap">
-                                            {{ $data->publicationEmployee->nama_lengkap ?? '' }}
-                                        </div>
-                                        <div class="text-xs text-muted whitespace-nowrap">
-                                            NIP: {{ $data->publicationEmployee->nip ?? '' }}
-                                        </div>
-                                        {{-- Date --}}
-                                        <div class="text-xs text-muted mt-1">
-                                            {{ \Carbon\Carbon::parse($data->publication_date)->isoFormat('DD MMMM Y') }}
                                         </div>
                                     </td>
                                     <td class="px-6 py-4">
@@ -356,17 +333,42 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900">
-                                            Dibuat oleh <br>
-                                            <span class="font-medium">
-                                                {{ $data->Creator->name ?? 'N/A' }}
-                                            </span>
-                                        </div>
-                                        <div class="text-xs text-muted mt-1">
-                                            {{ \Carbon\Carbon::parse($data->created_at)->isoFormat('DD MMMM Y HH:mm [WIB]') }}
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center">
+                                            <div>
+                                                <div class="text-sm font-medium text-gray-900">
+                                                    {{ $data->employeeGiver->nama_lengkap ?? 'N/A' }}
+                                                </div>
+                                                <div class="text-xs text-muted whitespace-nowrap">
+                                                    NIP: {{ $data->employeeGiver->nip ?? 'N/A' }}
+                                                </div>
+                                            </div>
                                         </div>
                                     </td>
+                                    <td class="px-6 py-4">
+                                        <div class="text-sm font-medium text-gray-900 whitespace-nowrap">
+                                            {{ $data->publicationEmployee->nama_lengkap ?? '' }}
+                                        </div>
+                                        <div class="text-xs text-muted whitespace-nowrap">
+                                            NIP: {{ $data->publicationEmployee->nip ?? '' }}
+                                        </div>
+                                        <div class="text-xs text-muted mt-1">
+                                            {{ \Carbon\Carbon::parse($data->publication_date)->isoFormat('DD MMMM Y') }}
+                                        </div>
+                                    </td>
+                                    @if (auth()->user()->role_id == 1)
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">
+                                                Dibuat oleh <br>
+                                                <span class="font-medium">
+                                                    {{ $data->Creator->name ?? 'N/A' }}
+                                                </span>
+                                            </div>
+                                            <div class="text-xs text-muted mt-1">
+                                                {{ \Carbon\Carbon::parse($data->created_at)->isoFormat('DD MMMM Y HH:mm [WIB]') }}
+                                            </div>
+                                        </td>
+                                    @endif
                                 </tr>
                             @endforeach
                         </tbody>
@@ -498,7 +500,7 @@
                                         <span class="font-medium text-gray-900">
                                             {{ $selectedSppdForSign
                                                 ? \Carbon\Carbon::parse($selectedSppdForSign['tanggal_berangkat'])->format('d M
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    Y')
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            Y')
                                                 : 'N/A' }}
                                         </span>
                                     </div>

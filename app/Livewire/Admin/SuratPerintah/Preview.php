@@ -43,7 +43,7 @@ class Preview extends Component
             return redirect()->route('admin.surat-perintah.index');
         }
         $this->dataId = $id;
-        $this->previewData = SuratPerintah::find($id);
+        $this->previewData = SuratPerintah::with('sppds')->find($id);
     }
 
     public function downloadSuratPerintah()

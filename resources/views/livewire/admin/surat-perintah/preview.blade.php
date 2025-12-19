@@ -114,7 +114,8 @@
                             Surat Perintah Tugas ini telah ditandatangani secara digital dan dapat diunduh.
                         </div> --}}
                         <div class="mt-4 border border-navy rounded-xl p-4 pb-10 bg-white shadow-lg relative">
-                            <iframe src="{{ asset('storage/surat_perintah_tugas_sign/' . $previewData['file_pdf_signed']) }}"
+                            <iframe
+                                src="{{ asset('storage/surat_perintah_tugas_sign/' . $previewData['file_pdf_signed']) }}"
                                 class="w-full h-[800px] rounded-xl border border-navy"></iframe>
                         </div>
                     @else
@@ -272,10 +273,10 @@
 
                                     <div class="text-center">
                                         <div class="text-lg font-bold mt-4 whitespace-nowrap">
-                                            @if ($previewData['issued_nip'] != '1000')
-                                                {{ $previewData['issued_jabatan_title'] }}
-                                            @elseif($previewData['issued_nip'] == '1000')
-                                                {{ $previewData['issued_jabatan'] }}
+                                            @if ($previewData->publicationEmployee->nip != '1000')
+                                                {{ $previewData->publicationEmployee->jabatan ? (str_contains(strtolower($previewData->publicationEmployee->jabatan), 'kepala dinas') ? 'KEPALA DINAS' : '') : '' }}
+                                            @elseif($previewData->publicationEmployee->nip == '1000')
+                                                BUPATI KABUPATEN OGAN ILIR
                                             @endif
                                         </div>
                                         <div class="h-[75px]">
@@ -293,8 +294,6 @@
                                         <div class="whitespace-nowrap">
                                             @if ($previewData->publicationEmployee->nip != '1000')
                                                 NIP : {{ $previewData->publicationEmployee->nip }}
-                                            @else
-                                                BUPATI KABUPATEN OGAN ILIR
                                             @endif
                                         </div>
                                     </div>
