@@ -73,13 +73,77 @@ class Login extends Component
             if (Auth::check()) {
                 return redirect()->route('admin.dashboard');
             } else {
-                LivewireAlert::title('Login Gagal')
-                    ->text('NIP atau Kata Sandi yang Anda masukkan salah.')
-                    ->error()
-                    ->position('center')
-                    ->show();
+                // LivewireAlert::title('Login Gagal')
+                //     ->text('NIP atau Kata Sandi yang Anda masukkan salah.')
+                //     ->error()
+                //     ->position('center')
+                //     ->show();
 
-                $this->reset(['password']);
+                // $this->reset(['password']);
+
+                $uri = 'https://semesta.oganilirkab.go.id/api/auth-user-evalakip';
+                $response = Http::withHeaders([
+                    'Accept' => 'application/json',
+                    'User-Agent' => 'PostmanRuntime/7.44.1',
+                ])->post($uri, [
+                    'username' => $this->username,
+                    'password' => $this->password,
+                ]);
+
+                if ($response->status() == 200) {
+                    $data = $response->json();
+                    $user = User::where('username', $data['atribut_user']['username'])->first();
+                    if (!$user) {
+                        // Create local user if not exists
+                        $instance = Instance::where('id_eoffice', $data['atribut_user']['id_skpd'])
+                            ->first();
+
+                        $role = 3;
+                        if ($data['atribut_user']['jabatan'] == 'Bupati Ogan Ilir' || $data['atribut_user']['jabatan'] == 'Wakil Bupati Ogan Ilir') {
+                            $role = 2;
+                        } elseif ($data['atribut_user']['jabatan'] == 'Sekretaris Daerah') {
+                            $role = 2;
+                        } elseif (str_contains($data['atribut_user']['jabatan'], 'Kepala Dinas')) {
+                            $role = 2;
+                        }
+
+                        $user = User::create([
+                            'name' => $data['atribut_user']['fullname'],
+                            'email' => $data['atribut_user']['email'] ?? $data['atribut_user']['username'] . '@oganilirkab.go.id',
+                            'username' => $data['atribut_user']['username'],
+                            'nik' => $data['atribut_user']['nik'],
+                            // 'image' => '/storage/images/users/default.png',
+                            'image' => $data['atribut_user']['foto_pegawai'] ?? '/storage/images/users/default.png',
+                            'role_id' => $role, // Default role as Staff
+                            'instance_id' => $instance->id ?? null,
+                            'jabatan' => $data['atribut_user']['jabatan'] ?? null,
+                            'no_hp' => $data['atribut_user']['no_hp'] ?? null,
+                            'password' => bcrypt($this->password),
+                        ]);
+                    }
+                    // Login the user
+                    Auth::loginUsingId($user->id, $this->remember);
+
+                    if (Auth::check()) {
+                        return redirect()->route('admin.dashboard');
+                    } else {
+                        LivewireAlert::title('Login Gagal')
+                            ->text('NIP atau Kata Sandi yang Anda masukkan salah.')
+                            ->error()
+                            ->position('center')
+                            ->show();
+
+                        $this->reset(['password']);
+                    }
+                } else {
+                    LivewireAlert::title('Login Gagal')
+                        ->text('NIP atau Kata Sandi yang Anda masukkan salah.')
+                        ->error()
+                        ->position('center')
+                        ->show();
+
+                    $this->reset(['password']);
+                }
             }
         } else {
             $this->validate([
