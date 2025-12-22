@@ -173,7 +173,7 @@ use App\Models\SPPD;
 
                                         @if ($showEmployees)
                                             <div class="max-h-60 overflow-y-auto space-y-2">
-                                                @foreach ($semestaUsers as $user)
+                                                @forelse ($semestaUsers as $user)
                                                     <div wire:click="selectEmployee({{ json_encode($user) }})"
                                                         class="p-3 bg-white border border-gray-200 rounded-lg hover:bg-navy hover:text-white cursor-pointer transition duration-150">
 
@@ -193,7 +193,11 @@ use App\Models\SPPD;
                                                             {{ $user['jabatan'] ?? 'N/A' }}
                                                         </p>
                                                     </div>
-                                                @endforeach
+                                                @empty
+                                                    <p class="text-sm text-gray-500">
+                                                        Tidak ada pegawai yang ditemukan.
+                                                    </p>
+                                                @endforelse
                                             </div>
                                         @endif
                                     </div>
@@ -255,8 +259,291 @@ use App\Models\SPPD;
                                                 @endif
                                             </div>
                                         </div>
-                                        <div class="flex items-center gap-2 mt-4">
+
+                                        <div class="mt-4">
+                                            <div class="flex-1 mb-2">
+                                                <label for="kodeRekening"
+                                                    class="block text-sm font-medium text-gray-700">
+                                                    Mata Anggaran <span class="text-red-500">*</span>
+                                                </label>
+                                                <div class="text-xs text-gray-500 mt-1">
+                                                    {{ count($arrSubKegiatan) > 0 ? count($arrSubKegiatan) . ' Sub Kegiatan Ditemukan' : '' }}
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="flex flex-col sm:flex-row sm:flex-wrap sm:items-end sm:mb-4 gap-2">
+                                                <div class="flex-none flex items-center gap-2">
+                                                    <div class="" wire:ignore>
+                                                        <select wire:model.live="selectedYear" id="selectedYear"
+                                                            class="select2 form-input w-[150px] @error('selectedYear') border-red-500 @enderror"
+                                                            data-placeholder="-- Pilih Tahun --">
+                                                            <option value="">-- Pilih Tahun --</option>
+                                                            @foreach ($availableYears as $year)
+                                                                <option value="{{ $year }}">
+                                                                    {{ $year }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <div class="" wire:ignore>
+                                                        <select wire:model.live="selectedMonth" id="selectedMonth"
+                                                            class="select2 form-input w-[150px] @error('selectedMonth') border-red-500 @enderror"
+                                                            data-placeholder="-- Pilih Bulan --">
+                                                            <option value="">-- Pilih Bulan --</option>
+                                                            @foreach ($availableMonths as $month => $monthName)
+                                                                <option value="{{ $month }}">
+                                                                    {{ $monthName }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+
+                                                    @if ($dataSuratPerintah->status == 'draft')
+                                                        <button type="button" wire:click="fetchKodeRekening"
+                                                            wire:loading.attr="disabled"
+                                                            class="inline-flex items-center px-6 py-3 border border-transparent rounded-lg text-sm font-medium text-white bg-navy hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-navy disabled:opacity-50 transition duration-150">
+                                                            <span wire:loading.remove wire:target="fetchKodeRekening"
+                                                                class="flex items-center">
+                                                                <svg class="h-5 w-5 mr-2" fill="none"
+                                                                    viewBox="0 0 24 24" stroke="currentColor">
+                                                                    <path stroke-linecap="round"
+                                                                        stroke-linejoin="round" stroke-width="2"
+                                                                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                                                </svg>
+                                                                <span>
+                                                                    Ambil Pagu
+                                                                </span>
+                                                            </span>
+                                                            <span wire:loading wire:target="fetchKodeRekening">
+                                                                <svg class="animate-spin h-5 w-5 text-white"
+                                                                    xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                    viewBox="0 0 24 24">
+                                                                    <circle class="opacity-25" cx="12"
+                                                                        cy="12" r="10" stroke="currentColor"
+                                                                        stroke-width="4"></circle>
+                                                                    <path class="opacity-75" fill="currentColor"
+                                                                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                                                    </path>
+                                                                </svg>
+                                                            </span>
+                                                        </button>
+                                                    @else
+                                                        <button type="button" disabled
+                                                            class="inline-flex items-center px-6 py-3 border border-transparent rounded-lg text-sm font-medium text-white bg-navy hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-navy disabled:opacity-50 transition duration-150">
+                                                            <span wire:loading.remove wire:target="fetchKodeRekening"
+                                                                class="flex items-center">
+                                                                <svg class="h-5 w-5 mr-2" fill="none"
+                                                                    viewBox="0 0 24 24" stroke="currentColor">
+                                                                    <path stroke-linecap="round"
+                                                                        stroke-linejoin="round" stroke-width="2"
+                                                                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                                                </svg>
+                                                                <span>
+                                                                    Ambil Pagu
+                                                                </span>
+                                                            </span>
+                                                            <span wire:loading wire:target="fetchKodeRekening">
+                                                                <svg class="animate-spin h-5 w-5 text-white"
+                                                                    xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                    viewBox="0 0 24 24">
+                                                                    <circle class="opacity-25" cx="12"
+                                                                        cy="12" r="10" stroke="currentColor"
+                                                                        stroke-width="4"></circle>
+                                                                    <path class="opacity-75" fill="currentColor"
+                                                                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                                                    </path>
+                                                                </svg>
+                                                            </span>
+                                                        </button>
+                                                    @endif
+                                                </div>
+                                            </div>
+
+                                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                                <div class="">
+                                                    <div class="flex flex-col sm:flex-row sm:flex-wrap gap-2">
+                                                        <div class="flex-1" wire:ignore x-data="{
+                                                            arrSubKegiatan: @entangle('arrSubKegiatan'),
+                                                            subKegiatan: @entangle('subKegiatan')
+                                                        }"
+                                                            x-init="let select = $('#subKegiatan');
+                                                            select.select2({
+                                                                theme: 'default',
+                                                                width: '100%',
+                                                                placeholder: '-- Pilih Sub Kegiatan --',
+                                                                allowClear: true
+                                                            }).on('change', function() {
+                                                                subKegiatan = $(this).val();
+                                                                $wire.set('subKegiatan', subKegiatan);
+                                                                console.log(subKegiatan);
+                                                            });
+
+                                                            $watch('arrSubKegiatan', value => {
+                                                                select.empty();
+                                                                select.append(new Option('-- Pilih Sub Kegiatan --', '', true, true));
+                                                                value.forEach(item => {
+                                                                    select.append(new Option(item.fullcode + ' - ' + item.name, item.fullcode));
+                                                                });
+                                                                select.trigger('change');
+                                                            });
+
+                                                            $watch('subKegiatan', value => {
+                                                                if (select.val() !== value) {
+                                                                    select.val(value).trigger('change.select2');
+                                                                }
+                                                            });">
+                                                            <select id="subKegiatan"
+                                                                class="form-input @error('subKegiatan') border-red-500 @enderror">
+                                                                <option value="">-- Pilih Sub Kegiatan --
+                                                                </option>
+                                                                @foreach ($arrSubKegiatan as $subKegiatan)
+                                                                    <option value="{{ $subKegiatan['fullcode'] }}">
+                                                                        {{ $subKegiatan['fullcode'] . ' - ' . $subKegiatan['name'] }}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    @error('subKegiatan')
+                                                        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                                                    @enderror
+                                                </div>
+                                                <div class="">
+                                                    @if ($isLoadedKodeRekening)
+                                                        @if ($subKegiatanData)
+                                                            <div class="flex flex-col sm:flex-row gap-2">
+                                                                <div class="flex-1" wire:ignore
+                                                                    x-data="{
+                                                                        arrKodeRekening: @entangle('arrKodeRekening'),
+                                                                        kodeRekening: @entangle('kodeRekening')
+                                                                    }" x-init="let select = $('#kodeRekening');
+                                                                    select.select2({
+                                                                        theme: 'default',
+                                                                        width: '100%',
+                                                                        placeholder: '-- Pilih Kode Rekening --',
+                                                                        allowClear: true
+                                                                    }).on('change', function() {
+                                                                        kodeRekening = $(this).val();
+                                                                        $wire.set('kodeRekening', kodeRekening);
+                                                                    });
+
+                                                                    $watch('arrKodeRekening', value => {
+                                                                        select.empty();
+                                                                        select.append(new Option('-- Pilih Kode Rekening --', '', true, true));
+                                                                        if (value && value.length > 0) {
+                                                                            value.forEach(item => {
+                                                                                let pagu = new Intl.NumberFormat('id-ID').format(item.pagu_induk);
+                                                                                select.append(new Option(item.fullcode + ' - ' + item.name + ' (Rp. ' + pagu + ')', item.fullcode));
+                                                                            });
+                                                                        }
+                                                                        select.trigger('change');
+                                                                    });
+
+                                                                    $watch('kodeRekening', value => {
+                                                                        if (select.val() !== value) {
+                                                                            select.val(value).trigger('change.select2');
+                                                                        }
+                                                                    });">
+                                                                    <select id="kodeRekening"
+                                                                        class="form-input @error('kodeRekening') border-red-500 @enderror">
+                                                                        <option value="">-- Pilih Kode Rekening
+                                                                            --
+                                                                        </option>
+                                                                        @foreach ($arrKodeRekening as $option)
+                                                                            <option value="{{ $option['fullcode'] }}">
+                                                                                {{ $option['fullcode'] . ' - ' . $option['name'] }}
+                                                                                (Rp.
+                                                                                {{ number_format($option['pagu_induk'], 0, ',', '.') }})
+                                                                            </option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            @error('kodeRekening')
+                                                                <p class="mt-2 text-sm text-red-600">{{ $message }}
+                                                                </p>
+                                                            @enderror
+                                                        @endif
+                                                    @endif
+                                                </div>
+                                            </div>
+
+
+                                            <div class="hidden">
+                                                @if ($subKegiatan && $subKegiatanData)
+                                                    <div
+                                                        class="mt-3 p-3 bg-indigo-50 border-l-4 border-indigo-400 rounded">
+                                                        <div class="flex items-center">
+                                                            <svg class="h-5 w-5 text-indigo-400 mr-2"
+                                                                fill="currentColor" viewBox="0 0 20 20">
+                                                                <path fill-rule="evenodd"
+                                                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                                                    clip-rule="evenodd" />
+                                                            </svg>
+                                                            <span class="text-sm text-indigo-700">
+                                                                <strong>
+                                                                    Sub Kegiatan
+                                                                </strong>
+                                                            </span>
+                                                        </div>
+                                                        <div class="mt-2 text-sm text-indigo-700">
+                                                            <p>
+                                                                <span class="font-medium">Kode:</span>
+                                                                {{ $subKegiatanData['fullcode'] }}
+                                                            </p>
+                                                            <p>
+                                                                <span class="font-medium">Uraian:</span>
+                                                                {{ $subKegiatanData['name'] }}
+                                                            </p>
+                                                            {{-- <p>
+                                                                <span class="font-medium">Pagu Induk:</span>
+                                                                Rp.
+                                                                {{ number_format($subKegiatanData['pagu_induk'] ?? 0, 0, ',', '.') }}
+                                                            </p> --}}
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                                @if ($kodeRekening && $kodeRekeningData)
+                                                    <div
+                                                        class="mt-3 p-3 bg-green-50 border-l-4 border-green-400 rounded">
+                                                        <div class="flex items-center">
+                                                            <svg class="h-5 w-5 text-green-400 mr-2"
+                                                                fill="currentColor" viewBox="0 0 20 20">
+                                                                <path fill-rule="evenodd"
+                                                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                                                    clip-rule="evenodd" />
+                                                            </svg>
+                                                            <span class="text-sm text-green-700">
+                                                                <strong>
+                                                                    Kode Rekening
+                                                                </strong>
+                                                            </span>
+                                                        </div>
+                                                        <div class="mt-2 text-sm text-green-700">
+                                                            <p>
+                                                                <span class="font-medium">Kode:</span>
+                                                                {{ $kodeRekening }}
+                                                            </p>
+                                                            <p>
+                                                                <span class="font-medium">Uraian:</span>
+                                                                {{ $kodeRekeningData['name'] }}
+                                                            </p>
+                                                            <p>
+                                                                <span class="font-medium">Pagu Induk:</span>
+                                                                Rp.
+                                                                {{ number_format($kodeRekeningData['pagu_induk'] ?? 0, 0, ',', '.') }}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                            </div>
+
+                                        </div>
+
+                                        <div class="mt-4">
                                             <!-- Nomor SPPD -->
+                                            <label for="sppd_number"
+                                                class="block text-sm font-medium text-gray-700 mb-2">
+                                                Nomor SPPD <span class="text-red-500">*</span>
+                                            </label>
                                             <div>
                                                 <input wire:model="sppd_number" type="text" id="sppd_number"
                                                     class="form-input w-[400px] @error('sppd_number') border-red-500 @enderror"
@@ -265,9 +552,12 @@ use App\Models\SPPD;
                                                     <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                                                 @enderror
                                             </div>
+                                        </div>
 
+
+                                        <div class="mt-4 flex items-center justify-end">
                                             <button type="button" wire:click="confirmAddEmployee"
-                                                class="px-4 py-2 btn-primary">
+                                                class="btn-primary">
                                                 <x-heroicon-o-plus class="w-5 h-5 mr-1" />
                                                 Tambah Pegawai ke SPPD
                                             </button>
@@ -299,7 +589,7 @@ use App\Models\SPPD;
                                         <tr>
                                             <th
                                                 class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
-                                                No. SPPD
+                                                SPPD
                                             </th>
                                             <th
                                                 class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
@@ -336,14 +626,14 @@ use App\Models\SPPD;
                                                                 </div>
                                                             </div>
 
-                                                            <div class="flex items-center justify-end gap-2">
+                                                            <div class="flex items-center justify-start gap-2">
 
                                                                 <!-- Preview Button -->
-                                                                <a href="{{ route('admin.sppd.preview', $sppd->id) }}"
+                                                                {{-- <a href="{{ route('admin.sppd.preview', $sppd->id) }}"
                                                                     class="action-btn p-2 text-green-600 hover:bg-green-50 rounded-lg transition duration-150"
                                                                     data-tippy-content="Lihat SPPD">
                                                                     <x-heroicon-o-eye class="w-5 h-5 text-green-500" />
-                                                                </a>
+                                                                </a> --}}
 
                                                                 <!-- Edit Button -->
                                                                 <a href="{{ route('admin.sppd.edit', $sppd->id) }}"

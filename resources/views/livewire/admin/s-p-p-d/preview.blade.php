@@ -75,7 +75,10 @@
                                 <p>a. Pangkat dan Golongan</p>
                             </td>
                             <td class="min-w-[300px] border border-y-0 border-navy px-3 pt-3 text-left">
-                                <p>a. {{ $previewData['pegawai_pangkat'] }}</p>
+                                <p>
+                                    a. {{ $previewData['pegawai_pangkat'] }}
+                                    {{ $previewData['pegawai_golongan'] ? '(' . $previewData['pegawai_golongan'] . ')' : '' }}
+                                </p>
                             </td>
                         </tr>
 

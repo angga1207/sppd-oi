@@ -662,7 +662,7 @@
                                             <button type="button" wire:click="fetchKodeRekening"
                                                 wire:loading.attr="disabled"
                                                 class="inline-flex items-center px-6 py-3 border border-transparent rounded-lg text-sm font-medium text-white bg-navy hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-navy disabled:opacity-50 transition duration-150">
-                                                <span wire:loading.remove wire:target="fetchSemestaUsers"
+                                                <span wire:loading.remove wire:target="fetchKodeRekening"
                                                     class="flex items-center">
                                                     <svg class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
                                                         stroke="currentColor">
@@ -674,7 +674,7 @@
                                                         Ambil Pagu
                                                     </span>
                                                 </span>
-                                                <span wire:loading wire:target="fetchSemestaUsers">
+                                                <span wire:loading wire:target="fetchKodeRekening">
                                                     <svg class="animate-spin h-5 w-5 text-white"
                                                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                                         <circle class="opacity-25" cx="12" cy="12" r="10"
@@ -688,7 +688,7 @@
                                         @else
                                             <button type="button" disabled
                                                 class="inline-flex items-center px-6 py-3 border border-transparent rounded-lg text-sm font-medium text-white bg-navy hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-navy disabled:opacity-50 transition duration-150">
-                                                <span wire:loading.remove wire:target="fetchSemestaUsers"
+                                                <span wire:loading.remove wire:target="fetchKodeRekening"
                                                     class="flex items-center">
                                                     <svg class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
                                                         stroke="currentColor">
@@ -700,7 +700,7 @@
                                                         Ambil Pagu
                                                     </span>
                                                 </span>
-                                                <span wire:loading wire:target="fetchSemestaUsers">
+                                                <span wire:loading wire:target="fetchKodeRekening">
                                                     <svg class="animate-spin h-5 w-5 text-white"
                                                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                                         <circle class="opacity-25" cx="12" cy="12" r="10"

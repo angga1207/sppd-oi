@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\SuratPerintah;
 
+use Carbon\Carbon;
 use Livewire\Component;
 use App\Models\Employee;
 use App\Models\Instance;
@@ -28,6 +29,19 @@ class Sppd extends Component
     public $selectedEmployee = null;
     public $sppd_number = '';
     public $sppds = [];
+
+    public $availableYears;
+    public $availableMonths;
+    public $selectedYear;
+    public $selectedMonth;
+
+    public $isLoadedKodeRekening = false;
+    public $kodeRekening = null;
+    public $kodeRekeningData = null;
+    public $subKegiatan = null;
+    public $subKegiatanData = null;
+    public $arrSubKegiatan = [];
+    public $arrKodeRekening = [];
 
     public $tingkatOptions = [
         [
@@ -70,6 +84,29 @@ class Sppd extends Component
         $this->instanceId = $this->dataSuratPerintah ? $this->dataSuratPerintah->instance_id : '';
         $this->instanceSelected = $this->instanceId;
         $this->loadSppds();
+
+
+        $this->availableYears = [];
+        for ($year = Carbon::now()->year; $year >= 2024; $year--) {
+            $this->availableYears[] = $year;
+        }
+        $this->availableMonths = [
+            '01' => 'Januari',
+            '02' => 'Februari',
+            '03' => 'Maret',
+            '04' => 'April',
+            '05' => 'Mei',
+            '06' => 'Juni',
+            '07' => 'Juli',
+            '08' => 'Agustus',
+            '09' => 'September',
+            '10' => 'Oktober',
+            '11' => 'November',
+            '12' => 'Desember',
+        ];
+
+        $this->selectedMonth = Carbon::now()->format('m');
+        $this->selectedYear = Carbon::now()->format('Y');
     }
 
     public function fetchSemestaUsers()
@@ -78,6 +115,12 @@ class Sppd extends Component
         $this->searchEmployee = '';       // Search query for employees
         $this->semestaUsers = [];
         $this->showEmployees = false;
+
+        // reset SubKegiatan & Kode Rekening
+        $this->subKegiatan = null;
+        $this->subKegiatanData = null;
+        $this->kodeRekening = null;
+        $this->kodeRekeningData = null;
 
         if (!$this->instanceSelected) {
             LivewireAlert::title('Peringatan')
@@ -117,11 +160,12 @@ class Sppd extends Component
             if ($response->status() == 200) {
                 $dataSemestaUsers = $response->json()['data'] ?? [];
                 $dataSemestaUsers = collect($dataSemestaUsers);
+                $this->rawSemestaUsers = $dataSemestaUsers;
                 // dd($this->dataSuratPerintah);
                 if (!$this->dataSuratPerintah->employee_giver_instance_id) {
                     $dataSemestaUsers = $dataSemestaUsers->where('kepala_skpd', 'Y');
                     $dataSemestaUsers = $dataSemestaUsers->values()->toArray();
-                }else if ($this->dataSuratPerintah->instance_id) {
+                } else if ($this->dataSuratPerintah->instance_id) {
                     $employeeGiver = $this->dataSuratPerintah->employeeGiver;
                     $dataSemestaUsers = $dataSemestaUsers->whereNotIn('id', $employeeGiver ? [$employeeGiver->semesta_id] : []);
                     $dataSemestaUsers = $dataSemestaUsers->values()->toArray();
@@ -131,7 +175,8 @@ class Sppd extends Component
                 }
 
                 $this->semestaUsers = $dataSemestaUsers;
-                $this->rawSemestaUsers = $this->semestaUsers;
+                // $this->rawSemestaUsers = $this->semestaUsers;
+                // dd($this->rawSemestaUsers);
 
                 LivewireAlert::title('Berhasil')
                     ->text('Data pegawai berhasil dimuat')
@@ -204,24 +249,29 @@ class Sppd extends Component
 
     public function confirmAddEmployee()
     {
+        // dd($this->kodeRekeningData, $this->subKegiatanData);
         if (!$this->selectedEmployee) {
             LivewireAlert::title('Peringatan')
-            ->text('Silakan pilih pegawai terlebih dahulu')
-            ->warning()
-            ->position('top-end')
-            ->timer(3000)
-            ->toast()
-            ->show();
+                ->text('Silakan pilih pegawai terlebih dahulu')
+                ->warning()
+                ->position('top-end')
+                ->timer(3000)
+                ->toast()
+                ->show();
             return;
         }
 
         $this->validate(
             [
                 'sppd_number' => 'required|string|unique:sppd,nomor_sppd',
+                'kodeRekening' => 'required',
+                'subKegiatan' => 'required',
             ],
             [],
             [
                 'sppd_number' => 'Nomor SPPD',
+                'kodeRekening' => 'Kode Rekening',
+                'subKegiatan' => 'Sub Kegiatan',
             ]
         );
 
@@ -235,7 +285,7 @@ class Sppd extends Component
             ->first();
         if ($existingSppd) {
             LivewireAlert::title('Peringatan')
-                ->text('Pegawai yang dipilih sudah memiliki SPPD untuk Surat Perintah ini')
+                ->text('Pegawai yang dipilih sudah memiliki SPPD untuk Surat Perintah Tugas ini')
                 ->warning()
                 ->show();
             return;
@@ -245,7 +295,7 @@ class Sppd extends Component
         if ($this->selectedEmployee && $this->selectedEmployee['nip']) {
             // FOR ORIGINAL OFFICER DATA
             $employee = Employee::where('nip', $this->selectedEmployee['nip'])->first();
-            $instance = Instance::where('id_eoffice',$this->selectedEmployee['id_skpd'] ?? null)->first();
+            $instance = Instance::where('id_eoffice', $this->selectedEmployee['id_skpd'] ?? null)->first();
             if (!$employee) {
                 $employee = Employee::create([
                     'semesta_id' => $this->selectedEmployee['id'],
@@ -273,7 +323,7 @@ class Sppd extends Component
             }
         }
 
-        if(!$employee) {
+        if (!$employee) {
             LivewireAlert::title('Gagal')
                 ->text('Gagal menemukan atau membuat data pegawai.')
                 ->position('top-end')
@@ -319,6 +369,14 @@ class Sppd extends Component
             'publication_employee_id' => $this->dataSuratPerintah->publication_employee_id ?? $this->dataSuratPerintah->employee_giver_id,
             'status' => 'draft', // approved, rejected, draft
             'created_by' => auth()->user()->id,
+
+
+            'kode_sub_kegiatan' => $this->subKegiatanData['fullcode'] ?? null,
+            'uraian_sub_kegiatan' => $this->subKegiatanData['name'] ?? null,
+            'anggaran_sub_kegiatan' => $this->subKegiatanData['pagu_induk'] ?? null,
+            'kode_rekening' => $this->kodeRekeningData['fullcode'] ?? null,
+            'uraian_rekening' => $this->kodeRekeningData['name'] ?? null,
+            'anggaran_rekening' => $this->kodeRekeningData['pagu_induk'] ?? null,
         ];
         // dd($sppd);
 
@@ -363,7 +421,7 @@ class Sppd extends Component
 
     public function deleteSppd($sppdId)
     {
-        if($this->dataSuratPerintah->status == 'approved') {
+        if ($this->dataSuratPerintah->status == 'approved') {
             LivewireAlert::title('Gagal')
                 ->text('SPPD tidak dapat dihapus karena Surat Perintah sudah ditandatangani')
                 ->position('top-end')
@@ -459,6 +517,101 @@ class Sppd extends Component
             ->with(['employeeExecutor', 'employeeGiver', 'instance', 'instancePembebanan'])
             ->orderBy('created_at', 'desc')
             ->get();
+    }
+
+
+    public function updated($field)
+    {
+        if ($field == 'subKegiatan') {
+            $arrSubKegiatan = $this->arrSubKegiatan;
+            if ($arrSubKegiatan) {
+                foreach ($arrSubKegiatan as $item) {
+                    if ($item['fullcode'] == $this->subKegiatan) {
+                        $this->subKegiatanData = $item;
+                        break;
+                    }
+                }
+            }
+            // dd($this->subKegiatanData);
+            $this->arrKodeRekening = collect($this->subKegiatanData['kode_rekening'] ?? []);
+            $this->kodeRekening = null;
+            $this->kodeRekeningData = null;
+        }
+
+        if ($field == 'kodeRekening') {
+            if ($this->arrKodeRekening) {
+                foreach ($this->arrKodeRekening as $item) {
+                    if ($item['fullcode'] == $this->kodeRekening) {
+                        $this->kodeRekeningData = $item;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+
+    public function fetchKodeRekening()
+    {
+        $this->isLoadedKodeRekening = false;
+        if ($this->instanceSelected === null) {
+            LivewireAlert::title('Peringatan')
+                ->text('Silakan pilih instansi terlebih dahulu')
+                ->warning()
+                ->position('top-end')
+                ->timer(3000)
+                ->toast()
+                ->show();
+            return;
+        }
+        // $year = Carbon::now()->year;
+        $year = $this->selectedYear;
+        $month = $this->selectedMonth;
+
+        $this->kodeRekening = null;
+        $this->kodeRekeningData = null;
+        $this->subKegiatan = null;
+        $this->subKegiatanData = null;
+
+        $uriKodeRekening = 'https://sicaramapis.oganilirkab.go.id/api/local/sppd/getRekeningPerjadin';
+        // $uriKodeRekening = 'http://127.0.0.1:8000/api/local/sppd/getRekeningPerjadin';
+        try {
+            $response = Http::withHeaders([
+                'Accept' => 'application/json',
+                'User-Agent' => 'PostmanRuntime/7.44.1',
+            ])->timeout(30)->get($uriKodeRekening, [
+                'year' => $year,
+                'month' => $month,
+                'instance_id' => $this->instanceSelected,
+            ]);
+            if ($response->status() == 200) {
+                $responseData = $response->json()['data'] ?? [];
+                $responseData = collect($responseData)->values()->all();
+                $this->arrSubKegiatan = $responseData ?? [];
+                $this->isLoadedKodeRekening = true;
+                return;
+            } else {
+                $this->arrKodeRekening = [];
+                LivewireAlert::title('Gagal')
+                    ->text('Gagal mengambil data dari server')
+                    ->position('top-end')
+                    ->timer(3000)
+                    ->warning()
+                    ->toast()
+                    ->show();
+                return;
+            }
+        } catch (\Exception $e) {
+            $this->arrKodeRekening = [];
+            LivewireAlert::title('Error')
+                ->text('Terjadi kesalahan saat mengambil data dari server: ' . $e->getMessage())
+                ->position('top-end')
+                ->timer(5000)
+                ->error()
+                ->toast()
+                ->show();
+            return;
+        }
     }
 
     public function render()
