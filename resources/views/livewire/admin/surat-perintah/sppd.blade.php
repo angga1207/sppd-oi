@@ -759,7 +759,7 @@ use App\Models\SPPD;
                                 @elseif($this->dataSuratPerintah->status == 'approved')
                                     <x-heroicon-o-check-circle class="w-6 h-6 text-green-500" />
                                     <p class="ml-2 text-sm text-green-700">
-                                        Surat Perintah dan SPPD telah disetujui.
+                                        Surat Perintah dan SPPD telah ditandatangani.
                                         <br>
                                         Silakan cetak dokumen untuk ditandatangani
                                         oleh Pejabat Berwenang.
