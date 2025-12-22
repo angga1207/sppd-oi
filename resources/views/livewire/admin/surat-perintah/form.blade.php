@@ -92,7 +92,9 @@
                                         data-placeholder="-- Pejabat Pemberi Perintah --" id="instanceGiverSelect">
                                         <option value="">-- Pejabat Pemberi Perintah --</option>
                                         @foreach ($instances as $inst)
-                                            <option value="{{ $inst['id'] }}">KEPALA {{ $inst['name'] }}</option>
+                                            <option value="{{ $inst['id'] }}">
+                                                {{ $inst['name'] != 'BUPATI OGAN ILIR' ? "KEPALA {$inst['name']}" : $inst['name'] }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -460,8 +462,8 @@
                                 </svg>
                                 Lamanya Perjalanan Dinas
                             </h4>
-                            <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
-                                <div class="md:col-span-2">
+                            <div class="grid grid-cols-1 xl:grid-cols-5 gap-4">
+                                <div class="col-span-1 xl:col-span-2">
                                     <label for="departure_date" class="block text-sm font-medium text-gray-700 mb-2">
                                         Tanggal Berangkat <span class="text-red-500">*</span>
                                     </label>
@@ -473,12 +475,13 @@
                                     @enderror
                                 </div>
 
-                                <div>
+                                <div class="col-span-1">
                                     <label for="lama_perjalanan" class="block text-sm font-medium text-gray-700 mb-2">
                                         Lama Perjalanan (Hari) <span class="text-red-500">*</span>
                                     </label>
                                     <input wire:model.live="dataSuratPerintah.lama_perjalanan" type="number"
-                                        min="1" max="10" id="lama_perjalanan" placeholder="Lama Perjalanan (Hari)"
+                                        min="1" max="10" id="lama_perjalanan"
+                                        placeholder="Lama Perjalanan (Hari)"
                                         @if ($isViewOnly) disabled @endif
                                         class="form-input @error('dataSuratPerintah.lama_perjalanan') border-red-500 @enderror">
                                     @error('dataSuratPerintah.lama_perjalanan')
@@ -486,7 +489,7 @@
                                     @enderror
                                 </div>
 
-                                <div class="md:col-span-2">
+                                <div class="col-span-1 xl:col-span-2">
                                     <label for="return_date" class="block text-sm font-medium text-gray-700 mb-2">
                                         Tanggal Kembali <span class="text-red-500">*</span>
                                     </label>
@@ -652,8 +655,8 @@
                                             </span>
                                         </button>
                                     @else
-                                        <button type="button" wire:click="confirmSubmitForm()" wire:loading.attr="disabled"
-                                            class="btn-primary">
+                                        <button type="button" wire:click="confirmSubmitForm()"
+                                            wire:loading.attr="disabled" class="btn-primary">
                                             <span wire:loading.remove wire:target="submitForm()">
                                                 Buat Surat Perintah Tugas
                                             </span>
