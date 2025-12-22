@@ -284,7 +284,7 @@
                         @endif
                         <div class="whitespace-nowrap">
                             @if ($previewData['issued_nip'] != '1000')
-                                NIP : {{ $previewData['issued_nip'] }}
+                                NIP. {{ $previewData['issued_nip'] }}
                                 {{-- @else
                                 BUPATI KABUPATEN OGAN ILIR --}}
                             @endif

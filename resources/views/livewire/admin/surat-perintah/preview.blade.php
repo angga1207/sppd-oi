@@ -293,7 +293,7 @@
                                         @endif
                                         <div class="whitespace-nowrap">
                                             @if ($previewData->publicationEmployee->nip != '1000')
-                                                NIP : {{ $previewData->publicationEmployee->nip }}
+                                                NIP. {{ $previewData->publicationEmployee->nip }}
                                             @endif
                                         </div>
                                     </div>
