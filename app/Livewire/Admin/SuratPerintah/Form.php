@@ -576,12 +576,16 @@ class Form extends Component
 
     public function submitForm($params = null)
     {
-        if ($params['type'] == 'with_sppd') {
-            $this->isWithSppd = true;
-            $type = 'with_sppd';
+        if (!$this->isEdit) {
+            if ($params['type'] == 'with_sppd') {
+                $this->isWithSppd = true;
+                $type = 'with_sppd';
+            } else {
+                $this->isWithSppd = false;
+                $type = null;
+            }
         } else {
-            $this->isWithSppd = false;
-            $type = null;
+            $type = 'edit';
         }
 
         if ($this->isViewOnly) {
