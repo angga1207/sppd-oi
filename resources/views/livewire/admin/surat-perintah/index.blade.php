@@ -4,12 +4,12 @@
         <div class="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
                 <h2 class="text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                    Daftar Surat Perintah
+                    Daftar Surat Perintah Tugas
                 </h2>
-                <p class="mt-2 text-sm text-muted">Kelola Surat Perintah</p>
+                <p class="mt-2 text-sm text-muted">Kelola Surat Perintah Tugas</p>
             </div>
             <div class="flex flex-col sm:flex-row gap-2">
-                <button wire:click="exportExcel" class="btn-secondary inline-flex items-center justify-center"
+                {{-- <button wire:click="exportExcel" class="btn-secondary inline-flex items-center justify-center"
                     wire:loading.attr="disabled" wire:target="exportExcel">
                     <svg wire:loading.remove wire:target="exportExcel" class="h-5 w-5 mr-2" fill="none"
                         viewBox="0 0 24 24" stroke="currentColor">
@@ -27,13 +27,13 @@
                     </svg>
                     <span wire:loading.remove wire:target="exportExcel">Export Excel</span>
                     <span wire:loading wire:target="exportExcel">Memproses...</span>
-                </button>
+                </button> --}}
                 <a href="{{ route('admin.surat-perintah.create') }}"
                     class="btn-primary inline-flex items-center justify-center">
                     <svg class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                     </svg>
-                    Buat Surat Perintah Baru
+                    Buat Surat Perintah Tugas
                 </a>
             </div>
         </div>
@@ -139,8 +139,12 @@
                         <thead class="bg-gradient-to-r from-primary to-secondary">
                             <tr>
                                 <th
-                                    class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
-                                    No. Surat Perintah Tugas
+                                    class="pl-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider w-[10px]">
+                                    No.
+                                </th>
+                                <th
+                                    class="pr-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
+                                    Surat Perintah Tugas
                                 </th>
                                 <th
                                     class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
@@ -152,12 +156,12 @@
                                 </th>
                                 <th
                                     class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
-                                    Pejabat Pemberi Perintah
+                                    Penandatangan
                                 </th>
-                                <th
+                                {{-- <th
                                     class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
                                     Ditandatangani
-                                </th>
+                                </th> --}}
                                 @if (auth()->user()->role_id == 1)
                                     <th
                                         class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
@@ -169,12 +173,14 @@
                         <tbody class="bg-white divide-y divide-gray-200">
                             @foreach ($datas as $index => $data)
                                 <tr class="hover:bg-primary/5 transition duration-150">
-                                    <td class="px-6 py-4 whitespace-nowrap">
+                                    <td class="pl-6 py-4 whitespace-nowrap">
+                                        <div
+                                            class="flex-shrink-0 h-10 w-10 flex items-center justify-center rounded-full {{ $data->status == 'draft' ? 'bg-gradient-to-r from-primary to-secondary' : 'bg-gradient-to-r from-success to-success/75' }} text-white font-semibold">
+                                            {{ $datas->firstItem() + $index }}
+                                        </div>
+                                    </td>
+                                    <td class="pr-6 py-4 whitespace-nowrap">
                                         <div class="flex items-center">
-                                            <div
-                                                class="flex-shrink-0 h-10 w-10 flex items-center justify-center rounded-full {{ $data->status == 'draft' ? 'bg-gradient-to-r from-primary to-secondary' : 'bg-gradient-to-r from-success to-success/75' }} text-white font-semibold">
-                                                {{ $datas->firstItem() + $index }}
-                                            </div>
                                             <div class="ml-3">
                                                 <div class="">
                                                     <div class="text-sm font-medium text-gray-900">
@@ -345,7 +351,7 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="px-6 py-4">
+                                    {{-- <td class="px-6 py-4">
                                         <div class="text-sm font-medium text-gray-900 whitespace-nowrap">
                                             {{ $data->publicationEmployee->nama_lengkap ?? '' }}
                                         </div>
@@ -355,7 +361,7 @@
                                         <div class="text-xs text-muted mt-1">
                                             {{ \Carbon\Carbon::parse($data->publication_date)->isoFormat('DD MMMM Y') }}
                                         </div>
-                                    </td>
+                                    </td> --}}
                                     @if (auth()->user()->role_id == 1)
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <div class="text-sm text-gray-900">
@@ -500,7 +506,7 @@
                                         <span class="font-medium text-gray-900">
                                             {{ $selectedSppdForSign
                                                 ? \Carbon\Carbon::parse($selectedSppdForSign['tanggal_berangkat'])->format('d M
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            Y')
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Y')
                                                 : 'N/A' }}
                                         </span>
                                     </div>

@@ -34,7 +34,7 @@
 
             <div class="mt-4 overflow-auto">
                 <table class="w-full">
-                    <tbody class="w-full">
+                    <tbody class="w-full align-top">
                         <tr>
                             <td class="min-w-[10px] border border-navy p-3 text-center">
                                 1.
@@ -66,21 +66,43 @@
                             </td>
                         </tr>
 
+                        <!-- BAGIAN 3 START -->
                         <tr>
-                            <td class="min-w-[10px] border border-navy p-3 text-center">
+                            <td class="min-w-[10px] border border-y-0 border-navy px-3 pt-3 text-center">
                                 3.
                             </td>
-                            <td class="min-w-[250px] border border-navy p-3 text-left">
+                            <td class="min-w-[250px] border border-y-0 border-navy px-3 pt-3 text-left">
                                 <p>a. Pangkat dan Golongan</p>
+                            </td>
+                            <td class="min-w-[300px] border border-y-0 border-navy px-3 pt-3 text-left">
+                                <p>a. {{ $previewData['pegawai_pangkat'] }}</p>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="min-w-[10px] border border-y-0 border-navy px-3 text-center">
+
+                            </td>
+                            <td class="min-w-[250px] border border-y-0 border-navy px-3 text-left">
                                 <p>b. Jabatan / Instansi</p>
+                            </td>
+                            <td class="min-w-[300px] border border-y-0 border-navy px-3 text-left">
+                                <p>b. {{ $previewData['pegawai_jabatan'] }}</p>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="min-w-[10px] border border-y-0 border-navy px-3 pb-3 text-center">
+
+                            </td>
+                            <td class="min-w-[250px] border border-y-0 border-navy px-3 pb-3 text-left">
                                 <p>c. Tingkat Biaya Perjalanan Dinas</p>
                             </td>
-                            <td class="min-w-[300px] border border-navy p-3 text-left">
-                                <p>a. {{ $previewData['pegawai_pangkat'] }}</p>
-                                <p>b. {{ $previewData['pegawai_jabatan'] }}</p>
+                            <td class="min-w-[300px] border border-y-0 border-navy px-3 pb-3 text-left">
                                 <p>c. {{ $previewData['tingkat_biaya'] }}</p>
                             </td>
                         </tr>
+                        <!-- BAGIAN 3 END -->
 
                         <tr>
                             <td class="min-w-[10px] border border-navy p-3 text-center">
@@ -106,57 +128,95 @@
                             </td>
                         </tr>
 
+                        <!-- BAGIAN 6 START -->
                         <tr>
-                            <td class="min-w-[10px] border border-navy p-3 text-center">
+                            <td class="min-w-[10px] border border-y-0 border-navy px-3 pt-3 text-center">
                                 6.
                             </td>
-                            <td class="min-w-[250px] border border-navy p-3 text-left">
+                            <td class="min-w-[250px] border border-y-0 border-navy px-3 pt-3 text-left">
                                 <p>a. Tempat Berangkat</p>
+                            </td>
+                            <td class="min-w-[300px] border border-y-0 border-navy px-3 pt-3 text-left">
+                                <p>a. {{ $previewData['tempat_berangkat'] }}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="min-w-[10px] border border-y-0 border-navy px-3 pb-3 text-center">
+
+                            </td>
+                            <td class="min-w-[250px] border border-y-0 border-navy px-3 pb-3 text-left">
                                 <p>b. Tempat Tujuan</p>
                             </td>
-                            <td class="min-w-[300px] border border-navy p-3 text-left">
-                                <p>a. {{ $previewData['tempat_berangkat'] }}</p>
+                            <td class="min-w-[300px] border border-y-0 border-navy px-3 pb-3 text-left">
                                 <p>b. {{ $previewData['tempat_tujuan'] }}, {{ $previewData['regency_name'] }},
                                     {{ $previewData['province_name'] }} </p>
                             </td>
                         </tr>
+                        <!-- BAGIAN 6 END -->
 
+                        <!-- BAGIAN 7 START -->
                         <tr>
-                            <td class="min-w-[10px] border border-navy p-3 text-center">
+                            <td class="min-w-[10px] border border-b-0 border-navy px-3 pt-3 text-center">
                                 7.
                             </td>
-                            <td class="min-w-[250px] border border-navy p-3 text-left">
+                            <td class="min-w-[250px] border border-b-0 border-navy px-3 pt-3 text-left">
                                 <p>a. Lamanya Perjalanan Dinas</p>
-                                <p>b. Tanggal Berangkat</p>
-                                <p>c. Tanggal Harus Kembali</p>
                             </td>
-                            <td class="min-w-[300px] border border-navy p-3 text-left">
+                            <td class="min-w-[300px] border border-b-0 border-navy px-3 pt-3 text-left">
                                 <p>a. {{ $previewData['lama_perjalanan'] }} Hari</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="min-w-[10px] border border-y-0 border-navy px-3 text-center">
+                            </td>
+                            <td class="min-w-[250px] border border-y-0 border-navy px-3 text-left">
+                                <p>b. Tanggal Berangkat</p>
+                            </td>
+                            <td class="min-w-[300px] border border-y-0 border-navy px-3 text-left">
                                 <p>b.
-                                    {{ Carbon\Carbon::parse($previewData['tanggal_berangkat'])->isoFormat('dddd, D
-                                                                                                                                                MMMM Y') }}
-                                </p>
-                                <p>c.
-                                    {{ Carbon\Carbon::parse($previewData['tanggal_pulang'])->isoFormat('dddd, D
-                                                                                                                                                MMMM Y') }}
+                                    {{ Carbon\Carbon::parse($previewData['tanggal_berangkat'])->isoFormat('dddd, D MMMM Y') }}
                                 </p>
                             </td>
                         </tr>
-
                         <tr>
-                            <td class="min-w-[10px] border border-navy p-3 text-center">
+                            <td class="min-w-[10px] border border-y-0 border-navy px-3 pb-3 text-center">
+                            </td>
+                            <td class="min-w-[250px] border border-y-0 border-navy px-3 pb-3 text-left">
+                                <p>c. Tanggal Harus Kembali</p>
+                            </td>
+                            <td class="min-w-[300px] border border-y-0 border-navy px-3 pb-3 text-left">
+                                <p>c.
+                                    {{ Carbon\Carbon::parse($previewData['tanggal_pulang'])->isoFormat('dddd, D MMMM Y') }}
+                                </p>
+                            </td>
+                        </tr>
+                        <!-- BAGIAN 7 END -->
+
+                        <!-- BAGIAN 8 START -->
+                        <tr>
+                            <td class="min-w-[10px] border border-b-0 border-navy px-3 pt-3 text-center">
                                 8.
                             </td>
-                            <td class="min-w-[250px] border border-navy p-3 text-left">
+                            <td class="min-w-[250px] border border-b-0 border-navy px-3 pt-3 text-left">
                                 <p>Pembebanan Anggaran :</p>
                                 <p>a. Instansi</p>
+                            </td>
+                            <td class="min-w-[300px] border border-b-0 border-navy px-3 pt-3 text-left">
+                                <p>&nbsp;</p>
+                                <p>a. {{ $previewData['pembebanan_instansi'] }}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="min-w-[10px] border border-y-0 border-navy px-3 pb-3 text-center">
+                            </td>
+                            <td class="min-w-[250px] border border-y-0 border-navy px-3 pb-3 text-left">
                                 <p>b. Mata Anggaran</p>
                             </td>
-                            <td class="min-w-[300px] border border-navy p-3 text-left">
-                                <p>a. {{ $previewData['pembebanan_instansi'] }}</p>
+                            <td class="min-w-[300px] border border-y-0 border-navy px-3 pb-3 text-left">
                                 <p>b. {{ $previewData['kode_rekening'] }} - {{ $previewData['uraian_rekening'] }}</p>
                             </td>
                         </tr>
+                        <!-- BAGIAN 8 END -->
 
                         <tr>
                             <td class="min-w-[10px] border border-navy p-3 text-center">
