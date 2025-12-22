@@ -432,7 +432,7 @@
                                     </td>
                                     <td>
                                         <div class="font-medium text-gray-900">{{ $item['employee_name'] }}</div>
-                                        <div class="text-sm text-gray-500">NIP: {{ $item['employee_nip'] }}</div>
+                                        <div class="text-sm text-gray-500">NIP. {{ $item['employee_nip'] }}</div>
                                     </td>
                                     <td>
                                         <div class="text-gray-900 max-w-xs truncate">{{ $item['purpose'] }}</div>
@@ -679,7 +679,7 @@
                                             <td>
                                                 <div class="font-medium text-gray-900" x-text="item.employee_name">
                                                 </div>
-                                                <div class="text-sm text-gray-500">NIP: <span
+                                                <div class="text-sm text-gray-500">NIP. <span
                                                         x-text="item.employee_nip"></span></div>
                                             </td>
                                             <td>

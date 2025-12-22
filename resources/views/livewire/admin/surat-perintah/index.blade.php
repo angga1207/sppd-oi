@@ -346,7 +346,7 @@
                                                     {{ $data->employeeGiver->nama_lengkap ?? 'N/A' }}
                                                 </div>
                                                 <div class="text-xs text-muted whitespace-nowrap">
-                                                    NIP: {{ $data->employeeGiver->nip ?? 'N/A' }}
+                                                    NIP. {{ $data->employeeGiver->nip ?? 'N/A' }}
                                                 </div>
                                             </div>
                                         </div>
@@ -356,7 +356,7 @@
                                             {{ $data->publicationEmployee->nama_lengkap ?? '' }}
                                         </div>
                                         <div class="text-xs text-muted whitespace-nowrap">
-                                            NIP: {{ $data->publicationEmployee->nip ?? '' }}
+                                            NIP. {{ $data->publicationEmployee->nip ?? '' }}
                                         </div>
                                         <div class="text-xs text-muted mt-1">
                                             {{ \Carbon\Carbon::parse($data->publication_date)->isoFormat('DD MMMM Y') }}

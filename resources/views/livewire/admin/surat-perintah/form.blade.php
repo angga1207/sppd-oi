@@ -177,7 +177,7 @@
                                                     @endif
                                                 </div>
                                                 <p class="text-sm opacity-75">
-                                                    NIP: {{ $officer['nip'] ?? 'N/A' }} |
+                                                    NIP. {{ $officer['nip'] ?? 'N/A' }} |
                                                     {{ $officer['jabatan'] ?? 'N/A' }}
                                                 </p>
                                             </div>
@@ -218,7 +218,7 @@
                                                 @endif
                                             </p>
                                             <p class="text-gray-700">
-                                                <span class="font-medium">NIP:</span>
+                                                <span class="font-medium">NIP.</span>
                                                 {{ $selectedOfficer['nip'] ?? 'N/A' }}
                                             </p>
                                             <p class="text-gray-700">
@@ -564,7 +564,7 @@
                                                             @endif
                                                         </p>
                                                         <p class="text-gray-700">
-                                                            <span class="font-medium">NIP:</span>
+                                                            <span class="font-medium">NIP.</span>
                                                             {{ $selectedSigner['nip'] ?? 'N/A' }}
                                                         </p>
                                                         <p class="text-gray-700">

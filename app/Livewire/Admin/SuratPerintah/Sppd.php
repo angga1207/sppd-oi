@@ -160,7 +160,6 @@ class Sppd extends Component
             if ($response->status() == 200) {
                 $dataSemestaUsers = $response->json()['data'] ?? [];
                 $dataSemestaUsers = collect($dataSemestaUsers);
-                $this->rawSemestaUsers = $dataSemestaUsers;
                 // dd($this->dataSuratPerintah);
                 if (!$this->dataSuratPerintah->employee_giver_instance_id) {
                     $dataSemestaUsers = $dataSemestaUsers->where('kepala_skpd', 'Y');
@@ -175,6 +174,7 @@ class Sppd extends Component
                 }
 
                 $this->semestaUsers = $dataSemestaUsers;
+                $this->rawSemestaUsers = $dataSemestaUsers;
                 // $this->rawSemestaUsers = $this->semestaUsers;
                 // dd($this->rawSemestaUsers);
 
@@ -227,6 +227,7 @@ class Sppd extends Component
         }
 
         $search = strtolower($value);
+        // dd($this->rawSemestaUsers);
         $this->semestaUsers = array_filter($this->rawSemestaUsers, function ($user) use ($search) {
             $nama = strtolower($user['nama_lengkap'] ?? '');
             $nip = strtolower($user['nip'] ?? '');

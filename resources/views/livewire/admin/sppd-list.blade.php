@@ -235,7 +235,7 @@
                                             {{ $sppd->employeeGiver->nama_lengkap ?? '-' }}
                                         </div>
                                         <div class="text-xs text-muted whitespace-nowrap">
-                                            NIP: {{ $sppd->employeeGiver->nip ?? '-' }}
+                                            NIP. {{ $sppd->employeeGiver->nip ?? '-' }}
                                         </div>
                                     </div>
                                 </div>
@@ -247,7 +247,7 @@
                                             {{ $sppd->employeeExecutor->nama_lengkap ?? '-' }}
                                         </div>
                                         <div class="text-xs text-muted whitespace-nowrap">
-                                            NIP: {{ $sppd->employeeExecutor->nip ?? '-' }}
+                                            NIP. {{ $sppd->employeeExecutor->nip ?? '-' }}
                                         </div>
                                     </div>
                                 </div>

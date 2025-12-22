@@ -189,7 +189,7 @@ use App\Models\SPPD;
                                                             @endif
                                                         </div>
                                                         <p class="text-sm opacity-75">
-                                                            NIP: {{ $user['nip'] ?? 'N/A' }} |
+                                                            NIP. {{ $user['nip'] ?? 'N/A' }} |
                                                             {{ $user['jabatan'] ?? 'N/A' }}
                                                         </p>
                                                     </div>
@@ -232,7 +232,7 @@ use App\Models\SPPD;
                                                     @endif
                                                 </p>
                                                 <p class="text-gray-700">
-                                                    <span class="font-medium">NIP:</span>
+                                                    <span class="font-medium">NIP.</span>
                                                     {{ $selectedEmployee['nip'] ?? 'N/A' }}
                                                 </p>
                                                 <p class="text-gray-700">
@@ -690,7 +690,7 @@ use App\Models\SPPD;
                                                                 {{ $sppd->employeeExecutor->nama_lengkap ?? '-' }}
                                                             </div>
                                                             <div class="text-xs text-muted whitespace-nowrap">
-                                                                NIP: {{ $sppd->employeeExecutor->nip ?? '-' }}
+                                                                NIP. {{ $sppd->employeeExecutor->nip ?? '-' }}
                                                             </div>
                                                             <div class="text-xs text-gray-700 max-w-xs">
                                                                 {{ $sppd->employeeExecutor->instance->name ?? '-' }}
