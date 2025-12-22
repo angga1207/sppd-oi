@@ -106,7 +106,7 @@ class SuratPerintah extends Model
                 'type' => 'surat_perintah',
                 'reference_id' => $data->id,
                 'new_status' => $data->status,
-                'keterangan' => 'Surat Perintah Perjalanan Dinas dibuat',
+                'keterangan' => 'Surat Perintah Tugas dibuat',
             ]);
         });
 

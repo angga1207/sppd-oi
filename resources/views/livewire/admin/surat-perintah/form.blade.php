@@ -462,8 +462,8 @@
                                 </svg>
                                 Lamanya Perjalanan Dinas
                             </h4>
-                            <div class="grid grid-cols-1 xl:grid-cols-5 gap-4">
-                                <div class="col-span-1 xl:col-span-2">
+                            <div class="grid grid-cols-1 lg:grid-cols-5 gap-4">
+                                <div class="col-span-1 lg:col-span-2">
                                     <label for="departure_date" class="block text-sm font-medium text-gray-700 mb-2">
                                         Tanggal Berangkat <span class="text-red-500">*</span>
                                     </label>
@@ -489,7 +489,7 @@
                                     @enderror
                                 </div>
 
-                                <div class="col-span-1 xl:col-span-2">
+                                <div class="col-span-1 lg:col-span-2">
                                     <label for="return_date" class="block text-sm font-medium text-gray-700 mb-2">
                                         Tanggal Kembali <span class="text-red-500">*</span>
                                     </label>
