@@ -517,7 +517,7 @@ class Preview extends Component
             $templateProcessor->setValue('website', $instance->website ?? '-');
         }
 
-        $templateProcessor->setValue('nomor_registrasi', $previewData['uuid'] ?? '-');
+        $templateProcessor->setValue('nomor_registrasi', $DataSPPD['uuid'] ?? '-');
         $templateProcessor->setValue('nomor_surat', $DataSPPD['nomor_sppd'] ?? '-');
         $templateProcessor->setValue('nomor_surat_perintah', $DataSPPD->suratPerintah['nomor_surat'] ?? '-');
 
