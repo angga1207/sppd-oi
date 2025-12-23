@@ -13,8 +13,21 @@ use Illuminate\Support\Facades\DB;
 
 #[Layout('components.layouts.app')]
 #[Title('Dashboard - SPPD Admin')]
+
+
 class Dashboard extends Component
 {
+    public $yearNow;
+    public $arrYears = [];
+
+    public function mount()
+    {
+        $this->yearNow = now()->year;
+        for ($year = 2025; $year <= $this->yearNow; $year++) {
+            $this->arrYears[] = $year;
+        }
+    }
+
     public function render()
     {
         // ========================================
@@ -22,34 +35,74 @@ class Dashboard extends Component
         // ========================================
         $totalSuratPerintah = SuratPerintah::when(auth()->user()->instance_id, function ($query) {
             $query->where('instance_id', auth()->user()->instance_id);
-        })->count();
+        })
+            ->whereYear('publication_date', $this->yearNow)
+            ->count();
 
         $draftSuratPerintah = SuratPerintah::when(auth()->user()->instance_id, function ($query) {
             $query->where('instance_id', auth()->user()->instance_id);
-        })->where('status', 'draft')->count();
+        })
+            ->whereYear('publication_date', $this->yearNow)
+            ->where('status', 'draft')
+            ->count();
+
+        $sentSuratPerintah = SuratPerintah::when(auth()->user()->instance_id, function ($query) {
+            $query->where('instance_id', auth()->user()->instance_id);
+        })
+            ->whereYear('publication_date', $this->yearNow)
+            ->where('status', 'sent')
+            ->count();
 
         $approvedSuratPerintah = SuratPerintah::when(auth()->user()->instance_id, function ($query) {
             $query->where('instance_id', auth()->user()->instance_id);
-        })->where('status', 'approved')->count();
+        })
+            ->whereYear('publication_date', $this->yearNow)
+            ->where('status', 'approved')
+            ->count();
 
         $rejectedSuratPerintah = SuratPerintah::when(auth()->user()->instance_id, function ($query) {
             $query->where('instance_id', auth()->user()->instance_id);
-        })->where('status', 'rejected')->count();
+        })
+            ->whereYear('publication_date', $this->yearNow)
+            ->where('status', 'rejected')
+            ->count();
 
         // ========================================
         // SPPD STATISTICS
         // ========================================
         $totalSppd = SPPD::when(auth()->user()->instance_id, function ($query) {
             $query->where('instance_id', auth()->user()->instance_id);
-        })->count();
+        })
+            ->whereYear('publication_date', $this->yearNow)
+            ->count();
 
         $draftSppd = SPPD::when(auth()->user()->instance_id, function ($query) {
             $query->where('instance_id', auth()->user()->instance_id);
-        })->where('status', 'draft')->count();
+        })
+            ->whereYear('publication_date', $this->yearNow)
+            ->where('status', 'draft')
+            ->count();
+
+        $sentSppd = SPPD::when(auth()->user()->instance_id, function ($query) {
+            $query->where('instance_id', auth()->user()->instance_id);
+        })
+            ->whereYear('publication_date', $this->yearNow)
+            ->where('status', 'sent')
+            ->count();
 
         $approvedSppd = SPPD::when(auth()->user()->instance_id, function ($query) {
             $query->where('instance_id', auth()->user()->instance_id);
-        })->where('status', 'approved')->count();
+        })
+            ->whereYear('publication_date', $this->yearNow)
+            ->where('status', 'approved')
+            ->count();
+
+        $rejectedSppd = SPPD::when(auth()->user()->instance_id, function ($query) {
+            $query->where('instance_id', auth()->user()->instance_id);
+        })
+            ->whereYear('publication_date', $this->yearNow)
+            ->where('status', 'rejected')
+            ->count();
 
         // ========================================
         // MONTHLY STATISTICS (Last 6 Months)
@@ -144,9 +197,15 @@ class Dashboard extends Component
         $suratPerintahCompletionRate = $totalSuratPerintah > 0
             ? round(($approvedSuratPerintah / $totalSuratPerintah) * 100, 1)
             : 0;
+        $suratPerintahRejetedRate = $totalSuratPerintah > 0
+            ? round(($rejectedSuratPerintah / $totalSuratPerintah) * 100, 1)
+            : 0;
 
         $sppdCompletionRate = $totalSppd > 0
             ? round(($approvedSppd / $totalSppd) * 100, 1)
+            : 0;
+        $sppdRejectedRate = $totalSppd > 0
+            ? round((($rejectedSppd) / $totalSppd) * 100, 1)
             : 0;
 
         // ========================================
@@ -155,20 +214,31 @@ class Dashboard extends Component
         $totalEmployees = Employee::count();
         $totalInstances = Instance::count();
 
+        $totalAnggaran = SPPD::when(auth()->user()->instance_id, function ($query) {
+            $query->where('instance_id', auth()->user()->instance_id);
+        })
+            ->whereYear('publication_date', $this->yearNow)
+            ->sum('anggaran_rekening');
+
         return view('livewire.dashboard', [
             'stats' => [
                 // Surat Perintah Tugas Stats
                 'total_surat_perintah' => $totalSuratPerintah,
                 'draft_surat_perintah' => $draftSuratPerintah,
+                'sent_surat_perintah' => $sentSuratPerintah,
                 'approved_surat_perintah' => $approvedSuratPerintah,
                 'rejected_surat_perintah' => $rejectedSuratPerintah,
                 'surat_perintah_completion_rate' => $suratPerintahCompletionRate,
+                'surat_perintah_rejection_rate' => $suratPerintahRejetedRate,
 
                 // SPPD Stats
                 'total_sppd' => $totalSppd,
                 'draft_sppd' => $draftSppd,
+                'sent_sppd' => $sentSppd,
                 'approved_sppd' => $approvedSppd,
+                'rejected_sppd' => $rejectedSppd,
                 'sppd_completion_rate' => $sppdCompletionRate,
+                'sppd_rejection_rate' => $sppdRejectedRate,
 
                 // General Stats
                 'total_employees' => $totalEmployees,
@@ -178,8 +248,9 @@ class Dashboard extends Component
             'monthlySppd' => $monthlySppd,
             'suratPerintahByInstance' => $suratPerintahByInstance,
             'sppdByInstance' => $sppdByInstance,
-            // 'recentSuratPerintah' => $recentSuratPerintah,
-            // 'recentSppd' => $recentSppd,
+            'totalAnggaran' => $totalAnggaran,
+
+
         ]);
     }
 }

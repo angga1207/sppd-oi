@@ -653,8 +653,9 @@ class Form extends Component
                         'foto_pegawai' => null,
                         'email' => null,
                         'no_hp' => null,
-                        'golongan' => null,
-                        'pangkat' => null,
+                        'eselon' => 'BUPATI OGAN ILIR',
+                        'golongan' => 'BUPATI OGAN ILIR',
+                        'pangkat' => 'BUPATI OGAN ILIR',
                     ]);
                 }
             } else {
@@ -705,6 +706,22 @@ class Form extends Component
             $data['employee_giver_id'] = $employeeOfficer->id ?? null;
             $data['publication_employee_id'] = $employeeOfficer->id ?? null;
             $data['nomor_surat'] = $this->dataSuratPerintah['prefix_nomor_surat'] . $this->dataSuratPerintah['nomor_surat'];
+            // checn nomor surat uniqueness
+            $existingSurat = SuratPerintah::where('nomor_surat', $data['nomor_surat']);
+            if ($this->isEdit) {
+                $existingSurat->where('id', '!=', $this->dataId);
+            }
+            if ($existingSurat->exists()) {
+                LivewireAlert::title('Error')
+                    ->text('Nomor Surat sudah digunakan. Silakan gunakan nomor surat lain.')
+                    ->position('top-end')
+                    ->timer(5000)
+                    ->error()
+                    ->toast()
+                    ->show();
+                return;
+            }
+
             if ($this->isEdit) {
                 // update existing surat perintah
                 $suratPerintah = SuratPerintah::find($this->dataId);

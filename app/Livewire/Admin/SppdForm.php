@@ -1055,9 +1055,9 @@ class SppdForm extends Component
                             'kepala_skpd' => null,
                             'foto_pegawai' => null,
                             'email' => null,
-                            'no_hp' => null,
-                            'golongan' => null,
-                            'pangkat' => null,
+                            'eselon' => 'BUPATI OGAN ILIR',
+                            'golongan' => 'BUPATI OGAN ILIR',
+                            'pangkat' => 'BUPATI OGAN ILIR',
                         ]);
                     }
                 } else {

@@ -580,7 +580,7 @@ class Sppd extends Component
             $response = Http::withHeaders([
                 'Accept' => 'application/json',
                 'User-Agent' => 'PostmanRuntime/7.44.1',
-            ])->timeout(30)->get($uriKodeRekening, [
+            ])->timeout(60)->get($uriKodeRekening, [
                 'year' => $year,
                 'month' => $month,
                 'instance_id' => $this->instanceSelected,
@@ -605,7 +605,7 @@ class Sppd extends Component
         } catch (\Exception $e) {
             $this->arrKodeRekening = [];
             LivewireAlert::title('Error')
-                ->text('Terjadi kesalahan saat mengambil data dari server: ' . $e->getMessage())
+                ->text('Terjadi kesalahan saat mengambil data. Silahkan coba lagi!')
                 ->position('top-end')
                 ->timer(5000)
                 ->error()

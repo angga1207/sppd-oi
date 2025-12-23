@@ -357,7 +357,7 @@ use App\Models\SPPD;
                                                 </div>
                                             </div>
 
-                                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                            <div class="grid grid-cols-1 gap-6">
                                                 <div class="">
                                                     <div class="flex flex-col sm:flex-row sm:flex-wrap gap-2">
                                                         <div class="flex-1" wire:ignore x-data="{

@@ -145,6 +145,7 @@ class Preview extends Component
             return;
         }
 
+        // $penandaTangan = $this->previewData['employee_giver_id'] ? Employee::find($this->previewData['employee_giver_id']) : null;
         $penandaTangan = $this->previewData['employee_giver_id'] ? Employee::find($this->previewData['employee_giver_id']) : null;
 
         if (!$penandaTangan) {
@@ -167,7 +168,7 @@ class Preview extends Component
             $kopType = 'sekda';
             $templatePath = storage_path('app/templates/spt_kop_sekda.docx');
             $templatePathSPPD = storage_path('app/templates/sppd_kop_sekda.docx');
-        } else {
+        } else  if ($penandaTangan->instance_id && $penandaTangan->instance_id != 15) {
             $kopType = 'perangkat_daerah';
             $templatePath = storage_path('app/templates/spt_kop_perangkat_daerah.docx');
             $templatePathSPPD = storage_path('app/templates/sppd_kop_perangkat_daerah.docx');
@@ -188,9 +189,9 @@ class Preview extends Component
         if ($kopType == 'perangkat_daerah') {
             $fileWord = $this->generateSuratPerintahTugas($templatePath, $penandaTangan, $this->previewData, $penandaTangan->instance);
         } else if ($kopType == 'bupati') {
-            $fileWord = $this->generateSuratPerintahTugas($templatePath, $penandaTangan, $this->previewData);
+            $fileWord = $this->generateSuratPerintahTugas($templatePath, $penandaTangan, $this->previewData, null);
         } else if ($kopType == 'sekda') {
-            $fileWord = $this->generateSuratPerintahTugas($templatePath, $penandaTangan, $this->previewData);
+            $fileWord = $this->generateSuratPerintahTugas($templatePath, $penandaTangan, $this->previewData, $penandaTangan->instance);
         }
 
         // Get full path untuk file docx
@@ -248,9 +249,9 @@ class Preview extends Component
             if ($kopType == 'perangkat_daerah') {
                 $fileWordSPPD = $this->generateSPPD($templatePathSPPD, $penandaTangan, $sppd, $penandaTangan->instance);
             } else if ($kopType == 'bupati') {
-                $fileWordSPPD = $this->generateSPPD($templatePathSPPD, $penandaTangan, $sppd);
+                $fileWordSPPD = $this->generateSPPD($templatePathSPPD, $penandaTangan, $sppd, null);
             } else if ($kopType == 'sekda') {
-                $fileWordSPPD = $this->generateSPPD($templatePathSPPD, $penandaTangan, $sppd);
+                $fileWordSPPD = $this->generateSPPD($templatePathSPPD, $penandaTangan, $sppd, $penandaTangan->instance);
             }
 
             $relativePath = str_replace('storage/', '', $fileWordSPPD);
@@ -389,11 +390,6 @@ class Preview extends Component
         $command = "libreoffice --headless --convert-to pdf {$path} --outdir {$savePath} 2>&1";
         // $command = "/opt/libreoffice25.8/program/soffice --headless --convert-to pdf {$path} --outdir {$savePath} 2>&1";
 
-        // COMMAND DARI THEDA
-        // $command = "libreoffice7.6 --headless --convert-to pdf $path --outdir $savePath";
-        // $command = "/Applications/LibreOffice.app/Contents/MacOS/soffice --headless --convert-to pdf $path --outdir $savePath";
-
-
         // Execute the command
         exec($command, $output, $returnVar);
 
@@ -455,7 +451,7 @@ class Preview extends Component
 
         // QR Code
         // if !$instance == bupati
-        if (!$instance) {
+        if ($instance == null) {
             $qrCodeUrl = $this->generateQrCodeSPT('spt', 'bupati', $previewData);
         } else {
             $qrCodeUrl = $this->generateQrCodeSPT('spt', 'perangkat_daerah', $previewData);
@@ -550,14 +546,19 @@ class Preview extends Component
 
         $templateProcessor->setValue('nama_penandatangan', $penandaTangan->nama_lengkap ?? '-');
         $templateProcessor->setValue('nip_penandatangan', $penandaTangan->nip ?? '-');
+        $templateProcessor->setValue('pangkat_penandatangan', $penandaTangan->pangkat ?? '');
         $templateProcessor->setValue('jabatan_penandatangan', $penandaTangan->jabatan ?? '-');
 
+        $templateProcessor->setValue('nama_pptk', '..........................');
+
+        // dd($DataSPPD, $instance);
         // QR Code
-        if (!$instance) {
+        if (!$instance || $instance == null) {
             $qrCodeUrl = $this->generateQrCodeSPPD('sppd', 'bupati', $DataSPPD);
         } else {
             $qrCodeUrl = $this->generateQrCodeSPPD('sppd', 'perangkat_daerah', $DataSPPD);
         }
+
         if ($qrCodeUrl) {
             $templateProcessor->setImageValue('qr_code', [
                 'path' => $qrCodeUrl,
