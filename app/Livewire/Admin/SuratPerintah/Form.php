@@ -304,7 +304,7 @@ class Form extends Component
                 $this->rawSemestaOfficers = $this->semestaOfficers;
 
                 if ($this->selectedInstanceGiver == 15) {
-                    // $this->semestaOfficers = collect($this->semestaOfficers)->where('jabatan', 'SEKRETARIS DAERAH KAB OGAN ILIR');
+                    // khusus untuk Sekretariat Daerah
                     $this->semestaOfficers = collect($this->semestaOfficers)->where('nama_lengkap', 'DICKY SYAILENDRA');
                     // dd($this->semestaOfficers);
                 } elseif ($this->selectedInstanceGiver == 7) {
@@ -531,7 +531,7 @@ class Form extends Component
         if ($field == 'dataSuratPerintah.lama_perjalanan' || $field == 'dataSuratPerintah.tanggal_berangkat') {
             if ($this->dataSuratPerintah['lama_perjalanan'] && is_numeric($this->dataSuratPerintah['lama_perjalanan'])) {
                 $startDate = Carbon::parse($this->dataSuratPerintah['tanggal_berangkat']);
-                $endDate = $startDate->copy()->addDays((int)$this->dataSuratPerintah['lama_perjalanan']);
+                $endDate = $startDate->copy()->addDays((int)$this->dataSuratPerintah['lama_perjalanan'] - 1);
                 $this->dataSuratPerintah['tanggal_pulang'] = $endDate->format('Y-m-d');
             }
         }

@@ -184,7 +184,7 @@ use App\Models\SPPD;
                                                             @if ($user['kepala_skpd'] == 'Y')
                                                                 <span
                                                                     class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                                                                    Kepala OPD / Bagian
+                                                                    Kepala Perangkat Daerah
                                                                 </span>
                                                             @endif
                                                         </div>

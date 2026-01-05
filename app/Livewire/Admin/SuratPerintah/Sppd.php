@@ -162,8 +162,14 @@ class Sppd extends Component
                 $dataSemestaUsers = collect($dataSemestaUsers);
                 // dd($this->dataSuratPerintah);
                 if (!$this->dataSuratPerintah->employee_giver_instance_id) {
-                    $dataSemestaUsers = $dataSemestaUsers->where('kepala_skpd', 'Y');
-                    $dataSemestaUsers = $dataSemestaUsers->values()->toArray();
+                    if ($this->instanceSelected == 15) {
+                        // khusus untuk Sekretariat Daerah
+                        $dataSemestaUsers = collect($dataSemestaUsers)->where('nama_lengkap', 'DICKY SYAILENDRA');
+                        $dataSemestaUsers = $dataSemestaUsers->values()->toArray();
+                    } else {
+                        $dataSemestaUsers = $dataSemestaUsers->where('kepala_skpd', 'Y');
+                        $dataSemestaUsers = $dataSemestaUsers->values()->toArray();
+                    }
                 } else if ($this->dataSuratPerintah->instance_id) {
                     $employeeGiver = $this->dataSuratPerintah->employeeGiver;
                     $dataSemestaUsers = $dataSemestaUsers->whereNotIn('id', $employeeGiver ? [$employeeGiver->semesta_id] : []);
@@ -627,6 +633,9 @@ class Sppd extends Component
         $instances = Instance::when($this->dataSuratPerintah['employee_giver_instance_id'], function ($query) {
             $query->where('id', $this->dataSuratPerintah['employee_giver_instance_id']);
         })
+            ->when(auth()->user()->instance_id, function ($query) {
+                $query->orWhere('id', auth()->user()->instance_id);
+            })
             ->orderBy('name')
             ->get();
         return view('livewire.admin.surat-perintah.sppd', compact('instances'));

@@ -609,12 +609,32 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-span-2 lg:col-span-1 flex gap-2 items-start">
+                <div class="col-span-2 lg:col-span-1">
                     <div class="">
                         Telah diperiksa, dengan keterangan bahwa tersebut diatas benar dilakukan
                         atas perintahnya dan semata-mata untuk
                         kepentingan jabatan dalam waktu yang
                         sesingkat – singkatnya.
+                    </div>
+
+                    <div class="mt-5">
+                        <div class="">
+                            {{ $previewData['issued_jabatan'] }}
+                        </div>
+                        <div class="h-[75px]"></div>
+                        <div class="">
+                            {{ $previewData['issued_name'] }}
+                        </div>
+
+                        @if ($previewData['issued_nip'] != '1000')
+                            <div class="">
+                                {{ $previewData['issued_pangkat'] }}
+                            </div>
+                            <div class="">
+                                NIP. {{ $previewData['issued_nip'] }}
+                            </div>
+                        @endif
+
                     </div>
                 </div>
                 <!-- BAGIAN V END -->

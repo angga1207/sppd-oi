@@ -276,7 +276,7 @@
                                             @if ($previewData->publicationEmployee->nip != '1000')
                                                 {{ $previewData->publicationEmployee->jabatan ? (str_contains(strtolower($previewData->publicationEmployee->jabatan), 'kepala dinas') ? 'KEPALA DINAS' : '') : '' }}
                                             @elseif($previewData->publicationEmployee->nip == '1000')
-                                                BUPATI KABUPATEN OGAN ILIR
+                                                BUPATI OGAN ILIR
                                             @endif
                                         </div>
                                         <div class="h-[75px]">
