@@ -40,7 +40,7 @@ class DatabaseSeeder extends Seeder
                 'instance_id' => null,
                 'jabatan' => null,
                 'no_hp' => null,
-                'password' => bcrypt('arungboro'),
+                'password' => bcrypt('arungboto'),
             ]);
         }
 

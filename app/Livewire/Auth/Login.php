@@ -149,6 +149,31 @@ class Login extends Component
                     $this->reset(['password']);
                 }
             }
+        } else if ($userRole && $userRole->role_id == 1) {
+            $this->validate([
+                'username' => 'required|string',
+                'password' => 'required|string',
+            ], [], [
+                'username' => 'NIP',
+                'password' => 'Kata Sandi',
+            ]);
+
+            Auth::attempt([
+                'username' => $this->username,
+                'password' => $this->password,
+            ], $this->remember);
+
+            if (Auth::check()) {
+                return redirect()->route('admin.dashboard');
+            } else {
+                LivewireAlert::title('Login Gagal')
+                    ->text('NIP atau Kata Sandi yang Anda masukkan salah.')
+                    ->error()
+                    ->position('center')
+                    ->show();
+
+                $this->reset(['password']);
+            }
         } else {
             $this->validate([
                 'username' => 'required|string',

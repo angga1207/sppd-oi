@@ -292,6 +292,11 @@
                     </div>
                 </div>
             </div>
+
+            <div class="my-8">
+                <hr class="border-navy">
+            </div>
+
         </div>
     @endif
 </div>
