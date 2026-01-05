@@ -297,6 +297,359 @@
                 <hr class="border-navy">
             </div>
 
+            <div class="grid grid-cols-2 gap-4">
+                <div class="hidden lg:block">
+                </div>
+                <div class="col-span-2 lg:col-span-1">
+
+                    <div class="flex items-center gap-2">
+                        <div class="flex-none w-[200px]">
+                            SPPD No.
+                        </div>
+                        <div class="grow">
+                            : {{ $previewData['nomor_sppd'] }}
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-2">
+                        <div class="flex-none w-[200px]">
+                            Berangkat dari (tempat kedudukan)
+                        </div>
+                        <div class="grow">
+                            : {{ $previewData['tempat_berangkat'] }}
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-2">
+                        <div class="flex-none w-[200px]">
+                            Pada tanggal
+                        </div>
+                        <div class="grow">
+                            :
+                            {{ $previewData['tanggal_berangkat'] ? Carbon\Carbon::parse($previewData['tanggal_berangkat'])->isoFormat('D MMMM Y') : '' }}
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-2">
+                        <div class="flex-none w-[200px]">
+                            Ke
+                        </div>
+                        <div class="grow">
+                            : {{ $previewData['tempat_tujuan'] }}
+                        </div>
+                    </div>
+
+                    <div class="mt-8">
+                        <div class="">
+                            Pejabat Pelaksana Teknis Kegiatan
+                        </div>
+                        <div class="h-[75px]"></div>
+                        <div class="">
+                            NAMA PPTK
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="mx-8 my-4">
+                <hr class="border-navy-light">
+            </div>
+
+            <div class="mx-8 my-4 grid grid-cols-2 gap-4">
+                <!-- BAGIAN II START -->
+                <div class="col-span-2 lg:col-span-1 flex gap-2 items-start">
+                    <div>
+                        II.
+                    </div>
+                    <div class="">
+                        <div class="flex items-center gap-2">
+                            <div class="flex-none w-[200px]">
+                                Tiba di
+                            </div>
+                            <div class="grow">
+                                : .................................
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="flex-none w-[200px]">
+                                Pada tanggal
+                            </div>
+                            <div class="grow">
+                                : .................................
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="flex-none w-[200px]">
+                                Kepala
+                            </div>
+                            <div class="grow">
+                                : .................................
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-span-2 lg:col-span-1 flex gap-2 items-start">
+                    <div class="">
+                        <div class="flex items-center gap-2">
+                            <div class="flex-none w-[200px]">
+                                Berangkat dari
+                            </div>
+                            <div class="grow">
+                                : .................................
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="flex-none w-[200px]">
+                                Ke
+                            </div>
+                            <div class="grow">
+                                : .................................
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="flex-none w-[200px]">
+                                Pada tanggal
+                            </div>
+                            <div class="grow">
+                                : .................................
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="flex-none w-[200px]">
+                                Kepala
+                            </div>
+                            <div class="grow">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- BAGIAN II END -->
+
+                <div class="col-span-2">
+                    <div class="">
+                        <hr class="border-navy-light">
+                    </div>
+                </div>
+
+                <!-- BAGIAN III START -->
+                <div class="col-span-2 lg:col-span-1 flex gap-2 items-start">
+                    <div>
+                        III.
+                    </div>
+                    <div class="">
+                        <div class="flex items-center gap-2">
+                            <div class="flex-none w-[200px]">
+                                Tiba di
+                            </div>
+                            <div class="grow">
+                                : .................................
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="flex-none w-[200px]">
+                                Pada tanggal
+                            </div>
+                            <div class="grow">
+                                : .................................
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="flex-none w-[200px]">
+                                Kepala
+                            </div>
+                            <div class="grow">
+                                : .................................
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-span-2 lg:col-span-1 flex gap-2 items-start">
+                    <div class="">
+                        <div class="flex items-center gap-2">
+                            <div class="flex-none w-[200px]">
+                                Berangkat dari
+                            </div>
+                            <div class="grow">
+                                : .................................
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="flex-none w-[200px]">
+                                Ke
+                            </div>
+                            <div class="grow">
+                                : .................................
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="flex-none w-[200px]">
+                                Pada tanggal
+                            </div>
+                            <div class="grow">
+                                : .................................
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="flex-none w-[200px]">
+                                Kepala
+                            </div>
+                            <div class="grow">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- BAGIAN III END -->
+
+                <div class="col-span-2">
+                    <div class="">
+                        <hr class="border-navy-light">
+                    </div>
+                </div>
+
+                <!-- BAGIAN IV START -->
+                <div class="col-span-2 lg:col-span-1 flex gap-2 items-start">
+                    <div>
+                        IV.
+                    </div>
+                    <div class="">
+                        <div class="flex items-center gap-2">
+                            <div class="flex-none w-[200px]">
+                                Tiba di
+                            </div>
+                            <div class="grow">
+                                : .................................
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="flex-none w-[200px]">
+                                Pada tanggal
+                            </div>
+                            <div class="grow">
+                                : .................................
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="flex-none w-[200px]">
+                                Kepala
+                            </div>
+                            <div class="grow">
+                                : .................................
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-span-2 lg:col-span-1 flex gap-2 items-start">
+                    <div class="">
+                        <div class="flex items-center gap-2">
+                            <div class="flex-none w-[200px]">
+                                Berangkat dari
+                            </div>
+                            <div class="grow">
+                                : .................................
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="flex-none w-[200px]">
+                                Ke
+                            </div>
+                            <div class="grow">
+                                : .................................
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="flex-none w-[200px]">
+                                Pada tanggal
+                            </div>
+                            <div class="grow">
+                                : .................................
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="flex-none w-[200px]">
+                                Kepala
+                            </div>
+                            <div class="grow">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- BAGIAN IV END -->
+
+                <div class="col-span-2">
+                    <div class="">
+                        <hr class="border-navy-light">
+                    </div>
+                </div>
+
+                <!-- BAGIAN V START -->
+                <div class="col-span-2 lg:col-span-1 flex gap-2 items-start">
+                    <div>
+                        V.
+                    </div>
+                    <div class="">
+                        <div class="flex items-center gap-2">
+                            <div class="flex-none w-[200px]">
+                                Tiba di
+                            </div>
+                            <div class="grow">
+                                : .................................
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="flex-none w-[200px]">
+                                Pada tanggal
+                            </div>
+                            <div class="grow">
+                                : .................................
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-span-2 lg:col-span-1 flex gap-2 items-start">
+                    <div class="">
+                        Telah diperiksa, dengan keterangan bahwa tersebut diatas benar dilakukan
+                        atas perintahnya dan semata-mata untuk
+                        kepentingan jabatan dalam waktu yang
+                        sesingkat – singkatnya.
+                    </div>
+                </div>
+                <!-- BAGIAN V END -->
+
+                <div class="col-span-2">
+                    <div class="">
+                        <hr class="border-navy-light">
+                    </div>
+                </div>
+
+                <div class="col-span-2">
+                    <div>
+                        VI. CATATAN LAIN-LAIN
+                    </div>
+                </div>
+
+                <div class="col-span-2">
+                    <div class="">
+                        <hr class="border-navy-light">
+                    </div>
+                </div>
+
+                <div class="col-span-2">
+                    <div>
+                        VII. PERHATIAN
+                    </div>
+                    <div class="pl-7">
+                        Pejabat yang berwenang menerbitkan SPPD, pegawai yang melakukan perjalanan dinas, para pejabat
+                        yang mengesahkan tanggal berangkat/tiba serta Bendaharawan bertanggung jawab berdasarkan
+                        peraturan-peraturan Keuangan Negara apabila Negara mendapat rugi akibat kesalahan, kealpaannya.
+                    </div>
+                </div>
+
+            </div>
+
         </div>
     @endif
 </div>

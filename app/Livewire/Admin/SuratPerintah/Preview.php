@@ -32,7 +32,7 @@ class Preview extends Component
 
     public $dataId;
     public $previewData;
-    public $prevType = 'spt';
+    public $prevType = 'spt'; // spt or sppd
     public $prevSppdKey = 0;
     // loading
     public $isConverting = false;
