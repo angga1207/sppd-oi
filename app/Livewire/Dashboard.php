@@ -312,6 +312,7 @@ class Dashboard extends Component
         $suratPerintahByInstance = SuratPerintah::when(auth()->user()->instance_id, function ($query) {
             $query->where('instance_id', auth()->user()->instance_id);
         })
+            ->whereYear('publication_date', $this->yearNow)
             ->select('instance_id', DB::raw('COUNT(*) as total'))
             ->groupBy('instance_id')
             ->with('instance')
@@ -358,6 +359,7 @@ class Dashboard extends Component
         $sppdByInstance = SPPD::when(auth()->user()->instance_id, function ($query) {
             $query->where('instance_id', auth()->user()->instance_id);
         })
+            ->whereYear('publication_date', $this->yearNow)
             ->select('instance_id', DB::raw('COUNT(*) as total'))
             ->groupBy('instance_id')
             ->with('instance')
