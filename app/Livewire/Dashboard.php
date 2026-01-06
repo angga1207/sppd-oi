@@ -436,6 +436,7 @@ class Dashboard extends Component
         $destinationByProvince = SPPD::when(auth()->user()->instance_id, function ($query) {
             $query->where('instance_id', auth()->user()->instance_id);
         })
+            ->whereYear('publication_date', $this->yearNow)
             ->where('status', 'approved')
             ->whereNotNull('province_id')
             ->select('province_id', DB::raw('COUNT(*) as total'))
@@ -474,6 +475,7 @@ class Dashboard extends Component
         $destinationByRegency = SPPD::when(auth()->user()->instance_id, function ($query) {
             $query->where('instance_id', auth()->user()->instance_id);
         })
+            ->whereYear('publication_date', $this->yearNow)
             ->where('status', 'approved')
             ->whereNotNull('regency_id')
             ->select('regency_id', DB::raw('COUNT(*) as total'))
