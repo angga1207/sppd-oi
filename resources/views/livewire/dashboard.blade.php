@@ -277,7 +277,8 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
             <!-- Monthly SPT Trend Chart -->
             <div class="bg-white rounded-xl shadow-lg p-6">
-                <h3 class="text-lg font-semibold text-gray-900 mb-4">Trend Surat Perintah Tugas 6 Bulan Terakhir</h3>
+                <h3 class="text-lg font-semibold text-gray-900">Trend Surat Perintah Tugas</h3>
+                <p class="mb-4 text-gray-600 text-xs">6 Bulan Terakhir</p>
                 <div class="w-full" style="height: 300px;">
                     <livewire:livewire-area-chart :area-chart-model="$monthlySptChart" />
                 </div>
@@ -285,7 +286,8 @@
 
             <!-- Monthly SPPD Trend Chart -->
             <div class="bg-white rounded-xl shadow-lg p-6">
-                <h3 class="text-lg font-semibold text-gray-900 mb-4">Trend SPPD 6 Bulan Terakhir</h3>
+                <h3 class="text-lg font-semibold text-gray-900">Trend SPPD</h3>
+                <p class="mb-4 text-gray-600 text-xs">6 Bulan Terakhir</p>
                 <div class="w-full" style="height: 300px;">
                     <livewire:livewire-area-chart :area-chart-model="$monthlySppdChart" />
                 </div>
@@ -296,7 +298,8 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
             <!-- Surat Perintah Tugas by Instance -->
             <div class="bg-white rounded-xl shadow-lg p-6">
-                <h3 class="text-lg font-semibold text-gray-900 mb-4">Surat Perintah Tugas per Perangkat Daerah</h3>
+                <h3 class="text-lg font-semibold text-gray-900">Surat Perintah Tugas per Perangkat Daerah</h3>
+                <p class="mb-4 text-gray-600 text-xs">Tahun {{ $yearNow }}</p>
                 <div class="w-full" style="height: 300px;">
                     <livewire:livewire-column-chart :column-chart-model="$sptInstanceChart" />
                 </div>
@@ -304,7 +307,8 @@
 
             <!-- SPPD by Instance -->
             <div class="bg-white rounded-xl shadow-lg p-6">
-                <h3 class="text-lg font-semibold text-gray-900 mb-4">SPPD per Perangkat Daerah</h3>
+                <h3 class="text-lg font-semibold text-gray-900">SPPD per Perangkat Daerah</h3>
+                <p class="mb-4 text-gray-600 text-xs">Tahun {{ $yearNow }}</p>
                 <div class="w-full" style="height: 300px;">
                     <livewire:livewire-column-chart :column-chart-model="$sppdInstanceChart" />
                 </div>
