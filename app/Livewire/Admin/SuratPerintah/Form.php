@@ -316,6 +316,28 @@ class Form extends Component
                     // auto select if only one officer
                     $officerData = collect($this->semestaOfficers)->first();
                     $this->selectOfficer($officerData);
+
+                    if ($this->selectedInstanceGiver == 7) {
+                        // khusus untuk DPRD, tampilkan children dengan id 822560 dan 822564 saja
+                        $childrenIds = ['822560', '822564'];
+                    } elseif ($this->selectedInstanceGiver != 15) {
+                        // untuk instansi lain, tampilkan children dengan id 822561 dan 822565 saja
+                        $childrenIds = ['822561', '822565'];
+                    } else {
+                        // khusus untuk Sekretariat Daerah, tampilkan semua klasifikasi surat
+                        $childrenIds = null;
+                    }
+
+                    $KlasSurat = KlasifikasiNomorSurat::orderBy('id', 'asc')
+                        ->with(['children' => function ($query) use ($childrenIds) {
+                            if ($childrenIds !== null) {
+                                $query->whereIn('id', $childrenIds);
+                            }
+                        }])
+                        ->whereIn('id', ['822558', '822562'])
+                        ->get();
+                    $this->klasifikasiOptions = $KlasSurat->toArray();
+                    $this->dispatch('select2:refresh');
                     return;
                 }
 
@@ -519,6 +541,9 @@ class Form extends Component
                 $this->isDisabledInstances = false;
                 $this->showOfficers = false;
                 $this->semestaOfficers = [];
+
+                $this->loadKlasifikasiOption();
+                $this->dispatch('select2:refresh');
             } else if ($this->selectedInstanceGiver != 0) {
                 // $this->selectedInstance = $this->selectedInstanceGiver;
                 $this->isDisabledInstancesGiver = true;
@@ -614,7 +639,7 @@ class Form extends Component
             'dataSuratPerintah.lama_perjalanan' => 'required|integer|min:0|max:10',
 
             'dataSuratPerintah.publication_place' => 'required|string|max:255',
-            'dataSuratPerintah.publication_date' => 'required|date|before:dataSuratPerintah.tanggal_berangkat',
+            'dataSuratPerintah.publication_date' => 'required|date|before_or_equal:dataSuratPerintah.tanggal_berangkat',
         ], [
             'dataSuratPerintah.lama_perjalanan.max' => 'Lama perjalanan maksimal 10 hari.',
             'dataSuratPerintah.lama_perjalanan.min' => 'Lama perjalanan minimal 1 hari.',

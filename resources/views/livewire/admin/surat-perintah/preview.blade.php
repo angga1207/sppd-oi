@@ -318,41 +318,51 @@
                         <x-heroicon-o-arrow-left class="w-4 h-4 mr-1" />
                         Kembali
                     </a>
-
                     {{-- status --}}
                     @if ($previewData['status'] == 'draft')
-                        <div class="btn-primary">
-                            <x-heroicon-o-hand-raised class="w-4 h-4 mr-1" />
+                        <div class="text-primary font-bold px-3 py-2 rounded-full flex items-center gap-1">
+                            Status :
                             Draft
+                            <x-heroicon-o-hand-raised class="w-5 h-5 mr-1" />
                         </div>
                     @elseif($previewData['status'] == 'sent')
-                        <div class="btn-warning">
-                            <x-heroicon-o-clock class="w-4 h-4 mr-1" />
+                        <div class="text-warning font-bold px-3 py-2 rounded-full flex items-center gap-1">
+                            Status :
                             Menunggu Tanda Tangan
+                            <x-heroicon-o-clock class="w-5 h-5 mr-1" />
                         </div>
                     @elseif($previewData['status'] == 'approved')
-                        <div class="btn-success">
-                            <x-heroicon-o-finger-print class="w-4 h-4 mr-1" />
+                        <div class="text-success font-bold px-3 py-2 rounded-full flex items-center gap-1">
+                            Status :
                             Ditandatangani
+                            <x-heroicon-o-finger-print class="w-5 h-5 mr-1" />
                         </div>
                     @endif
+
                 </div>
-                <button type="button" wire:click="confirmSent()" wire:loading.attr="disabled"
-                    @if ($previewData->status != 'draft') disabled @endif class="btn-success">
-                    <span wire:loading.remove wire:target="confirmSent()" class="flex items-center gap-1">
-                        <x-heroicon-o-paper-airplane class="w-4 h-4 mr-1" />
-                        Kirim untuk Ditandatangani
-                    </span>
-                    <span wire:loading wire:target="confirmSent()">
-                        <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg"
-                            fill="none" viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                                stroke-width="4"></circle>
-                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z">
-                            </path>
-                        </svg>
-                    </span>
-                </button>
+
+                <div class="flex items-center gap-2">
+
+                    @if ($previewData['status'] == 'draft')
+                        <button type="button" wire:click="confirmSent()" wire:loading.attr="disabled"
+                            @if ($previewData->status != 'draft') disabled @endif class="btn-success">
+                            <span wire:loading.remove wire:target="confirmSent()" class="flex items-center gap-1">
+                                <x-heroicon-o-paper-airplane class="w-4 h-4 mr-1" />
+                                Kirim untuk Ditandatangani
+                            </span>
+                            <span wire:loading wire:target="confirmSent()">
+                                <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg"
+                                    fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10"
+                                        stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor"
+                                        d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z">
+                                    </path>
+                                </svg>
+                            </span>
+                        </button>
+                    @endif
+                </div>
             </div>
         </div>
 

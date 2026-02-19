@@ -86,10 +86,11 @@ class Sppd extends Component
         $this->loadSppds();
 
 
-        $this->availableYears = [];
-        for ($year = Carbon::now()->year; $year >= 2024; $year--) {
-            $this->availableYears[] = $year;
-        }
+        $this->availableYears = [Carbon::now()->year];
+        // for ($year = Carbon::now()->year; $year >= 2024; $year--) {
+        //     $this->availableYears[] = $year;
+        // }
+
         $this->availableMonths = [
             '01' => 'Januari',
             '02' => 'Februari',
@@ -105,8 +106,18 @@ class Sppd extends Component
             '12' => 'Desember',
         ];
 
-        $this->selectedMonth = Carbon::now()->format('m');
-        $this->selectedYear = Carbon::now()->format('Y');
+        if ($this->dataSuratPerintah->publication_date) {
+            $this->selectedYear = Carbon::parse($this->dataSuratPerintah->publication_date)->format('Y');
+            $this->selectedMonth = Carbon::parse($this->dataSuratPerintah->publication_date)->format('m');
+            $this->availableMonths = collect($this->availableMonths)
+                ->filter(function ($label, $value) {
+                    return $value == $this->selectedMonth;
+                })
+                ->toArray();
+        } else {
+            $this->selectedYear = Carbon::now()->format('Y');
+            $this->selectedMonth = Carbon::now()->format('m');
+        }
     }
 
     public function fetchSemestaUsers()
@@ -271,8 +282,8 @@ class Sppd extends Component
         $this->validate(
             [
                 'sppd_number' => 'required|string|unique:sppd,nomor_sppd',
-                'kodeRekening' => 'required',
-                'subKegiatan' => 'required',
+                'kodeRekening' => 'nullable|string',
+                'subKegiatan' => 'nullable|string',
             ],
             [],
             [
@@ -525,7 +536,6 @@ class Sppd extends Component
             ->orderBy('created_at', 'desc')
             ->get();
     }
-
 
     public function updated($field)
     {

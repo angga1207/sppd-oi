@@ -257,7 +257,7 @@
                         <label for="klasifikasi_surat" class="block text-sm font-medium text-gray-700 mb-2">
                             Klasifikasi Surat <span class="text-red-500">*</span>
                         </label>
-                        <div wire:ignore>
+                        <div wire:ignores>
                             <select wire:model="dataSuratPerintah.klasifikasi_surat_id" id="klasifikasiSuratSelect"
                                 @if ($isViewOnly) disabled @endif
                                 class="select2 form-input @error('dataSuratPerintah.klasifikasi_surat_id') border-red-500 @enderror"
@@ -620,19 +620,25 @@
                                 {{-- status --}}
                                 @if ($isEdit)
                                     @if ($dataSuratPerintah['status'] == 'draft')
-                                        <div class="btn-primary">
-                                            <x-heroicon-o-hand-raised class="w-4 h-4 mr-1" />
+                                        <div
+                                            class="text-primary font-bold px-3 py-2 rounded-full flex items-center gap-1">
+                                            Status :
                                             Draft
+                                            <x-heroicon-o-hand-raised class="w-5 h-5 mr-1" />
                                         </div>
                                     @elseif($dataSuratPerintah['status'] == 'sent')
-                                        <div class="btn-warning">
-                                            <x-heroicon-o-clock class="w-4 h-4 mr-1" />
+                                        <div
+                                            class="text-warning font-bold px-3 py-2 rounded-full flex items-center gap-1">
+                                            Status :
                                             Menunggu Tanda Tangan
+                                            <x-heroicon-o-clock class="w-5 h-5 mr-1" />
                                         </div>
                                     @elseif($dataSuratPerintah['status'] == 'approved')
-                                        <div class="btn-success">
-                                            <x-heroicon-o-finger-print class="w-4 h-4 mr-1" />
+                                        <div
+                                            class="text-success font-bold px-3 py-2 rounded-full flex items-center gap-1">
+                                            Status :
                                             Ditandatangani
+                                            <x-heroicon-o-finger-print class="w-5 h-5 mr-1" />
                                         </div>
                                     @endif
                                 @endif
@@ -907,7 +913,7 @@
                     placeholder: '-- Pilih Jenis Transportasi --',
                     allowClear: true,
                     // minimumResultsForSearch: -1,
-                    tags: true
+                    // tags: true
                 }).on('change', function(e) {
                     const value = $(this).val();
                     // console.log('Transportation changed to:', value);

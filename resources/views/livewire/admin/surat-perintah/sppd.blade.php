@@ -844,7 +844,7 @@ use App\Models\SPPD;
                     theme: 'default',
                     width: '100%',
                     placeholder: '-- Pilih Perangkat Daerah --',
-                    allowClear: true
+                    // allowClear: true
                 }).on('change', function(e) {
                     const value = $(this).val();
                     // console.log('Instance changed to:', value);
@@ -861,7 +861,7 @@ use App\Models\SPPD;
                     theme: 'default',
                     width: '100%',
                     placeholder: '-- Pilih Jenis Transportasi --',
-                    allowClear: true,
+                    // allowClear: true,
                     // minimumResultsForSearch: -1,
                     tags: true
                 }).on('change', function(e) {
@@ -880,7 +880,7 @@ use App\Models\SPPD;
                     theme: 'default',
                     width: '100%',
                     placeholder: '-- Pilih Tingkat Biaya --',
-                    allowClear: true,
+                    // allowClear: true,
                     minimumResultsForSearch: -1
                 }).on('change', function(e) {
                     const value = $(this).val();
@@ -898,7 +898,7 @@ use App\Models\SPPD;
                     theme: 'default',
                     width: '100%',
                     placeholder: '-- Pilih Tahun --',
-                    allowClear: true,
+                    // allowClear: true,
                     minimumResultsForSearch: -1
                 }).on('change', function(e) {
                     const value = $(this).val();
@@ -916,7 +916,7 @@ use App\Models\SPPD;
                     theme: 'default',
                     width: '100%',
                     placeholder: '-- Pilih Bulan --',
-                    allowClear: true,
+                    // allowClear: true,
                     minimumResultsForSearch: -1
                 }).on('change', function(e) {
                     const value = $(this).val();
