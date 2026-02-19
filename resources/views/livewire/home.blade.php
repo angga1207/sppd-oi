@@ -5,13 +5,23 @@
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
                     <div class="flex-shrink-0 flex items-center">
-                        <div class="h-10 w-10 bg-navy rounded-lg flex items-center justify-center">
+                        {{-- <div class="h-10 w-10 bg-navy rounded-lg flex items-center justify-center">
                             <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
                         </div>
-                        <h1 class="ml-3 text-xl font-bold text-navy">SPPD</h1>
+                        <h1 class="ml-3 text-xl font-bold text-navy">SPPD</h1> --}}
+                        <img src="{{ asset('/assets/logo.png') }}" alt="Logo" class="h-12 w-12">
+                        <div class="ml-4">
+                            <h1
+                                class="text-2xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+                                PERDIGO
+                            </h1>
+                            <p class="text-[10px] text-muted font-medium">
+                                Perjalanan Dinas Government Online
+                            </p>
+                        </div>
                     </div>
                 </div>
                 <div class="flex items-center">
@@ -25,17 +35,32 @@
     </nav>
 
     <!-- Hero Section -->
-    <section class="bg-gradient-to-br from-navy via-blue-light to-cream py-20 sm:py-48">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section class="relative bg-gradient-to-br from-navy to-cream py-20 sm:py-48">
+
+        <dotlottie-wc src="{{ asset('assets/car.json') }}"
+            class="absolute bottom-0 2xl:bottom-[-75px] lg:bottom-[-50px] md:bottom-[-40px] left-0 w-full z-[0] object-contain hidden md:block"
+            autoplay loop></dotlottie-wc>
+
+        <div class="absolute top-0 right-0 w-1/2 h-full hidden md:block">
+            <dotlottie-wc src="{{ asset('assets/mail-2.json') }}" style="height: 300px" class="object-contain" autoplay
+                loop></dotlottie-wc>
+        </div>
+
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-[1]">
             <div class="text-center">
-                <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white mb-6">
-                    Sistem Informasi
-                    <span class="block text-cream">Surat Perintah Perjalanan Dinas</span>
+                <h1 class="text-5xl sm:text-5xl md:text-6xl font-extrabold text-primary mb-6">
+                    PERDIGO
+                    <span class="block text-cream">
+                        Perjalanan Dinas Government Online
+                    </span>
                 </h1>
                 <p
-                    class="mt-3 max-w-md mx-auto text-base sm:text-lg md:mt-5 md:text-xl md:max-w-3xl text-white text-opacity-90">
-                    Kelola SPPD dengan mudah, cepat, dan terorganisir. Digitalisasi proses administrasi perjalanan dinas
-                    Anda.
+                    class="mt-3 max-w-md mx-auto text-base sm:text-lg md:mt-5 md:text-xl md:max-w-3xl text-primary text-opacity-90">
+                    {{-- Kelola SPPD dengan mudah, cepat, dan terorganisir. Digitalisasi proses administrasi perjalanan dinas
+                    Anda. --}}
+                    Aplikasi Sistem Informasi Perjalanan Dinas berbasis web dan mobile yang digunakan secara internal
+                    oleh Pemerintah Daerah untuk mengelola proses Surat Perintah Perjalanan Dinas (SPPD) secara
+                    elektronik, terintegrasi, transparan, dan akuntabel.
                 </p>
                 <div class="mt-10 flex justify-center gap-4">
                     <a href="{{ route('login') }}"
@@ -173,13 +198,24 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div>
                     <div class="flex items-center mb-4">
-                        <div class="h-10 w-10 bg-navy rounded-lg flex items-center justify-center">
-                            <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        {{-- <div class="h-10 w-10 bg-navy rounded-lg flex items-center justify-center">
+                            <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
                         </div>
-                        <h3 class="ml-3 text-xl font-bold">SPPD</h3>
+                        <h3 class="ml-3 text-xl font-bold">SPPD</h3> --}}
+                        <img src="{{ asset('/assets/logo.png') }}" alt="Logo" class="h-12 w-12">
+                        <div class="ml-4">
+                            <h1
+                                class="text-2xl font-bold bg-gradient-to-r from-light via-secondary to-light bg-clip-text text-transparent">
+                                PERDIGO
+                            </h1>
+                            <p class="text-[10px] text-light font-medium">
+                                Perjalanan Dinas Government Online
+                            </p>
+                        </div>
                     </div>
                     <p class="text-gray-400">Sistem Informasi Surat Perintah Perjalanan Dinas yang modern dan efisien.
                     </p>
@@ -187,7 +223,8 @@
                 <div>
                     <h4 class="text-lg font-semibold mb-4">Menu</h4>
                     <ul class="space-y-2">
-                        <li><a href="{{ route('home') }}" class="text-gray-400 hover:text-white transition">Beranda</a>
+                        <li><a href="{{ route('home') }}"
+                                class="text-gray-400 hover:text-white transition">Beranda</a>
                         </li>
                         <li><a href="{{ route('login') }}" class="text-gray-400 hover:text-white transition">Login</a>
                         </li>
@@ -205,3 +242,7 @@
         </div>
     </footer>
 </div>
+
+@push('scripts')
+    <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.11/dist/dotlottie-wc.js" type="module"></script>
+@endpush

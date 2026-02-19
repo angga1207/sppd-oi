@@ -13,10 +13,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\MobileSPTResource;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\MobileSPPDResource;
+use App\Traits\ConvertHtmlListToText;
 
 class MobileController extends Controller
 {
-    use JsonReturner;
+    use JsonReturner, ConvertHtmlListToText;
 
     public function getSuratPerintahList(Request $request)
     {
@@ -59,15 +60,32 @@ class MobileController extends Controller
             // ->when($auth->instance_id, function ($query) {
             //     $query->where('instance_id', $auth->instance_id);
             // })
+
             ->when($auth->instance_id, function ($query) use ($auth) {
-                $query->where('employee_giver_id', $auth->id)
-                    ->orWhere('publication_employee_id', $auth->id)
-                    ->orWhere('created_by', $auth->id)
-                    ->orWhereRelation('sppds', 'employee_executor_id', $auth->employee_id);
-                //   ->orWhereHas('sppds', function ($sppdQuery) {
-                //       $sppdQuery->where('employee_executor_id', $auth->id);
-                //   });
+                if ($auth->role_id == 2) {
+                    $query->where('instance_id', $auth->instance_id)
+                        ->orWhere('publication_employee_id', $auth->id);
+                } else {
+                    $query->where(function ($q) use ($auth) {
+                        $q->where('employee_giver_id', $auth->id)
+                            ->orWhere('publication_employee_id', $auth->id)
+                            ->orWhere('created_by', $auth->id)
+                            ->orWhereRelation('sppds', 'employee_executor_id', $auth->employee_id);
+                        //   ->orWhereHas('sppds', function ($sppdQuery) {
+                        //       $sppdQuery->where('employee_executor_id', $auth->id);
+                        //   });
+                    });
+                }
             })
+            // ->when($auth->instance_id, function ($query) use ($auth) {
+            //     $query->where('employee_giver_id', $auth->id)
+            //         ->orWhere('publication_employee_id', $auth->id)
+            //         ->orWhere('created_by', $auth->id)
+            //         ->orWhereRelation('sppds', 'employee_executor_id', $auth->employee_id);
+            //     //   ->orWhereHas('sppds', function ($sppdQuery) {
+            //     //       $sppdQuery->where('employee_executor_id', $auth->id);
+            //     //   });
+            // })
             ->when($request->statusFilter, function ($query) use ($request) {
                 $query->where('status', $request->statusFilter);
             })
@@ -277,6 +295,7 @@ class MobileController extends Controller
 
             $data->status = 'approved';
             $data->tanggal_tte = now();
+            $data->approved_at = now();
             $data->save();
 
             // check and update SPPD status if all signed
@@ -285,6 +304,7 @@ class MobileController extends Controller
                 if ($sppd->file_pdf_signed) {
                     $sppd->status = 'approved';
                     $sppd->tanggal_tte = now();
+                    $data->approved_at = now();
                     $sppd->save();
                     // Create initial status log for SPPD
                     StatusSuratLog::create([
@@ -298,11 +318,59 @@ class MobileController extends Controller
             }
 
             DB::commit();
+
+            $this->IntegrateLogPerjalananDinasSemesta([
+                'spt' => $data,
+                'pembuat' => $data->Creator ?? [],
+                'sppd' => $sppds,
+            ]);
+
             return $this->successResponse(null, 'Surat Perintah Tugas Berhasil Ditandatangani');
         } catch (\Exception $e) {
             DB::rollBack();
             return $this->errorResponse('Failed to approve Surat Perintah: ' . $e->getMessage(), 500);
         }
+    }
+
+    private function IntegrateLogPerjalananDinasSemesta($params)
+    {
+        $sppds = [];
+        foreach ($params['sppd'] as $sppd) {
+            $sppds[] = [
+                'id_sppd' => $sppd->id,
+                'id_pegawai' => $sppd->employeeExecutor->semesta_id ?? null,
+                'nip' => $sppd->employeeExecutor->nip ?? null,
+                'nomor_sppd' => $sppd->nomor_sppd,
+                'maksud_perjalanan' => $sppd->maksud_perjalanan,
+                'maksud_perjalanan_text' => $this->ConvertHtmlListToText($sppd->maksud_perjalanan),
+                'tanggal_berangkat' => $sppd->tanggal_berangkat,
+                'tanggal_pulang' => $sppd->tanggal_pulang,
+                'lama_perjalanan' => $sppd->lama_perjalanan ? (int)$sppd->lama_perjalanan : null,
+                'tempat_tujuan' => $sppd->tempat_tujuan,
+                'provinsi_tujuan' => $sppd->province->name ?? null,
+                'kabupaten_tujuan' => $sppd->regency->name ?? null,
+                'alat_angkutan' => $sppd->alat_angkutan,
+                'keterangan_lain' => $sppd->keterangan_lain,
+                'file_pdf_signed' => $sppd->file_pdf_signed ? asset('storage/sppd_sign/' . $sppd->file_pdf_signed) : null,
+            ];
+        }
+
+        $data = [
+            'pembuat' => [
+                'nip' => $params['pembuat']->username ?? null,
+                'id_pegawai' => $params['pembuat']->employee->semesta_id ?? null,
+                'nama' => $params['pembuat']->name ?? null,
+                'email' => $params['pembuat']->email ?? null,
+            ],
+            'sppd' => $sppds,
+            'info' => [
+                'created_at' => $params['spt']->created_at->toDateTimeString(),
+                'tanggal_tte' => $params['spt']->tanggal_tte->toDateTimeString(),
+                'ditandatangani_oleh' => $params['spt']->approvedBy->name ?? null,
+            ],
+        ];
+
+        // tinggal di tembak ke API Semesta Log Perjalanan Dinas
     }
 
     private function TandaTanganDigital($type, $pathFilePdf, $passphrase, $user, $data)

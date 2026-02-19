@@ -227,10 +227,13 @@
                                                 <span class="font-medium">Jabatan:</span>
                                                 {{ $selectedOfficer['jabatan'] ?? 'N/A' }}
                                             </p>
-                                            @if (isset($selectedOfficer['pangkat']) && $selectedOfficer['pangkat'])
+                                            @if (
+                                                (isset($selectedOfficer['pangkat']) && $selectedOfficer['pangkat']) ||
+                                                    (isset($selectedOfficer['golongan']) && $selectedOfficer['golongan']))
                                                 <p class="text-gray-700">
-                                                    <span class="font-medium">Pangkat:</span>
-                                                    {{ $selectedOfficer['pangkat'] }}
+                                                    <span class="font-medium">Pangkat / Golongan:</span>
+                                                    {{ $selectedOfficer['pangkat'] ?? '' }} /
+                                                    {{ $selectedOfficer['golongan'] ?? '' }}
                                                 </p>
                                             @endif
                                         </div>

@@ -26,6 +26,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
     @livewireChartsScripts
+    @stack('styles')
 </head>
 
 <body class="font-sans antialiased bg-light">
@@ -40,9 +41,9 @@
                         <div class="flex-shrink-0 flex items-center group">
                             <!-- Logo with gradient -->
                             <div class="relative">
-                                <div
+                                {{-- <div
                                     class="absolute inset-0 bg-gradient-to-r from-primary to-secondary rounded-xl blur opacity-50 group-hover:opacity-75 transition duration-300">
-                                </div>
+                                </div> --}}
                                 <div
                                     class="relative h-12 w-12 bg-gradient-to-br from-primary via-secondary to-accent rounded-xl flex items-center justify-center shadow-lg transform group-hover:scale-105 transition duration-300">
                                     <svg class="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24"
@@ -51,6 +52,7 @@
                                             d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                     </svg>
                                 </div>
+                                {{-- <img src="{{ asset('/assets/logo.png') }}" alt="Logo" class="h-12 w-12"> --}}
                             </div>
                             <!-- Brand Text -->
                             <div class="ml-4">
@@ -58,7 +60,9 @@
                                     class="text-2xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
                                     Si-SPPD
                                 </h1>
-                                <p class="text-xs text-muted font-medium">Surat Perjalanan Dinas</p>
+                                <p class="text-[10px] text-muted font-medium">
+                                    Perjalanan Dinas Government Online
+                                </p>
                             </div>
                         </div>
 

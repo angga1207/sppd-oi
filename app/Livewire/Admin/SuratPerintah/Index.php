@@ -138,16 +138,19 @@ class Index extends Component
             //     $query->where('instance_id', auth()->user()->instance_id);
             // })
             ->when(auth()->user()->instance_id, function ($query) {
-                // $query->whereRelation('sppds', 'employee_executor_id', auth()->user()->id);
-                $query->where(function ($q) {
-                    $q->where('employee_giver_id', auth()->user()->id)
-                        ->orWhere('publication_employee_id', auth()->user()->id)
-                        ->orWhere('created_by', auth()->user()->id)
-                        ->orWhereRelation('sppds', 'employee_executor_id', auth()->user()->employee_id);
-                    //   ->orWhereHas('sppds', function ($sppdQuery) {
-                    //       $sppdQuery->where('employee_executor_id', auth()->user()->id);
-                    //   });
-                });
+                if (auth()->user()->role_id == 2) {
+                    $query->where('instance_id', auth()->user()->instance_id);
+                } else {
+                    $query->where(function ($q) {
+                        $q->where('employee_giver_id', auth()->user()->id)
+                            ->orWhere('publication_employee_id', auth()->user()->id)
+                            ->orWhere('created_by', auth()->user()->id)
+                            ->orWhereRelation('sppds', 'employee_executor_id', auth()->user()->employee_id);
+                        //   ->orWhereHas('sppds', function ($sppdQuery) {
+                        //       $sppdQuery->where('employee_executor_id', auth()->user()->id);
+                        //   });
+                    });
+                }
             })
             ->when($this->statusFilter, function ($query) {
                 $query->where('status', $this->statusFilter);

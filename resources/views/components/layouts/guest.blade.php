@@ -1,36 +1,42 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ $title ?? 'SPPD - Surat Perintah Perjalanan Dinas' }}</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <title>{{ $title ?? 'SPPD - Surat Perintah Perjalanan Dinas' }}</title>
 
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-        @livewireStyles
-    </head>
-    <body class="font-sans antialiased bg-cream">
-        <div class="min-h-screen">
-            {{ $slot }}
-        </div>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-        @livewireScripts
-        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script>
-            window.addEventListener('alert', event => {
-                Swal.fire({
-                    title: event.detail.title,
-                    text: event.detail.text,
-                    icon: event.detail.type,
-                    confirmButtonText: 'OK'
-                });
+    <!-- Scripts -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @livewireStyles
+    @stack('styles')
+</head>
+
+<body class="font-sans antialiased bg-cream">
+    <div class="min-h-screen">
+        {{ $slot }}
+    </div>
+
+    @livewireScripts
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        window.addEventListener('alert', event => {
+            Swal.fire({
+                title: event.detail.title,
+                text: event.detail.text,
+                icon: event.detail.type,
+                confirmButtonText: 'OK'
             });
-        </script>
-    </body>
+        });
+    </script>
+
+    @stack('scripts')
+</body>
+
 </html>
