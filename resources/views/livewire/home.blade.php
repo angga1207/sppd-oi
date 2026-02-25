@@ -5,14 +5,14 @@
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
                     <div class="flex-shrink-0 flex items-center">
-                        {{-- <div class="h-10 w-10 bg-navy rounded-lg flex items-center justify-center">
+                        <div class="h-10 w-10 bg-navy rounded-lg flex items-center justify-center">
                             <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
                         </div>
-                        <h1 class="ml-3 text-xl font-bold text-navy">SPPD</h1> --}}
-                        <img src="{{ asset('/assets/logo.png') }}" alt="Logo" class="h-12 w-12">
+                        <h1 class="ml-3 text-xl font-bold text-navy">SPPD</h1>
+                        {{-- <img src="{{ asset('/assets/logo.png') }}" alt="Logo" class="h-12 w-12">
                         <div class="ml-4">
                             <h1
                                 class="text-2xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
@@ -21,7 +21,7 @@
                             <p class="text-[10px] text-muted font-medium">
                                 Perjalanan Dinas Government Online
                             </p>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
                 <div class="flex items-center">
@@ -48,11 +48,17 @@
 
         <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-[1]">
             <div class="text-center">
-                <h1 class="text-5xl sm:text-5xl md:text-6xl font-extrabold text-primary mb-6">
+                {{-- <h1 class="text-5xl sm:text-5xl md:text-6xl font-extrabold text-primary mb-6">
                     PERDIGO
                     <span class="block text-cream">
                         Perjalanan Dinas Government Online
                     </span>
+                </h1> --}}
+                <h1 class="text-5xl sm:text-5xl md:text-6xl font-extrabold text-primary mb-6">
+                    SI-SPPD
+                    {{-- <span class="block text-cream">
+                        Perjalanan Dinas Government Online
+                    </span> --}}
                 </h1>
                 <p
                     class="mt-3 max-w-md mx-auto text-base sm:text-lg md:mt-5 md:text-xl md:max-w-3xl text-primary text-opacity-90">
@@ -198,15 +204,15 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div>
                     <div class="flex items-center mb-4">
-                        {{-- <div class="h-10 w-10 bg-navy rounded-lg flex items-center justify-center">
+                        <div class="h-10 w-10 bg-navy rounded-lg flex items-center justify-center">
                             <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24"
                                 stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
                         </div>
-                        <h3 class="ml-3 text-xl font-bold">SPPD</h3> --}}
-                        <img src="{{ asset('/assets/logo.png') }}" alt="Logo" class="h-12 w-12">
+                        <h3 class="ml-3 text-xl font-bold">SPPD</h3>
+                        {{-- <img src="{{ asset('/assets/logo.png') }}" alt="Logo" class="h-12 w-12">
                         <div class="ml-4">
                             <h1
                                 class="text-2xl font-bold bg-gradient-to-r from-light via-secondary to-light bg-clip-text text-transparent">
@@ -215,7 +221,7 @@
                             <p class="text-[10px] text-light font-medium">
                                 Perjalanan Dinas Government Online
                             </p>
-                        </div>
+                        </div> --}}
                     </div>
                     <p class="text-gray-400">Sistem Informasi Surat Perintah Perjalanan Dinas yang modern dan efisien.
                     </p>
