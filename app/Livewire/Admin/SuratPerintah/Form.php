@@ -50,12 +50,12 @@ class Form extends Component
     public $instances = [];
     public $selectedInstanceGiver = null;
 
-    public $isWithSppd = false;
+    public $isWithSppd = true;
 
     // Options
     public $alatAngkutOptions = [
         'Kendaraan Dinas',
-        'Kendaraan Pribadi',
+        // 'Kendaraan Pribadi',
         'Kendaraan Umum',
     ];
     public $tingkatOptions = [

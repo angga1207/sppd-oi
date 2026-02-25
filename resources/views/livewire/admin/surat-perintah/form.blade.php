@@ -438,7 +438,7 @@
                                 <div class="col-span-1 md:col-span-2">
                                     <label for="destination_places"
                                         class="block text-sm font-medium text-gray-700 mb-2">
-                                        Lokasi Tujuan <span class="text-red-500">*</span>
+                                        Nama Instansi / Lokasi Tujuan <span class="text-red-500">*</span>
                                     </label>
                                     {{-- <input wire:model="dataSuratPerintah.tempat_tujuan" type="text"
                                         id="destination_places" @if ($isViewOnly) disabled @endif
@@ -590,7 +590,7 @@
                                     </div>
                                 @endif
 
-                                @if (!$isEdit)
+                                {{-- @if (!$isEdit)
                                     <div class="flex items-center justify-end md:col-span-2">
                                         <label class="inline-flex items-center cursor-pointer">
                                             <input type="checkbox" value="" class="sr-only peer"
@@ -604,7 +604,7 @@
                                             </span>
                                         </label>
                                     </div>
-                                @endif
+                                @endif --}}
 
                             </div>
                         </div>
